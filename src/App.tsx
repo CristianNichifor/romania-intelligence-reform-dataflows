@@ -254,8 +254,8 @@ export default function App() {
       <main className="app-main">{content}</main>
       <footer className="app-footer">
         <div className="app-footer-inner">
-          <span>ro-intel-reform-dataflows</span>
-          <a href="https://github.com/CristianNichifor/ro-intel-reform-dataflows" target="_blank" rel="noreferrer">
+          <span>romania-intelligence-reform-dataflows</span>
+          <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows" target="_blank" rel="noreferrer">
             source ↗
           </a>
           <span>{t('footer.tag')}</span>

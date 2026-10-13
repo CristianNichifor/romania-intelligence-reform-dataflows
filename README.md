@@ -58,7 +58,7 @@ npm run lint     # oxlint
 ## Repo structure
 
 ```
-ro-intel-reform-dataflows/
+romania-intelligence-reform-dataflows/
 ├── docs/                       # the architecture specification, split into sections
 │   ├── 00-design-principles.md
 │   ├── 01-actor-map.md
