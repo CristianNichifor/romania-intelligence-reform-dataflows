@@ -215,7 +215,7 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   horizontal overflow; chips and toggles ≥ 44 px.
 - Mockup: `03-mobile-list.html`. Test: extend `tests/e2e/mobile-list.spec.ts`.
 
-### DS-4 Flow detail with sources — done (route glyphs open)
+### DS-4 Flow detail with sources — done
 - Given a selected flow, then the panel shows the route with glyphs, the key/value
   table, the description, every source with host and checked date, and the
   no-verified-source state (C10) with a link to `ERRATA.md`; target flows carry
@@ -224,8 +224,8 @@ Romanian copy in the mockups is agent-written: **needs human review**.
 - Landed: sources with host and checked date (`src/lib/sourceMeta.ts`); the
   no-verified-source state as a `role="status"` block linking `ERRATA.md`; a
   proposal note on target flows only; the selected edge stays at full weight
-  while the others fade to 40 % (`tests/e2e/provenance.spec.ts`). Open: the
-  route row with category glyphs.
+  while the others fade to 40 %; a route row with each end's category glyph
+  (`tests/e2e/provenance.spec.ts`).
 
 ### DS-5 Handshake controls and states — todo
 - Given the Handshake, then controls are ≥ 44 px, the progress bar is a
