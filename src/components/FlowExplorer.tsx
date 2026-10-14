@@ -310,6 +310,12 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
       ? new Set(actors.map((actor) => actor.category).filter((category) => !TARGET_DEFAULT.has(category)))
       : new Set(),
   )
+  // The target view opens on agencies and the broker only; say so until the reader widens it.
+  const startsAsSubset =
+    mode === 'target' &&
+    hiddenCats.size > 0 &&
+    [...hiddenCats].every((category) => !TARGET_DEFAULT.has(category)) &&
+    actors.every((actor) => TARGET_DEFAULT.has(actor.category) || hiddenCats.has(actor.category))
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [selection, setSelection] = useState<Selection>(null)
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null)
@@ -473,6 +479,11 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
           )}
         </div>
       </div>
+      {startsAsSubset && (
+        <p className="explorer-hint">
+          {t('explorer.targetHint', { count: actors.filter((actor) => hiddenCats.has(actor.category)).length })}
+        </p>
+      )}
       {visibleActorIds.size === 0 ? (
         <div className="explorer-empty">
           <p role="status">

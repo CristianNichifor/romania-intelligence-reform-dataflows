@@ -229,7 +229,8 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   `tests/e2e/graph-ux.spec.ts`); the Graf/Listă toggle at every width and a
   "Șterge filtrele" button in the empty state that clears the search and shows
   every category; the empty state repeats the search text
-  (`tests/e2e/empty-filter.spec.ts`). "Șterge filtrele" and
+  (`tests/e2e/empty-filter.spec.ts`); the target view says it opens on agencies
+  and the broker and how many actors are hidden (`tests/e2e/graph-ux.spec.ts`). "Șterge filtrele" and
   `explorer.emptyQuery` are agent-written: **needs human review**.
 
 ### DS-3 Mobile list is the table alternative — done
