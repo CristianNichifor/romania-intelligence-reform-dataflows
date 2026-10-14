@@ -8,7 +8,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 
 ## Theme A: baseline
 
-### INT-1 Assets resolve under the base path — todo
+### INT-1 Assets resolve under the base path — done
 - Given the production build under `/romania-intelligence-reform-dataflows/`,
   when `dist/index.html` is read, then no `href` or `src` starts with `/` unless
   it starts with the base path.
@@ -16,21 +16,21 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   same-origin request answers 200 (the favicon included).
 - Test: `tests/e2e/base-path.spec.ts`.
 
-### INT-2 `<html lang>` follows the language — todo
+### INT-2 `<html lang>` follows the language — done
 - Given a browser whose stored language is `ro`, when the page first loads, then
   `document.documentElement.lang` is `ro`.
 - Given the page in English, when the visitor picks RO, then `lang` becomes `ro`,
   and back to `en` when they pick EN.
 - Test: `tests/e2e/i18n.spec.ts`.
 
-### INT-6 Fonts are self-hosted — todo
+### INT-6 Fonts are self-hosted — done
 - Given the app loads and every tab is opened, when network requests are
   recorded, then none goes to a third-party origin.
 - Given the build, then IBM Plex Sans, IBM Plex Mono and Space Grotesk ship from
   `@fontsource/*` packages in `dist/assets`.
 - Test: `tests/e2e/base-path.spec.ts` (no third-party origins).
 
-### INT-9 Social and canonical metadata — todo
+### INT-9 Social and canonical metadata — done
 - Given `dist/index.html`, then it has `og:title`, `og:description`, `og:type`,
   `og:url`, `og:image` (absolute URL to `og.png`, 1200×630) and
   `<link rel="canonical" href="https://projects.cristian-nichifor.com/romania-intelligence-reform-dataflows/">`.
