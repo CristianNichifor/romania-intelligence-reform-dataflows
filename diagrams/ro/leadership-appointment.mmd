@@ -1,0 +1,20 @@
+flowchart LR
+    V[Post vacant sau mandat încheiat] --> CN[Apel public la nominalizări]
+    CN --> SC[Comisia de selecție evaluează candidații]
+    SC --> S[Listă scurtă de 3–5 candidați]
+    S --> JPC[Audiere publică în JPC, sub jurământ]
+    JPC --> VOTE[Vot de confirmare în ședință comună]
+    VOTE --> PASS{Vot adoptat?}
+    PASS -->|Nu – înapoi la lista scurtă| S
+    PASS -->|Da| RES[Hotărâre a Parlamentului adoptată]
+    RES --> APP[Numire de către CSAT în 15 zile]
+    APP --> TERM[Mandat fix de 5 ani, o singură reînnoire]
+
+    classDef step fill:#0f1a2e,stroke:#2b3f63,color:#dce5f5,stroke-width:1px;
+    classDef gate fill:#0e2436,stroke:#38bdf8,color:#bae6fd,stroke-width:1.5px;
+    classDef decide fill:#2a2410,stroke:#fbbf24,color:#fbbf24,stroke-width:1.5px;
+    classDef good fill:#0f2a20,stroke:#34d399,color:#a7f3d0,stroke-width:1.5px;
+    class V,CN,S,RES step
+    class SC,JPC,VOTE gate
+    class PASS decide
+    class APP,TERM good
