@@ -115,7 +115,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Given a 390 px wide screen, then the footer sits below the content, not pinned.
 - Test: `tests/e2e/graph-ux.spec.ts`.
 
-### UX-4 Mobile list view — in progress
+### UX-4 Mobile list view — done
 - Given a screen narrower than 640 px, when a graph view opens, then the flows
   show as a list (source actor → destination actor, data type, legal basis,
   audit level, sources) and a "List/Graph" ("Listă/Graf") toggle switches to the
@@ -123,6 +123,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Given the list, then the search box and category chips filter it like the graph.
 - Given the list at 390 px, then axe reports no WCAG 2.1 AA violations.
 - Test: `tests/e2e/mobile-list.spec.ts`.
+- New Romanian labels (Listă, Graf, Fluxuri, Vizualizare) are agent-written: **needs human review**.
 
 ### UX-5 Animated handshake token — todo
 - Given the Handshake tab, then a map of the Target-graph actors on the T3–T6 path
