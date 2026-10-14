@@ -1644,3 +1644,20 @@ h3 {
     height: 480px;
   }
 }
+
+/* On phones the whole page scrolls, so the footer sits after the content instead of
+   holding a strip of the screen. */
+@media (max-width: 760px) {
+  .app {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .app-main {
+    overflow: visible;
+  }
+
+  #view-panel {
+    height: auto;
+  }
+}
