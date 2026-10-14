@@ -12,7 +12,7 @@ import {
 import '@xyflow/react/dist/style.css'
 import ActorNode from './ActorNode'
 import GlossedText from './GlossedText'
-import { buildGraph, type GraphMode } from '../lib/graph'
+import { buildGraph, edgeDash, type GraphMode } from '../lib/graph'
 import { legendSwatches } from '../lib/legend'
 import { currentActors, targetActors } from '../data/actors'
 import { currentFlows, targetFlows } from '../data/flows'
@@ -172,7 +172,14 @@ function FlowList({ flows, actors }: { flows: Flow[]; actors: Actor[] }) {
             <dt>{t(flow.category === 'current' ? 'detail.legalBasis' : 'detail.legalGate')}</dt>
             <dd>{pick(flow.legal, lang)}</dd>
             <dt>{t(flow.category === 'current' ? 'detail.auditability' : 'detail.auditEntry')}</dt>
-            <dd>{flow.audit ? pick(flow.audit, lang) : '—'}</dd>
+            <dd>
+              {flow.category === 'current' && (
+                <svg className="audit-swatch" width="22" height="6" aria-hidden="true">
+                  <line x1="0" y1="3" x2="22" y2="3" stroke="currentColor" strokeWidth="2" strokeDasharray={edgeDash(flow)} />
+                </svg>
+              )}
+              {flow.audit ? pick(flow.audit, lang) : '—'}
+            </dd>
             <dt>{t('detail.sources')}</dt>
             <dd>
               {flow.sources.length > 0

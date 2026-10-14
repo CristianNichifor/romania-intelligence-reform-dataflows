@@ -1736,6 +1736,11 @@ h3 {
   overflow-wrap: anywhere;
 }
 
+.flow-item .audit-swatch {
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
 /* ---------- Handshake map ---------- */
 
 .handshake-map {
