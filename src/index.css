@@ -1661,3 +1661,76 @@ h3 {
     height: auto;
   }
 }
+
+/* ---------- Explorer list layout (phones) ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.layout-toggle {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.explorer.explorer-list {
+  height: auto;
+  min-height: 0;
+}
+
+.explorer-list .explorer-toolbar {
+  position: static;
+  margin-bottom: 12px;
+}
+
+.flow-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.flow-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-2);
+  padding: 12px 14px;
+}
+
+.flow-item h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.flow-id {
+  font-family: var(--mono);
+  color: var(--accent);
+  margin-right: 4px;
+}
+
+.flow-item dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(90px, auto) 1fr;
+  gap: 4px 10px;
+  font-size: 12.5px;
+}
+
+.flow-item dt {
+  color: var(--muted);
+}
+
+.flow-item dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
