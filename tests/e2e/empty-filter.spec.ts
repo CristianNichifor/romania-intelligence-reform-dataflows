@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 test('a filter with no matches says so on the graph', async ({ page }) => {
   await page.goto(`${BASE}#/current`)
   await page.getByRole('searchbox', { name: 'Filter actors' }).fill('zzzz')
-  await expect(page.getByRole('status')).toContainText('No actors match')
+  await expect(page.getByRole('status')).toContainText('No actors match “zzzz”')
   await page.getByRole('searchbox', { name: 'Filter actors' }).fill('')
   await expect(page.getByRole('status')).toHaveCount(0)
 })

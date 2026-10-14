@@ -475,7 +475,9 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
       </div>
       {visibleActorIds.size === 0 ? (
         <div className="explorer-empty">
-          <p role="status">{t('explorer.empty')}</p>
+          <p role="status">
+            {query.trim() ? t('explorer.emptyQuery', { query: query.trim() }) : t('explorer.empty')}
+          </p>
           <button
             type="button"
             className="chip on"

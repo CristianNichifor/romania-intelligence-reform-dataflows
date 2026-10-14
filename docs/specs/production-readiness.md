@@ -200,7 +200,7 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   "Date demonstrative" waits on the owner's call on the classification strip.
   Purpose line and tile labels are agent-written: **needs human review**.
 
-### DS-2 Graph legend explains every channel — done (filter echo open)
+### DS-2 Graph legend explains every channel — done
 - Given either graph, then the legend lists node glyph + category, the three line
   styles (current) and the edge-colour clusters (target), each with the flow IDs it
   covers; an "Afișează ca tabel" link opens the list view at any width.
@@ -210,9 +210,9 @@ Romanian copy in the mockups is agent-written: **needs human review**.
 - Landed: legend glyphs, line-style and edge-colour flow IDs (`src/lib/legend.ts`,
   `tests/e2e/graph-ux.spec.ts`); the Graf/Listă toggle at every width and a
   "Șterge filtrele" button in the empty state that clears the search and shows
-  every category (`tests/e2e/empty-filter.spec.ts`). Open: the empty state does
-  not yet repeat the filter text. "Șterge filtrele" is agent-written:
-  **needs human review**.
+  every category; the empty state repeats the search text
+  (`tests/e2e/empty-filter.spec.ts`). "Șterge filtrele" and
+  `explorer.emptyQuery` are agent-written: **needs human review**.
 
 ### DS-3 Mobile list is the table alternative — done
 - Given 390 px, then each list item shows ID, source → destination, data type,
