@@ -213,6 +213,7 @@ code,
 }
 
 .nav-btn {
+  min-height: 44px;
   background: transparent;
   color: var(--text-dim);
   border: none;
