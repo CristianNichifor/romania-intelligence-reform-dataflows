@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { legendSwatches } from './legend'
+import { legendSwatches, lineStyleFlowIds } from './legend'
 import { CATEGORY_GLYPHS } from './glyphs'
 import { currentActors, resolveActorColor, targetActors } from '../data/actors'
+import { currentFlows } from '../data/flows'
+import { edgeDash } from './graph'
 
 describe('legend swatches', () => {
   it.each([
@@ -28,5 +30,26 @@ describe('legend glyphs', () => {
       if (!swatch.category) continue
       expect(swatch.glyph, `${mode}: ${swatch.key}`).toBe(CATEGORY_GLYPHS[swatch.category])
     }
+  })
+describe('line-style flow ids', () => {
+  it('lists every current flow under exactly one line style', () => {
+    const buckets = lineStyleFlowIds()
+    const all = [...buckets.solid, ...buckets.dashed, ...buckets.dotted].sort()
+    expect(all).toEqual(currentFlows.map((flow) => flow.id).sort())
+  })
+
+  it('puts each flow under the style its edge is drawn with', () => {
+    const buckets = lineStyleFlowIds()
+    for (const flow of currentFlows) {
+      const dash = edgeDash(flow)
+      const expected = dash === '2 4' ? 'dotted' : dash === '7 4' ? 'dashed' : 'solid'
+      expect(buckets[expected], flow.id).toContain(flow.id)
+    }
+  })
+
+  it('names the weakest-audit flows under the dotted style', () => {
+    const { dotted, solid } = lineStyleFlowIds()
+    expect(dotted).toEqual(expect.arrayContaining(['C10', 'C13']))
+    expect(solid).toContain('C7')
   })
 })
