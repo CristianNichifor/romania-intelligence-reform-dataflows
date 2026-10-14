@@ -1,8 +1,7 @@
-import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { parseHeaders } from './headers'
+import file from '../../public/_headers?raw'
 
-const file = readFileSync(new URL('../../public/_headers', import.meta.url), 'utf8')
 const rules = parseHeaders(file)
 const all = rules.find((rule) => rule.path === '/*')?.headers ?? {}
 const csp = Object.fromEntries(

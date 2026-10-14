@@ -3,6 +3,7 @@ import MarkdownIt from 'markdown-it'
 import mermaid from 'mermaid'
 import { useI18n } from '../i18n/useI18n'
 import type { MessageKey } from '../i18n/messages'
+import { MERMAID_CONFIG } from '../lib/mermaidConfig'
 
 import doc14 from '../../docs/14-leadership-appointment.md?raw'
 import doc15 from '../../docs/15-conflict-of-interest.md?raw'
@@ -18,29 +19,7 @@ import diagConflict from '../../diagrams/conflict-of-interest-cycle.mmd?raw'
 
 const md = new MarkdownIt({ html: false, linkify: true })
 
-mermaid.initialize({
-  startOnLoad: false,
-  theme: 'base',
-  securityLevel: 'loose',
-  fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
-  flowchart: { curve: 'basis', padding: 12, nodeSpacing: 36, rankSpacing: 36, htmlLabels: true },
-  themeVariables: {
-    darkMode: true,
-    background: '#070d18',
-    fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
-    fontSize: '14px',
-    primaryColor: '#0f1a2e',
-    primaryTextColor: '#dce5f5',
-    primaryBorderColor: '#38bdf8',
-    lineColor: '#7184a5',
-    secondaryColor: '#13213a',
-    tertiaryColor: '#1b2a45',
-    clusterBkg: '#0b1322',
-    clusterBorder: '#2b3f63',
-    edgeLabelBackground: '#070d18',
-    titleColor: '#dce5f5',
-  },
-})
+mermaid.initialize(MERMAID_CONFIG)
 
 const DOCS: Array<{ key: string; source: string }> = [
   { key: '14 · Leadership Appointment', source: doc14 },
