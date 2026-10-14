@@ -41,7 +41,7 @@ Top to bottom, on every tab:
 
 - Romanian uses comma-below **ș ț** (never cedilla ş ţ). Every user-facing string
   lives in `src/i18n/messages.ts` with both `en` and `ro`; no literals in
-  components.
+  components (`tests/unit/inline-copy.test.mjs` fails on `lang === 'ro' ? '…'`).
 - Dates: ISO `YYYY-MM-DD` for source-checked dates (they are audit data); times
   and human dates use the active app language (`ro-RO` / `en-GB`), not the
   browser default.
