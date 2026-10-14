@@ -161,7 +161,7 @@ export default function HandshakeSim() {
           <h2>{t('handshake.title')}</h2>
         </div>
         <div className="sim-actions">
-          <span className="sim-progress">
+          <span className="sim-progress" id="handshake-progress">
             {t('sim.step', { a: String(Math.min(stepIndex + 1, STEP_KEYS.length)).padStart(2, '0'), b: String(STEP_KEYS.length).padStart(2, '0') })}
           </span>
           <button className="btn" onClick={next} disabled={done || running}>
@@ -175,7 +175,14 @@ export default function HandshakeSim() {
           </button>
         </div>
       </div>
-      <div className="progress-track">
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-labelledby="handshake-progress"
+        aria-valuemin={0}
+        aria-valuemax={STEP_KEYS.length}
+        aria-valuenow={stepIndex}
+      >
         <div className="progress-fill" style={{ width: `${(stepIndex / STEP_KEYS.length) * 100}%` }} />
       </div>
       <div className="sim-body">
@@ -183,6 +190,7 @@ export default function HandshakeSim() {
           {STEP_KEYS.map((key, index) => (
             <li
               key={key}
+              aria-current={index === stepIndex ? 'step' : undefined}
               className={
                 index < stepIndex ? 'done' : index === stepIndex ? 'current' : 'pending'
               }
