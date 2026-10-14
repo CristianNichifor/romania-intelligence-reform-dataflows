@@ -1868,4 +1868,28 @@ h3 {
   .handshake-map .token-chip text {
     fill: HighlightText;
   }
+
+/* ---------- Empty filter result ---------- */
+
+.explorer-empty {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(90%, 360px);
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13px;
+  text-align: center;
+}
+
+.explorer-list .explorer-empty {
+  position: static;
+  transform: none;
+  max-width: none;
 }
