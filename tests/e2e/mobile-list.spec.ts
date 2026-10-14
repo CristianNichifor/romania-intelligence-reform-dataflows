@@ -58,3 +58,12 @@ test('a wide screen still opens the graph', async ({ page }) => {
   await expect(page.locator('.react-flow__node').first()).toBeVisible()
   await expect(page.getByRole('list', { name: 'Flows' })).toHaveCount(0)
 })
+
+test('the view tabs are at least 44 px tall on a phone', async ({ page }) => {
+  await page.goto(`${BASE}#/current`)
+  const tabs = page.locator('.nav-btn')
+  await expect(tabs.first()).toBeVisible()
+  for (const box of await tabs.evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height))) {
+    expect(box).toBeGreaterThanOrEqual(44)
+  }
+})
