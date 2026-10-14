@@ -87,12 +87,13 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 
 ## Theme D: Romanian governance docs
 
-### INT-3 Romanian docs 14–19 — todo
+### INT-3 Romanian docs 14–19 — done (translation needs human review)
 - Given every English governance doc `docs/14-19`, then `docs/ro/` has a file
   with the same name.
 - Given the Governance tab in RO, then the documents render from `docs/ro/`, their
   headings come from i18n keys, and `gov.langNote` no longer says "(în engleză)".
-- Translations are machine-assisted: **needs human review**.
+- Translations are machine-assisted: **needs human review**. Diagram labels
+  (`diagrams/*.mmd`) stay in English.
 - Tests: `src/components/governanceDocs.test.ts`, `tests/e2e/i18n.spec.ts`.
 
 ## Out of scope here
