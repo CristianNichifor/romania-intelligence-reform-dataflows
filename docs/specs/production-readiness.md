@@ -135,6 +135,17 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Test: `tests/e2e/handshake-token.spec.ts`.
 - Romanian caption strings (`handshake.map.*`) are agent-written: **needs human review**.
 
+### UX-6 UX guideline and legend semantics — done
+- Given `docs/ux-guidelines.md`, then it states the users and top tasks, page
+  anatomy, content, data-viz, states, mobile and accessibility rules, the status
+  vocabulary, and a conformance checklist where every row names an existing test
+  or is listed as a known deviation.
+- Given the legend semantics table, then every node colour, glyph, edge colour and
+  line style it lists matches `src/data/actors.ts`, `src/lib/graph.ts` and
+  `src/components/ActorNode.tsx`.
+- Test: docs-only; the checklist rows point at `tests/e2e/*.spec.ts` and
+  `src/**/*.test.ts`. Known deviations are backlog, not regressions.
+
 ## Out of scope here
 
 ### INT-10 Retire the GitHub Pages deploy — needs-human
