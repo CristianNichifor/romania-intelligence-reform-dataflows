@@ -164,7 +164,7 @@ never connects to real systems.
 |---|---|---|
 | D1 | Partly fixed: hub back link added; tool name, H1 from the naming registry and civic-ui `FamilyBar` still open | `src/App.tsx` header |
 | D2 | Fixed (`src/lib/provenance.ts`): no `Date: sursă, an` line under the H1 (as-of only inside the flow panel) | `src/App.tsx`, `DATASET_AS_OF` |
-| D3 | Fixed: node swatches now come from `src/lib/legend.ts`, which reads the node colour table (`src/lib/legend.test.ts`). Still open: target legend has no executive (slate) entry and does not explain edge colours | `src/components/FlowExplorer.tsx` `Legend` |
+| D3 | Fixed (`src/lib/legend.ts`, `src/lib/legend.test.ts`): legend node swatches come from the node colour table; line styles and target edge colours list their flow IDs, and the target legend has the executive entry | `src/components/FlowExplorer.tsx` `Legend` |
 | D4 | Current state uses yellow `#facc15` for both oversight nodes and medium-audit edges; reads as one concept | `src/data/actors.ts`, `src/lib/graph.ts` |
 | D5 | Dark-only theme with its own tokens; fleet default is light civic-ui tokens (dark canvases allowed for graphs) | `src/index.css` |
 | D6 | No `forced-colors` styles; node borders/edges unverified in High Contrast | `src/index.css` |
@@ -172,4 +172,4 @@ never connects to real systems.
 | D8 | Fixed (`footer.source`): footer link text "source ↗" was a hard-coded English literal | `src/App.tsx` footer |
 | D9 | Fixed (`min-height: 44px`, `tests/e2e/mobile-list.spec.ts`): tab buttons were ~33 px tall (`padding: 8px 12px 10px`, 12.5 px text): above 24 px, below the 44 px preference | `src/index.css` `.nav-btn` |
 | D10 | Diagram labels (`diagrams/*.mmd`) stay English in RO mode | `diagrams/` |
-| D11 | A search/chip filter with no matches shows an empty graph or list with no message | `src/components/FlowExplorer.tsx` |
+| D11 | Fixed (`tests/e2e/empty-filter.spec.ts`): a search/chip filter with no matches says so and offers "Șterge filtrele" | `src/components/FlowExplorer.tsx` |

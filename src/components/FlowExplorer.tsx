@@ -440,7 +440,19 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
         </div>
       </div>
       {visibleActorIds.size === 0 ? (
-        <p role="status" className="explorer-empty">{t('explorer.empty')}</p>
+        <div className="explorer-empty">
+          <p role="status">{t('explorer.empty')}</p>
+          <button
+            type="button"
+            className="chip on"
+            onClick={() => {
+              setQuery('')
+              setHiddenCats(new Set())
+            }}
+          >
+            {t('explorer.clearFilters')}
+          </button>
+        </div>
       ) : layout === 'list' && listFlows.length === 0 ? (
         <p role="status" className="explorer-empty">{t('explorer.noFlows')}</p>
       ) : null}
