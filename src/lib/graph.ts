@@ -105,7 +105,7 @@ export function edgeColor(flow: Flow): string {
     const audit = flow.audit ? pick(flow.audit, 'en') : 'Low'
     if (audit === 'Very low' || audit === 'None') return '#ef4444'
     if (audit === 'Low') return '#f59e0b'
-    return '#facc15'
+    return '#4ade80'
   }
   if (flow.id === 'W1' || flow.id === 'W2') return '#4ade80'
   if (flow.source === 'IADE' || flow.target === 'IADE') return '#60a5fa'

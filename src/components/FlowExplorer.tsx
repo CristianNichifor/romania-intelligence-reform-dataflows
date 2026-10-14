@@ -214,13 +214,13 @@ function Legend({ mode }: { mode: GraphMode }) {
           ))}
           {mode === 'current' &&
             ([
-              ['legend.lines.audited', undefined],
-              ['legend.lines.weak', '7 4'],
-              ['legend.lines.none', '2 4'],
-            ] as Array<[MessageKey, string | undefined]>).map(([key, dash]) => (
+              ['legend.lines.audited', undefined, '#4ade80'],
+              ['legend.lines.weak', '7 4', '#f59e0b'],
+              ['legend.lines.none', '2 4', '#ef4444'],
+            ] as Array<[MessageKey, string | undefined, string]>).map(([key, dash, stroke]) => (
               <span key={key}>
                 <svg width="22" height="6" aria-hidden="true">
-                  <line x1="0" y1="3" x2="22" y2="3" stroke="#cbd5e1" strokeWidth="2" strokeDasharray={dash} />
+                  <line x1="0" y1="3" x2="22" y2="3" stroke={stroke} strokeWidth="2" strokeDasharray={dash} />
                 </svg>
                 {t(key)}
               </span>
@@ -408,8 +408,13 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
           )}
         </div>
       </div>
+      {visibleActorIds.size === 0 ? (
+        <p role="status" className="explorer-empty">{t('explorer.empty')}</p>
+      ) : layout === 'list' && listFlows.length === 0 ? (
+        <p role="status" className="explorer-empty">{t('explorer.noFlows')}</p>
+      ) : null}
       {layout === 'list' ? (
-        <FlowList flows={listFlows} actors={actors} />
+        listFlows.length > 0 && <FlowList flows={listFlows} actors={actors} />
       ) : (
         <div className="explorer-canvas">
           <ReactFlow
