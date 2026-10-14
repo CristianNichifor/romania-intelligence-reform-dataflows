@@ -209,11 +209,15 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   not yet repeat the filter text. "Șterge filtrele" is agent-written:
   **needs human review**.
 
-### DS-3 Mobile list is the table alternative — todo
+### DS-3 Mobile list is the table alternative — done
 - Given 390 px, then each list item shows ID, source → destination, data type,
   legal basis, audit level with its line-style swatch, risk, and sources; no
   horizontal overflow; chips and toggles ≥ 44 px.
 - Mockup: `03-mobile-list.html`. Test: extend `tests/e2e/mobile-list.spec.ts`.
+- Landed: risk and audit line swatch per row (#45), 44 px chips, the empty
+  states (UX-11, DS-2) and a count line "5 din 14 fluxuri"
+  (`tests/e2e/mobile-list.spec.ts`, `src/i18n/count.test.ts`). No error state:
+  the list reads bundled data and cannot fail to load.
 
 ### DS-4 Flow detail with sources — done (route glyphs open)
 - Given a selected flow, then the panel shows the route with glyphs, the key/value
@@ -227,11 +231,14 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   while the others fade to 40 % (`tests/e2e/provenance.spec.ts`). Open: the
   route row with category glyphs.
 
-### DS-5 Handshake controls and states — todo
+### DS-5 Handshake controls and states — done
 - Given the Handshake, then controls are ≥ 44 px, the progress bar is a
   `progressbar` with values, the current step has `aria-current="step"`, the map
   caption names the active hop, and reduced motion parks the token.
 - Mockup: `05-handshake.html`. Test: extend `tests/e2e/handshake-token.spec.ts`.
+- Landed in #42 and UX-5: 44 px controls, `progressbar` with values,
+  `aria-current="step"`, the map caption names the active hop, and reduced
+  motion parks the token (`tests/e2e/handshake-token.spec.ts`).
 
 ### DS-6 Theme alignment — needs-human
 - The mockups use light civic-ui page chrome with a dark graph canvas (fleet
