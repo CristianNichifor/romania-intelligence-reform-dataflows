@@ -26,7 +26,8 @@ Top to bottom, on every tab:
 
 1. Classification strip — `DEMO // UNCLASSIFIED` · `SIMULATED DATA — NO REAL SYSTEMS`
    (`class.demo`, `class.simulated`). It is the status badge; never remove it.
-2. Family bar (civic-ui `FamilyBar`) — **not yet present**, see backlog D1.
+2. Family bar — "← Proiecte civice" / "← Civic projects" to the hub root, at the start of
+   the classification strip (`src/familyBar.css`); civic-ui `FamilyBar` once adopted.
 3. Header: kicker, H1 (`header.title`), language toggle EN/RO.
 4. Provenance line under the H1: `Date: <sursă>, <an>` / `Data: <source>, <year>`
    built from `DATASET_AS_OF` in `src/data/sources.ts` by `src/lib/provenance.ts`.
@@ -154,14 +155,14 @@ never connects to real systems.
 | Ledger empty state | `ledger.empty` message; no test yet |
 | Edge colour per cluster (target) | none yet — legend table above is the reference |
 | Provenance line under H1 | `src/lib/provenance.test.ts` |
-| Family bar | none yet — D1 |
+| Family bar | `src/lib/links.test.ts`, `tests/e2e/family-bar.spec.ts` |
 | Forced colours | none yet — D6 |
 
 ## 9. Known deviations (backlog)
 
 | ID | Deviation | Where |
 |---|---|---|
-| D1 | No civic-ui family bar / link back to the hub | `src/App.tsx` header |
+| D1 | Partly fixed: hub back link added; tool name, H1 from the naming registry and civic-ui `FamilyBar` still open | `src/App.tsx` header |
 | D2 | Fixed (`src/lib/provenance.ts`): no `Date: sursă, an` line under the H1 (as-of only inside the flow panel) | `src/App.tsx`, `DATASET_AS_OF` |
 | D3 | Fixed: node swatches now come from `src/lib/legend.ts`, which reads the node colour table (`src/lib/legend.test.ts`). Still open: target legend has no executive (slate) entry and does not explain edge colours | `src/components/FlowExplorer.tsx` `Legend` |
 | D4 | Current state uses yellow `#facc15` for both oversight nodes and medium-audit edges; reads as one concept | `src/data/actors.ts`, `src/lib/graph.ts` |
