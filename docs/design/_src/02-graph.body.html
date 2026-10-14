@@ -1,0 +1,113 @@
+<div class="graph-head">
+  <div>
+    <h2 id="h-graph" style="margin:0">Starea actuală: cine trimite ce date, cui</h2>
+    <p class="small muted" style="margin:.25rem 0 0">13 actori, 14 fluxuri. Stilul liniei arată pista de audit; glifa din nod arată categoria. Culoarea nu este niciodată singurul semnal.</p>
+  </div>
+  <div class="seg" role="group" aria-label="Stare">
+    <button type="button" aria-pressed="true">Starea actuală</button>
+    <button type="button" aria-pressed="false">Starea țintă</button>
+  </div>
+</div>
+
+<div class="filters">
+  <label class="field">Filtrează actorii<input type="search" placeholder="de exemplu SRI sau „procurori”" aria-describedby="f-help"><span id="f-help" class="sr-only">Esc șterge filtrul</span></label>
+  <div class="chips" role="group" aria-label="Categorii">
+    <button class="chip" aria-pressed="true"><span aria-hidden="true">◆</span> Agenții</button>
+    <button class="chip" aria-pressed="true"><span aria-hidden="true">▲</span> Executiv</button>
+    <button class="chip" aria-pressed="true"><span aria-hidden="true">●</span> Supraveghere</button>
+    <button class="chip" aria-pressed="true"><span aria-hidden="true">¶</span> Justiție</button>
+    <button class="chip" aria-pressed="true"><span aria-hidden="true">§</span> Judiciar</button>
+    <button class="chip" aria-pressed="true"><span aria-hidden="true">◇</span> Civil</button>
+    <button class="chip" aria-pressed="true"><span aria-hidden="true">◎</span> Public</button>
+  </div>
+  <div class="seg" role="group" aria-label="Vizualizare">
+    <button type="button" aria-pressed="true">Graf</button>
+    <button type="button" aria-pressed="false">Listă</button>
+  </div>
+</div>
+
+<div class="two">
+  <figure class="canvas c-current" aria-labelledby="h-graph" style="margin:0">
+    <div class="tools"><button type="button" aria-label="Mărește">+</button><button type="button" aria-label="Micșorează">−</button><button type="button" aria-label="Potrivește în ecran">⤢</button><button type="button" aria-pressed="true" aria-label="Etichete">Aa</button></div>
+    <svg viewBox="0 0 960 540" role="img" aria-label="Graful stării actuale: 13 noduri și 14 muchii etichetate C1–C13">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--canvas-muted)"/></marker>
+      </defs>
+      <!-- edges: solid = medie, dashed = scăzută, dotted = foarte scăzută/absentă; one neutral stroke, style carries meaning -->
+      <g stroke="var(--canvas-muted)" marker-end="url(#ar)">
+        <path class="edge edge-weak" d="M330,120 C300,60 480,60 452,118"/>            <!-- C1 SRI→SRI (self loop) -->
+        <path class="edge edge-weak" d="M372,150 L250,150"/>                            <!-- C7 STS→SRI drawn as medium below -->
+        <path class="edge" d="M150,170 L300,170"/>                                      <!-- C7 STS→SRI medium -->
+        <path class="edge edge-none" d="M400,200 L240,330"/>                            <!-- C6 SRI→JPC low: rendered dashed in app; see legend -->
+        <path class="edge edge-none" d="M400,110 L250,70"/>                             <!-- C3 SRI→CSAT very low -->
+        <path class="edge edge-none" d="M700,110 L300,70"/>                             <!-- C3b SIE→CSAT very low -->
+        <path class="edge edge-weak" d="M460,200 L640,330"/>                            <!-- C4 SRI→DIICOT low -->
+        <path class="edge edge-none" d="M190,60 L470,40"/>                              <!-- C5 CSAT→PRES very low -->
+        <path class="edge edge-weak" d="M700,150 L520,150"/>                            <!-- C2 SIE→SRI low -->
+        <path class="edge edge-none" d="M460,220 L820,480"/>                            <!-- C10 SRI→PUB none -->
+      </g>
+      <g class="elabel-g">
+        <rect class="elabel-bg" x="382" y="60" width="22" height="14" rx="3"/><text class="elabel" x="386" y="71">C1</text>
+        <rect class="elabel-bg" x="214" y="156" width="22" height="14" rx="3"/><text class="elabel" x="218" y="167">C7</text>
+        <rect class="elabel-bg" x="300" y="258" width="22" height="14" rx="3"/><text class="elabel" x="304" y="269">C6</text>
+        <rect class="elabel-bg" x="316" y="82" width="22" height="14" rx="3"/><text class="elabel" x="320" y="93">C3</text>
+        <rect class="elabel-bg" x="500" y="82" width="28" height="14" rx="3"/><text class="elabel" x="504" y="93">C3b</text>
+        <rect class="elabel-bg" x="540" y="258" width="22" height="14" rx="3"/><text class="elabel" x="544" y="269">C4</text>
+        <rect class="elabel-bg" x="320" y="38" width="22" height="14" rx="3"/><text class="elabel" x="324" y="49">C5</text>
+        <rect class="elabel-bg" x="600" y="136" width="22" height="14" rx="3"/><text class="elabel" x="604" y="147">C2</text>
+        <rect class="elabel-bg" x="630" y="340" width="28" height="14" rx="3"/><text class="elabel" x="634" y="351">C10</text>
+      </g>
+      <!-- nodes: colour bar + glyph; glyph carries category -->
+      <g class="node" transform="translate(130,30)"><rect width="120" height="48" rx="6" stroke="var(--canvas-viz-7)"/><rect width="6" height="48" rx="3" fill="var(--canvas-viz-7)"/><text class="glyph" x="14" y="30" fill="var(--canvas-viz-7)">▲</text><text class="name" x="32" y="21">CSAT</text><text class="role" x="32" y="37">Coordonare</text></g>
+      <g class="node" transform="translate(470,10)"><rect width="130" height="48" rx="6" stroke="var(--canvas-viz-7)"/><rect width="6" height="48" rx="3" fill="var(--canvas-viz-7)"/><text class="glyph" x="14" y="30" fill="var(--canvas-viz-7)">▲</text><text class="name" x="32" y="21">Președinție</text><text class="role" x="32" y="37">Administrația Prezidențială</text></g>
+      <g class="node" transform="translate(30,150)"><rect width="120" height="48" rx="6" stroke="var(--canvas-viz-2)"/><rect width="6" height="48" rx="3" fill="var(--canvas-viz-2)"/><text class="glyph" x="14" y="30" fill="var(--canvas-viz-2)">◆</text><text class="name" x="32" y="21">STS</text><text class="role" x="32" y="37">Interceptări tehnice</text></g>
+      <g class="node" transform="translate(300,118)"><rect width="160" height="64" rx="6" stroke="var(--canvas-viz-2)"/><rect width="6" height="64" rx="3" fill="var(--canvas-viz-2)"/><text class="glyph" x="14" y="38" fill="var(--canvas-viz-2)">◆</text><text class="name" x="32" y="24">SRI</text><text class="role" x="32" y="40">Informații interne (militar)</text><text class="role" x="32" y="54">fără registru unic de mandate</text></g>
+      <g class="node" transform="translate(700,118)"><rect width="130" height="48" rx="6" stroke="var(--canvas-viz-2)"/><rect width="6" height="48" rx="3" fill="var(--canvas-viz-2)"/><text class="glyph" x="14" y="30" fill="var(--canvas-viz-2)">◆</text><text class="name" x="32" y="21">SIE</text><text class="role" x="32" y="37">Informații externe</text></g>
+      <g class="node" transform="translate(140,330)"><rect width="170" height="48" rx="6" stroke="var(--canvas-viz-5)"/><rect width="6" height="48" rx="3" fill="var(--canvas-viz-5)"/><text class="glyph" x="14" y="30" fill="var(--canvas-viz-5)">●</text><text class="name" x="32" y="21">Comisia parlamentară</text><text class="role" x="32" y="37">Supravegherea SRI/SIE</text></g>
+      <g class="node" transform="translate(600,330)"><rect width="140" height="48" rx="6" stroke="var(--canvas-viz-7)"/><rect width="6" height="48" rx="3" fill="var(--canvas-viz-7)"/><text class="glyph" x="14" y="30" fill="var(--canvas-viz-7)">¶</text><text class="name" x="32" y="21">DIICOT / PICCJ</text><text class="role" x="32" y="37">Procurori</text></g>
+      <g class="node" transform="translate(800,470)"><rect width="130" height="48" rx="6" stroke="var(--canvas-muted)"/><rect width="6" height="48" rx="3" fill="var(--canvas-muted)"/><text class="glyph" x="14" y="30" fill="var(--canvas-muted)">◎</text><text class="name" x="32" y="21">Public / Presă</text><text class="role" x="32" y="37">Destinatarii narativelor</text></g>
+      <text x="20" y="520" fill="var(--canvas-muted)" font-size="11">Extras: 8 din 13 noduri. Nodurile ICCJ, ANSPDCP, Avocatul Poporului, DNSC, SPP urmează același model.</text>
+    </svg>
+  </figure>
+
+  <aside class="legend-side">
+    <details class="legend" open>
+      <summary>Legendă</summary>
+      <p class="small muted" style="margin:.25rem 0">Noduri: glifa arată categoria</p>
+      <ul>
+        <li><span class="sw" style="color:var(--canvas-viz-2)">◆</span> Agenții (SRI, SIE, STS, SPP)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-7)">▲</span> Executiv (CSAT, Președinție)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-5)">●</span> Supraveghere (JPC, ANSPDCP, Avocatul Poporului)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-7)">¶</span> Justiție (DIICOT / PICCJ)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-3)">§</span> Judiciar (ICCJ)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-1)">◇</span> Civil (DNSC)</li>
+        <li><span class="sw" style="color:var(--canvas-muted)">◎</span> Public / Presă</li>
+      </ul>
+      <p class="small muted" style="margin:.75rem 0 .25rem">Muchii, starea actuală: stilul liniei = pista de audit</p>
+      <ul>
+        <li><span class="ln" aria-hidden="true"></span> continuă: auditabilitate medie (C7, C8)</li>
+        <li><span class="ln weak" aria-hidden="true"></span> întreruptă: scăzută (C1, C2, C4, C6, C9, C12)</li>
+        <li><span class="ln none" aria-hidden="true"></span> punctată: foarte scăzută sau absentă (C3, C3b, C5, C10, C11, C13)</li>
+      </ul>
+      <p class="small muted" style="margin:.75rem 0 .25rem">Muchii, starea țintă: toate continue; culoarea = clusterul partener, eticheta = ID flux</p>
+      <ul>
+        <li><span class="sw" style="color:var(--canvas-viz-3)">W</span> cerere / retur de mandat (W1–W3)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-1)">T</span> prin brokerul IADE (T3–T6, T11, T20)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-5)">T</span> supraveghere (IG, JPC, ITAP, Avocatul Poporului, ANSPDCP)</li>
+        <li><span class="sw" style="color:var(--canvas-viz-7)">T</span> justiție (DIICOT, ICCJ)</li>
+        <li><span class="sw" style="color:var(--canvas-muted)">T</span> executiv (CSAT, Președinție)</li>
+      </ul>
+    </details>
+    <p class="small" style="margin-top:var(--civic-space-3)"><a href="03-mobile-list.html">Afișează ca tabel</a> · aceleași 14 fluxuri, cu surse</p>
+  </aside>
+</div>
+
+<section class="states" aria-label="Stări">
+  <div class="empty" role="status">
+    <strong>Niciun actor nu se potrivește cu „procurorii CSAT”.</strong>
+    <p class="small muted">Ștergeți textul sau reactivați categoriile ascunse.</p>
+    <button class="btn small secondary">Șterge filtrele</button>
+  </div>
+  <div class="status loading" role="status" aria-live="polite"><span class="ico" aria-hidden="true">…</span><div><strong>Se așază graful</strong><div class="small muted">Nodurile apar imediat; muchiile se adaugă după așezare.</div><div class="progress"><i style="width:50%"></i></div></div></div>
+  <div class="status info"><span class="ico" aria-hidden="true">i</span><div><strong>Starea țintă pornește cu Agenții și Broker</strong><div class="small muted">33 de fluxuri nu se pot citi deodată. „Arată tot” adaugă restul de 15 actori.</div><div style="margin-top:.5rem"><button class="btn small secondary">Arată tot</button></div></div></div>
+</section>

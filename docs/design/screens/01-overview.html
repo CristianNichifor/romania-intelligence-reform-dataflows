@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prezentare · Fluxuri de date</title>
+<style>
+/* Civic UI 0.8 token values, copied inline (themes/neutral.css + src/foundations.css on civic-ui dev). */
+:root{
+  --civic-font-sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --civic-font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --civic-bg:#f4f6f6;--civic-surface:#ffffff;--civic-raised:#e7eeee;--civic-text:#182b2c;--civic-muted:#475d60;
+  --civic-border:#718588;--civic-action:#006b60;--civic-action-hover:#00564d;--civic-on-action:#ffffff;--civic-focus:#006b60;
+  --civic-accent:#006b60;--civic-danger:#a31b34;--civic-on-danger:#ffffff;--civic-success:#146c2e;--civic-on-success:#ffffff;
+  --civic-warning:#f2b300;--civic-on-warning:#1f1600;--civic-info:#1f5fa8;--civic-on-info:#ffffff;
+  --civic-space-1:.25rem;--civic-space-2:.5rem;--civic-space-3:.75rem;--civic-space-4:1rem;--civic-space-5:1.5rem;--civic-space-6:2rem;--civic-space-7:3rem;--civic-space-8:4rem;
+  --civic-text-xs:.8125rem;--civic-text-sm:.875rem;--civic-text-md:1rem;--civic-text-lg:1.125rem;--civic-text-xl:1.25rem;--civic-text-2xl:1.5rem;--civic-text-3xl:1.875rem;
+  --civic-weight-regular:400;--civic-weight-heading:600;--civic-weight-strong:700;--civic-radius:6px;--civic-control-height:44px;
+  --civic-viz-1:#2a78d6;--civic-viz-2:#eb6834;--civic-viz-3:#1baf7a;--civic-viz-4:#eda100;--civic-viz-5:#e87ba4;--civic-viz-6:#008300;--civic-viz-7:#4a3aa7;--civic-viz-8:#e34948;
+  /* Dark graph canvas: the civic-neutral dark-mode values, scoped to .canvas */
+  --canvas-bg:#142323;--canvas-surface:#203332;--canvas-raised:#304845;--canvas-text:#f0f6f5;--canvas-muted:#c0d3cf;--canvas-border:#8ca8a1;
+  --canvas-viz-1:#3987e5;--canvas-viz-2:#d95926;--canvas-viz-3:#199e70;--canvas-viz-4:#c98500;--canvas-viz-5:#d55181;--canvas-viz-6:#008300;--canvas-viz-7:#9085e9;--canvas-viz-8:#e66767;
+}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--civic-bg);color:var(--civic-text);font:var(--civic-weight-regular) var(--civic-text-md)/1.5 var(--civic-font-sans)}
+a{color:var(--civic-action)}
+:focus-visible{outline:3px solid var(--civic-focus);outline-offset:2px}
+.skip{position:absolute;left:var(--civic-space-4);top:-100px;background:var(--civic-surface);padding:var(--civic-space-2) var(--civic-space-3);border-radius:var(--civic-radius)}
+.skip:focus{top:var(--civic-space-2)}
+/* Mockup frame chrome (not part of the product) */
+.mock-note{background:#fff8dc;border-bottom:1px solid #d9c36a;color:#4a3b00;font:var(--civic-text-xs)/1.4 var(--civic-font-mono);padding:var(--civic-space-2) var(--civic-space-4)}
+.mock-note b{font-weight:var(--civic-weight-strong)}
+/* 1. Family bar */
+.family-bar{background:var(--civic-surface);border-bottom:1px solid var(--civic-border)}
+.family-bar .in{max-width:1200px;margin:0 auto;padding:0 var(--civic-space-4);min-height:var(--civic-control-height);display:flex;align-items:center;gap:var(--civic-space-4);flex-wrap:wrap}
+.family-bar .home{display:inline-flex;align-items:center;min-height:var(--civic-control-height);gap:var(--civic-space-2);text-decoration:none;font-weight:var(--civic-weight-heading)}
+.family-bar .tool{font-weight:var(--civic-weight-heading);flex:1;min-width:8rem}
+.badge{display:inline-flex;align-items:center;gap:.4em;border-radius:999px;padding:.15em .7em;font-size:var(--civic-text-xs);font-weight:var(--civic-weight-heading);line-height:1.6}
+.badge.warning{background:var(--civic-warning);color:var(--civic-on-warning)}
+.badge.success{background:var(--civic-success);color:var(--civic-on-success)}
+.badge.danger{background:var(--civic-danger);color:var(--civic-on-danger)}
+.badge.neutral{background:var(--civic-raised);color:var(--civic-text);border:1px solid var(--civic-border)}
+.lang{display:inline-flex;border:1px solid var(--civic-border);border-radius:var(--civic-radius);overflow:hidden}
+.lang a,.lang span{display:inline-flex;align-items:center;justify-content:center;min-width:var(--civic-control-height);min-height:var(--civic-control-height);text-decoration:none;color:var(--civic-text);font-size:var(--civic-text-sm);padding:0 var(--civic-space-2)}
+.lang [aria-current]{background:var(--civic-action);color:var(--civic-on-action);font-weight:var(--civic-weight-heading)}
+/* 2. Header: H1, purpose, provenance */
+.page{max-width:1200px;margin:0 auto;padding:var(--civic-space-5) var(--civic-space-4) var(--civic-space-8)}
+h1{font-size:var(--civic-text-3xl);line-height:1.2;margin:0 0 var(--civic-space-2);font-weight:var(--civic-weight-heading)}
+h2{font-size:var(--civic-text-xl);margin:0 0 var(--civic-space-3);font-weight:var(--civic-weight-heading)}
+h3{font-size:var(--civic-text-lg);margin:0 0 var(--civic-space-2);font-weight:var(--civic-weight-heading)}
+.purpose{font-size:var(--civic-text-lg);color:var(--civic-text);margin:0 0 var(--civic-space-3);max-width:70ch}
+.provenance{display:flex;flex-wrap:wrap;gap:var(--civic-space-2) var(--civic-space-4);align-items:center;color:var(--civic-muted);font-size:var(--civic-text-sm);margin:0 0 var(--civic-space-5);padding:var(--civic-space-2) 0;border-top:1px solid var(--civic-raised);border-bottom:1px solid var(--civic-raised)}
+.provenance b{color:var(--civic-text);font-weight:var(--civic-weight-heading)}
+/* 5. Tabs */
+.tabs{display:flex;gap:var(--civic-space-1);overflow-x:auto;border-bottom:1px solid var(--civic-border);margin:0 0 var(--civic-space-5);scrollbar-width:thin}
+.tabs [role=tab]{flex:0 0 auto;min-height:var(--civic-control-height);padding:0 var(--civic-space-4);border:0;border-bottom:3px solid transparent;background:none;color:var(--civic-muted);font:inherit;font-size:var(--civic-text-sm);font-weight:var(--civic-weight-heading);cursor:pointer;white-space:nowrap}
+.tabs [aria-selected=true]{color:var(--civic-text);border-bottom-color:var(--civic-action)}
+/* Cards, stats, lists */
+.card{background:var(--civic-surface);border:1px solid var(--civic-raised);border-radius:var(--civic-radius);padding:var(--civic-space-5);margin:0 0 var(--civic-space-5)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:var(--civic-space-3);margin:0 0 var(--civic-space-5)}
+.stat{background:var(--civic-surface);border:1px solid var(--civic-raised);border-radius:var(--civic-radius);padding:var(--civic-space-4)}
+.stat .v{font-size:var(--civic-text-3xl);font-weight:var(--civic-weight-strong);line-height:1.1;font-variant-numeric:tabular-nums}
+.stat .l{color:var(--civic-muted);font-size:var(--civic-text-sm)}
+.stat .asof{color:var(--civic-muted);font-size:var(--civic-text-xs);margin-top:var(--civic-space-1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:var(--civic-control-height);padding:0 var(--civic-space-5);border-radius:var(--civic-radius);border:1px solid var(--civic-action);background:var(--civic-action);color:var(--civic-on-action);font:inherit;font-weight:var(--civic-weight-heading);text-decoration:none;cursor:pointer}
+.btn.secondary{background:var(--civic-surface);color:var(--civic-action)}
+.btn.small{min-height:var(--civic-control-height);padding:0 var(--civic-space-3);font-size:var(--civic-text-sm)}
+.btn-row{display:flex;flex-wrap:wrap;gap:var(--civic-space-3)}
+.chips{display:flex;flex-wrap:wrap;gap:var(--civic-space-2)}
+.chip{display:inline-flex;align-items:center;gap:.4em;min-height:var(--civic-control-height);padding:0 var(--civic-space-3);border-radius:999px;border:1px solid var(--civic-border);background:var(--civic-surface);color:var(--civic-text);font:inherit;font-size:var(--civic-text-sm);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--civic-text);color:var(--civic-surface);border-color:var(--civic-text)}
+.field{display:flex;flex-direction:column;gap:var(--civic-space-1);font-size:var(--civic-text-sm)}
+.field input{min-height:var(--civic-control-height);border:1px solid var(--civic-border);border-radius:var(--civic-radius);padding:0 var(--civic-space-3);font:inherit;background:var(--civic-surface);color:var(--civic-text)}
+table{border-collapse:collapse;width:100%;font-size:var(--civic-text-sm)}
+th,td{text-align:left;padding:var(--civic-space-2) var(--civic-space-3);border-bottom:1px solid var(--civic-raised);vertical-align:top}
+th{color:var(--civic-muted);font-weight:var(--civic-weight-heading)}
+.kv td:first-child{color:var(--civic-muted);width:11rem}
+.mono{font-family:var(--civic-font-mono);font-size:var(--civic-text-sm)}
+.muted{color:var(--civic-muted)}
+.small{font-size:var(--civic-text-sm)}
+.flow-id{font-family:var(--civic-font-mono);font-weight:var(--civic-weight-strong);background:var(--civic-raised);border-radius:4px;padding:0 .4em}
+/* Status messages */
+.status{display:flex;gap:var(--civic-space-3);align-items:flex-start;border-radius:var(--civic-radius);padding:var(--civic-space-4);border:1px solid var(--civic-border);background:var(--civic-surface)}
+.status .ico{flex:0 0 auto;width:1.5rem;height:1.5rem;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:var(--civic-weight-strong);font-size:var(--civic-text-sm)}
+.status.error{border-color:var(--civic-danger)}.status.error .ico{background:var(--civic-danger);color:var(--civic-on-danger)}
+.status.info{border-color:var(--civic-info)}.status.info .ico{background:var(--civic-info);color:var(--civic-on-info)}
+.status.success{border-color:var(--civic-success)}.status.success .ico{background:var(--civic-success);color:var(--civic-on-success)}
+.status.loading .ico{background:var(--civic-raised);color:var(--civic-text)}
+.progress{height:.5rem;background:var(--civic-raised);border-radius:999px;overflow:hidden;margin-top:var(--civic-space-2)}
+.progress i{display:block;height:100%;background:var(--civic-action);width:40%}
+.skeleton{background:linear-gradient(90deg,var(--civic-raised),#f0f4f4,var(--civic-raised));border-radius:var(--civic-radius)}
+.empty{text-align:center;padding:var(--civic-space-6) var(--civic-space-4);border:1px dashed var(--civic-border);border-radius:var(--civic-radius);background:var(--civic-surface)}
+/* Dark graph canvas */
+.canvas{background:var(--canvas-bg);color:var(--canvas-text);border-radius:var(--civic-radius);border:1px solid var(--canvas-border);position:relative;overflow:hidden}
+.canvas .tools{position:absolute;top:var(--civic-space-2);right:var(--civic-space-2);display:flex;gap:var(--civic-space-1)}
+.canvas .tools button{min-width:var(--civic-control-height);min-height:var(--civic-control-height);border-radius:var(--civic-radius);border:1px solid var(--canvas-border);background:var(--canvas-surface);color:var(--canvas-text);font:inherit;cursor:pointer}
+.canvas svg{display:block;width:100%;height:auto}
+.canvas text{font-family:var(--civic-font-sans)}
+.node rect{fill:var(--canvas-surface);stroke-width:2}
+.node .glyph{font-size:14px;font-weight:700}
+.node .name{font-size:13px;font-weight:600;fill:var(--canvas-text)}
+.node .role{font-size:10px;fill:var(--canvas-muted)}
+.edge{fill:none;stroke-width:2}
+.elabel{font-family:var(--civic-font-mono);font-size:10px;font-weight:700;fill:var(--canvas-text)}
+.elabel-bg{fill:var(--canvas-bg);opacity:.95}
+.edge-weak{stroke-dasharray:7 4}.edge-none{stroke-dasharray:2 4}
+/* Legend */
+.legend{background:var(--civic-surface);border:1px solid var(--civic-raised);border-radius:var(--civic-radius);padding:var(--civic-space-4)}
+.legend summary{cursor:pointer;font-weight:var(--civic-weight-heading);min-height:var(--civic-control-height);display:flex;align-items:center}
+.legend ul{list-style:none;margin:var(--civic-space-2) 0 0;padding:0;display:grid;gap:var(--civic-space-2)}
+.legend li{display:flex;align-items:center;gap:var(--civic-space-2);font-size:var(--civic-text-sm)}
+.sw{flex:0 0 auto;width:1.5rem;height:1.5rem;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;background:var(--canvas-bg);border:2px solid currentColor}
+.ln{flex:0 0 auto;width:2rem;height:0;border-top:3px solid var(--civic-text)}
+.ln.weak{border-top-style:dashed}.ln.none{border-top-style:dotted}
+/* Layouts */
+.two{display:grid;grid-template-columns:minmax(0,1fr) 20rem;gap:var(--civic-space-5)}
+.three{display:grid;grid-template-columns:1fr 1fr;gap:var(--civic-space-5)}
+/* 7. Footer */
+footer.site{border-top:1px solid var(--civic-border);background:var(--civic-surface);margin-top:var(--civic-space-8)}
+footer.site .in{max-width:1200px;margin:0 auto;padding:var(--civic-space-5) var(--civic-space-4);display:flex;flex-wrap:wrap;gap:var(--civic-space-2) var(--civic-space-5);font-size:var(--civic-text-sm);color:var(--civic-muted)}
+footer.site a{min-height:24px;display:inline-flex;align-items:center}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Flow list (phone table alternative) */
+.flow-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--civic-space-3)}
+.flow-item{background:var(--civic-surface);border:1px solid var(--civic-raised);border-left:4px solid var(--civic-border);border-radius:var(--civic-radius);padding:var(--civic-space-4)}
+.flow-item h3{font-size:var(--civic-text-md);margin:0 0 var(--civic-space-2)}
+.flow-item dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:var(--civic-space-1) var(--civic-space-3);font-size:var(--civic-text-sm)}
+.flow-item dt{color:var(--civic-muted)}.flow-item dd{margin:0}
+@media (max-width:639px){
+  .two,.three{grid-template-columns:1fr}
+  h1{font-size:var(--civic-text-2xl)}
+  .page{padding:var(--civic-space-4) var(--civic-space-4) var(--civic-space-6)}
+  .kv td:first-child{width:7rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (forced-colors:active){.node rect,.edge{stroke:CanvasText}.badge,.chip[aria-pressed=true]{forced-color-adjust:none;border:1px solid CanvasText}}
+</style>
+</head>
+<body>
+<div class="mock-note" lang="en"><b>Design mockup, not the app.</b> Screen 01, Overview: first screen with family bar, H1, purpose, provenance line, demo badge, stat row and route.</div>
+<a class="skip" href="#main">Sari la conținut</a>
+<header class="family-bar" role="banner">
+  <div class="in">
+    <a class="home" href="https://projects.cristian-nichifor.com/"><span aria-hidden="true">←</span> Proiecte civice</a>
+    <span class="tool">Fluxuri de date</span>
+    <span class="badge warning"><span aria-hidden="true">◐</span> Date demonstrative</span>
+    <nav class="lang" aria-label="Limbă"><span aria-current="page" lang="ro">RO</span><a href="#en" lang="en">EN</a></nav>
+  </div>
+</header>
+<main id="main" class="page">
+  <h1>Fluxuri de date pentru reforma serviciilor de informații</h1>
+  <p class="purpose">Cine trimite ce date, cui, astăzi, și ce schimbă propunerea de reformă. O simulare în browser, nu sisteme reale.</p>
+  <p class="provenance"><span><b>Date:</b> legislație publică (legislatie.just.ro, EUR-Lex), DCAF și specificația acestui proiect, verificate la <time datetime="2026-10-14">2026-10-14</time></span><span><a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/tree/main/docs">Metodă și specificație</a></span><span><a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/blob/main/ERRATA.md">Corecturi</a></span></p>
+  <div class="tabs" role="tablist" aria-label="Vizualizări">
+    <button role="tab" aria-selected="true" aria-controls="panel">Prezentare</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Starea actuală</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Starea țintă</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Handshake T3–T6</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Red Team</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Supraveghere</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Registru audit</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Comparație</button>
+    <button role="tab" aria-selected="false" aria-controls="panel">Guvernanță</button>
+  </div>
+  <div id="panel" role="tabpanel">
+<section class="card" aria-labelledby="h-mission">
+  <h2 id="h-mission">Ce arată această pagină</h2>
+  <p>Aceasta este o <strong>simulare</strong> a fluxurilor de date dintre instituțiile de informații, de supraveghere, judiciare și civile din România: nu se conectează la niciun sistem real. Comparați <em>starea actuală</em> cu <em>starea țintă</em> propusă, apoi urmăriți un mandat prin handshake-ul T3–T6.</p>
+  <div class="btn-row">
+    <a class="btn" href="02-graph.html">Starea actuală <span aria-hidden="true">→</span></a>
+    <a class="btn secondary" href="02-graph.html#tinta">Starea țintă <span aria-hidden="true">→</span></a>
+    <a class="btn secondary" href="05-handshake.html">Handshake T3–T6 <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<section aria-labelledby="h-stats">
+  <h2 id="h-stats" class="sr-only">Indicatori-cheie</h2>
+  <div class="stat-grid">
+    <div class="stat"><div class="v">13</div><div class="l">actori, starea actuală</div><div class="asof">din <code>src/data/actors.ts</code></div></div>
+    <div class="stat"><div class="v">14</div><div class="l">fluxuri, starea actuală</div><div class="asof">C1–C13, C3b</div></div>
+    <div class="stat"><div class="v">15</div><div class="l">actori, starea țintă</div><div class="asof">+ SSC, IADE, IG, ITAP</div></div>
+    <div class="stat"><div class="v">33</div><div class="l">fluxuri, starea țintă</div><div class="asof">T1–T21, W1–W3</div></div>
+    <div class="stat"><div class="v">6</div><div class="l">fluxuri actuale cu pistă de audit foarte scăzută sau absentă</div><div class="asof">C3, C3b, C5, C10, C11, C13</div></div>
+  </div>
+</section>
+
+<div class="three">
+  <section class="card" aria-labelledby="h-now">
+    <p class="muted small">Stare actuală</p>
+    <h2 id="h-now">Starea actuală (pre-reformă)</h2>
+    <ul>
+      <li>SRI primește, stochează și corelează date fără un registru unic de mandate</li>
+      <li>CSAT coordonează cu transparență limitată</li>
+      <li>Parlamentul primește informări filtrate, nu date verificabile</li>
+      <li>Procurorii primesc sesizări, nu lanțuri de probe trasabile</li>
+      <li>Nu există o pistă de audit independentă care să lege datele de un temei legal</li>
+    </ul>
+  </section>
+  <section class="card" aria-labelledby="h-target">
+    <p class="muted small">Propunere</p>
+    <h2 id="h-target">Starea țintă (post-reformă)</h2>
+    <ul>
+      <li>Hub-and-spoke: vault-uri de caz ale agențiilor în jurul unui broker IADE fără stare</li>
+      <li>Tokenurile de mandat SSC controlează fiecare transfer de conținut</li>
+      <li>Registru de audit append-only, verificabil criptografic</li>
+      <li>Supraveghere IG / JPC / ITAP fără acces operațional</li>
+      <li>DNSC gestionează apărarea cibernetică civilă, separat de serviciile de informații</li>
+    </ul>
+    <p class="small muted">Starea țintă este o propunere a acestui proiect, nu legea în vigoare.</p>
+  </section>
+</div>
+
+<section class="card" aria-labelledby="h-tour">
+  <h2 id="h-tour">Traseu sugerat prin demo</h2>
+  <ol>
+    <li><a href="02-graph.html">Starea actuală</a>: alegeți noduri și muchii pentru a inspecta pistele de audit de bază.</li>
+    <li><a href="02-graph.html#tinta">Starea țintă</a>: arhitectura hub-and-spoke cu tokenuri de mandat.</li>
+    <li><a href="05-handshake.html">Handshake T3–T6</a>: parcurgeți o cerere legală de date interinstituțională.</li>
+    <li>Red Team: o interogare masivă neautorizată este blocată de două ori și înregistrată.</li>
+    <li>Supraveghere: metrici agregate și integritatea lanțului hash din registrul de audit.</li>
+  </ol>
+</section>
+
+<section class="card" aria-labelledby="h-states">
+  <h2 id="h-states">Stări ale paginii</h2>
+  <p class="small muted" lang="en">Design reference: the states every data surface on this app renders. The app is static and in-memory, so only the Governance diagrams can take time.</p>
+  <div class="three">
+    <div class="status loading" role="status"><span class="ico" aria-hidden="true">…</span><div><strong>Se pregătesc diagramele</strong><div class="small muted">Pasul 2 din 3: se redă diagrama „Supravegherea pe straturi”.</div><div class="progress"><i style="width:66%"></i></div></div></div>
+    <div class="status error" role="alert"><span class="ico" aria-hidden="true">!</span><div><strong>Diagrama nu a putut fi redată</strong><div class="small muted">Textul documentului rămâne disponibil mai jos.</div><div style="margin-top:.5rem"><button class="btn small secondary">Reîncercați</button></div></div></div>
+  </div>
+</section>
+  </div>
+</main>
+<footer class="site" role="contentinfo">
+  <div class="in">
+    <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/tree/main/docs">Metodă</a>
+    <span>Confidențialitate: pagina nu stochează nimic; nimic nu părăsește browserul.</span>
+    <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows">Sursa (cod și date)</a>
+    <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/blob/main/ERRATA.md">Corecturi</a>
+    <span>fără date reale · fără sisteme reale · nu constituie consultanță juridică</span>
+  </div>
+</footer>
+</body>
+</html>

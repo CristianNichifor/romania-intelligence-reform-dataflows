@@ -1,0 +1,86 @@
+<div class="phone-wrap">
+<div class="phone" aria-label="Ecran de 390 px">
+  <div class="ph">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--civic-space-2);margin-bottom:var(--civic-space-3)">
+      <h2 style="margin:0;font-size:var(--civic-text-lg)">Fluxuri, starea actuală</h2>
+      <div class="seg" role="group" aria-label="Vizualizare"><button type="button" aria-pressed="true">Listă</button><button type="button" aria-pressed="false">Graf</button></div>
+    </div>
+    <p class="small muted" style="margin:0 0 var(--civic-space-3)">14 fluxuri. Lista este alternativa tabelară a grafului: aceleași date, aceleași surse.</p>
+    <label class="field" style="margin-bottom:var(--civic-space-3)">Filtrează actorii<input type="search" placeholder="de exemplu SRI"></label>
+    <div class="chips" style="margin-bottom:var(--civic-space-4)">
+      <button class="chip" aria-pressed="true"><span aria-hidden="true">◆</span> Agenții</button>
+      <button class="chip" aria-pressed="true"><span aria-hidden="true">●</span> Supraveghere</button>
+      <button class="chip" aria-pressed="false"><span aria-hidden="true">▲</span> Executiv</button>
+      <button class="chip" aria-pressed="false"><span aria-hidden="true">¶</span> Justiție</button>
+    </div>
+
+    <ul class="flow-list" aria-label="Fluxuri">
+      <li class="flow-item" style="border-left-color:var(--civic-viz-2)">
+        <h3><span class="flow-id">C1</span> SRI <span aria-hidden="true">→</span><span class="sr-only"> către </span> SRI</h3>
+        <dl>
+          <dt>Tip de date</dt><dd>SIGINT/HUMINT/OSINT brut</dd>
+          <dt>Temei legal</dt><dd>Autorizare internă</dd>
+          <dt>Auditabilitate</dt><dd><span class="audit"><span class="ln weak" aria-hidden="true"></span> Scăzută</span></dd>
+          <dt>Risc</dt><dd>Stocare în masă, fără mandat extern</dd>
+          <dt>Surse</dt><dd><a href="https://legislatie.just.ro/Public/DetaliiDocumentAfis/2144">Legea nr. 14/1992</a> · <a href="https://legislatie.just.ro/Public/DetaliiDocument/1517">Legea nr. 51/1991</a></dd>
+        </dl>
+      </li>
+      <li class="flow-item" style="border-left-color:var(--civic-viz-2)">
+        <h3><span class="flow-id">C7</span> STS <span aria-hidden="true">→</span><span class="sr-only"> către </span> SRI</h3>
+        <dl>
+          <dt>Tip de date</dt><dd>Metadate/conținut</dd>
+          <dt>Temei legal</dt><dd>Mandat (teoretic)</dd>
+          <dt>Auditabilitate</dt><dd><span class="audit"><span class="ln" aria-hidden="true"></span> Medie</span></dd>
+          <dt>Risc</dt><dd>Infrastructură comună, separare neclară</dd>
+          <dt>Surse</dt><dd><a href="https://legislatie.just.ro/Public/DetaliiDocumentAfis/8502">Legea nr. 92/1996</a> · <a href="https://legislatie.just.ro/Public/DetaliiDocumentAfis/176576">CCR, Decizia nr. 51/2016</a></dd>
+        </dl>
+      </li>
+      <li class="flow-item" style="border-left-color:var(--civic-viz-5)">
+        <h3><span class="flow-id">C6</span> SRI <span aria-hidden="true">→</span><span class="sr-only"> către </span> Comisia parlamentară comună</h3>
+        <dl>
+          <dt>Tip de date</dt><dd>Rezumate</dd>
+          <dt>Temei legal</dt><dd>Legea 14/1992</dd>
+          <dt>Auditabilitate</dt><dd><span class="audit"><span class="ln weak" aria-hidden="true"></span> Scăzută</span></dd>
+          <dt>Risc</dt><dd>Fără acces brut, fără subpoena</dd>
+          <dt>Surse</dt><dd><a href="https://legislatie.just.ro/Public/DetaliiDocumentAfis/2144">Legea nr. 14/1992</a></dd>
+        </dl>
+      </li>
+      <li class="flow-item" style="border-left-color:var(--civic-viz-5)">
+        <h3><span class="flow-id">C13</span> SPP <span aria-hidden="true">→</span><span class="sr-only"> către </span> Comisia parlamentară comună</h3>
+        <dl>
+          <dt>Tip de date</dt><dd>Rezumate filtrate</dd>
+          <dt>Temei legal</dt><dd>Legea 191/1998 (control parlamentar)</dd>
+          <dt>Auditabilitate</dt><dd><span class="audit"><span class="ln none" aria-hidden="true"></span> Foarte scăzută</span></dd>
+          <dt>Risc</dt><dd>Cel mai slab control: fără comisie dedicată, fără subpoena</dd>
+          <dt>Surse</dt><dd><a href="https://legislatie.just.ro/Public/DetaliiDocumentAfis/15960">Legea nr. 191/1998</a></dd>
+        </dl>
+      </li>
+      <li class="flow-item" style="border-left-color:var(--civic-border)">
+        <h3><span class="flow-id">C10</span> SRI <span aria-hidden="true">→</span><span class="sr-only"> către </span> Public / Presă</h3>
+        <dl>
+          <dt>Tip de date</dt><dd>Narative</dd>
+          <dt>Auditabilitate</dt><dd><span class="audit"><span class="ln none" aria-hidden="true"></span> Nicio</span></dd>
+          <dt>Surse</dt><dd><strong>Încă nu există o sursă verificată.</strong> O evaluare a practicii de comunicare publică; niciun document public nu o stabilește. <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/blob/main/ERRATA.md">Corecturi</a></dd>
+        </dl>
+      </li>
+    </ul>
+    <p class="small muted" style="margin:var(--civic-space-3) 0 0">Surse verificate la <time datetime="2026-10-14">2026-10-14</time>. Se afișează 5 din 14 fluxuri; <a href="#">încă 9</a>.</p>
+
+    <h3 style="margin-top:var(--civic-space-5)">Stări</h3>
+    <div class="empty" role="status" style="margin-bottom:var(--civic-space-3)"><strong>Niciun flux pentru „ICCJ” cu categoriile alese.</strong><p class="small muted">ICCJ este în categoria Judiciar, care este ascunsă.</p><button class="btn small secondary">Șterge filtrele</button></div>
+    <div class="status error" role="alert"><span class="ico" aria-hidden="true">!</span><div><strong>Lista nu a putut fi încărcată</strong><div class="small muted">Datele sunt în pagină; reîncărcarea rezolvă de obicei problema.</div><div style="margin-top:.5rem"><button class="btn small secondary">Reîncercați</button></div></div></div>
+  </div>
+</div>
+
+<aside class="notes card">
+  <h2>Note de proiectare</h2>
+  <ul>
+    <li>Sub 640 px graful nu se poate citi (15 noduri), așa că fila se deschide pe listă; „Graf” rămâne la un pas, cu <code>aria-pressed</code>.</li>
+    <li>Fiecare element poartă: ID flux, sursă → destinație (cu „către” pentru cititoarele de ecran), tip de date, temei, auditabilitate cu linia-stil, risc, surse cu linkuri.</li>
+    <li>Linia de la stânga preia culoarea categoriei <em>destinației</em>; stilul liniei de auditabilitate repetă codul din graf, așa că culoarea nu este singurul semnal.</li>
+    <li>Un flux fără sursă publică (C10) spune asta explicit și trimite la Corecturi; golul nu se ascunde.</li>
+    <li>Fără derulare orizontală: chips-urile se înfășoară, tabul-list derulează doar el.</li>
+    <li>Ținte tactile 44 px: butoane, chips, toggle Listă/Graf, comutator de limbă.</li>
+  </ul>
+</aside>
+</div>
