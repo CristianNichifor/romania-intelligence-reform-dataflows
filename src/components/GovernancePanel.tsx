@@ -36,8 +36,10 @@ function clampZoom(zoom: number): number {
 }
 
 function MermaidDiagram({ id, code, title }: { id: string; code: string; title: string }) {
+  const { t } = useI18n()
   const [svg, setSvg] = useState('')
   const [failed, setFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const [view, setView] = useState({ zoom: 1, x: 0, y: 0 })
   const [dragging, setDragging] = useState(false)
   const [boxSize, setBoxSize] = useState<{ w: number; h: number } | null>(null)
@@ -81,8 +83,11 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
 
   useEffect(() => {
     let cancelled = false
+    setSvg('')
+    setFailed(false)
+    // A fresh id per attempt: Mermaid leaves the failed render's node in the DOM.
     mermaid
-      .render(id, code)
+      .render(attempt ? `${id}-${attempt}` : id, code)
       .then((result) => {
         if (!cancelled) setSvg(result.svg)
       })
@@ -92,7 +97,7 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
     return () => {
       cancelled = true
     }
-  }, [id, code])
+  }, [id, code, attempt])
 
   function clampPan(zoom: number, size: number, value: number): number {
     const min = size * (1 - zoom)
@@ -233,21 +238,34 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
     }
   }
 
-  if (failed) return <div className="mermaid-error">diagram failed to render</div>
+  if (failed)
+    return (
+      <div className="gov-diagram-card">
+        <div className="gov-diagram-head">
+          <div className="gov-diagram-title">{title}</div>
+        </div>
+        <div className="mermaid-error" role="alert">
+          <p>{t('gov.diagram.failed')}</p>
+          <button type="button" className="btn" onClick={() => setAttempt((value) => value + 1)}>
+            {t('gov.diagram.retry')}
+          </button>
+        </div>
+      </div>
+    )
 
   return (
     <div className="gov-diagram-card">
       <div className="gov-diagram-head">
         <div className="gov-diagram-title">{title}</div>
         <div className="gov-diagram-controls">
-          <button type="button" onClick={() => zoomButtons(1 / 1.25)} aria-label="zoom out">
+          <button type="button" onClick={() => zoomButtons(1 / 1.25)} aria-label={t('gov.zoomOut')}>
             −
           </button>
           <span className="gov-zoom-value">{Math.round(view.zoom * 100)}%</span>
-          <button type="button" onClick={() => zoomButtons(1.25)} aria-label="zoom in">
+          <button type="button" onClick={() => zoomButtons(1.25)} aria-label={t('gov.zoomIn')}>
             +
           </button>
-          <button type="button" onClick={reset} aria-label="reset view">
+          <button type="button" onClick={reset} aria-label={t('gov.resetView')}>
             ⤢
           </button>
         </div>
@@ -268,6 +286,11 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
           className="mermaid-zoomable"
           style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.zoom})` }}
         >
+          {!svg && (
+            <p className="gov-diagram-status" role="status">
+              {t('gov.diagram.loading')}
+            </p>
+          )}
           <div ref={hostRef} className="mermaid-svg-host" dangerouslySetInnerHTML={{ __html: svg }} />
         </div>
       </div>

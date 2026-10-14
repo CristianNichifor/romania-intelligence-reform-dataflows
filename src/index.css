@@ -1545,6 +1545,17 @@ h3 {
   padding: 12px;
 }
 
+.mermaid-error p {
+  margin: 0 0 10px;
+}
+
+.gov-diagram-status {
+  margin: 0;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .gov-docs {
   display: flex;
   flex-direction: column;

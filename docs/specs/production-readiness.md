@@ -179,6 +179,17 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   (supervised by): **needs human check**.
 - Test: `src/components/diagrams.test.ts`.
 
+### UX-12 Governance diagram states in the app language — done
+- Given the Governance tab, while a diagram renders, then its card shows a
+  `role="status"` "Se pregătește diagrama…" that goes away once the SVG is in.
+- Given a diagram that fails to render, then its card keeps the title and shows a
+  `role="alert"` message that the document text is still below, with "Reîncercați".
+- Given RO, then the zoom controls are labelled "Mărește", "Micșorează" and
+  "Resetează vederea".
+- Copy is agent-written (from the DS-1 states card): **needs human review**.
+- Test: `tests/e2e/governance-states.spec.ts` (the failure case blocks Mermaid's
+  flowchart chunk).
+
 ## Theme F: design screens (target state for implementation)
 
 Static mockups under `docs/design/screens/`, indexed by `docs/design/README.md`.
