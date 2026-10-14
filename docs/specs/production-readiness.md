@@ -160,6 +160,14 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Test: `src/lib/graph.test.ts`.
 - `docs/ux-guidelines.md` D4 can be closed once PR #32, which edits that file, lands.
 
+### UX-11 Empty filter message (ux-guidelines D11) — done
+- Given a search or chip filter that leaves no actors, then the graph or list
+  shows a status message saying nothing matches and how to widen the filter.
+- Given a phone list whose shown actors have no flows between them, then it says
+  so instead of showing an empty list.
+- Romanian copy is agent-written: **needs human review**.
+- Test: `tests/e2e/empty-filter.spec.ts` (runs in CI).
+
 ## Out of scope here
 
 ### INT-10 Retire the GitHub Pages deploy — needs-human
