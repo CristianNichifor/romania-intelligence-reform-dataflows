@@ -1,13 +1,17 @@
 import { expect, test } from '@playwright/test'
 
 const BASE = '/romania-intelligence-reform-dataflows/'
+const CLEAR = 'Clear ledger'
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('ro-intel-lang', 'en'))
 })
 
-test('the ledger starts empty, says how to fill it, and lists entries once the handshake runs', async ({ page }) => {
+test('a cleared ledger says how to fill it, and lists entries again once the handshake runs', async ({ page }) => {
   await page.goto(`${BASE}#/ledger`)
+  // The ledger opens with sample entries; clearing it shows the empty state.
+  await expect(page.locator('.ledger-table tbody tr').first()).toBeVisible()
+  await page.getByRole('button', { name: CLEAR }).click()
   await expect(page.getByText('The ledger is empty. Run the handshake or red-team scenario.')).toBeVisible()
   await expect(page.locator('.ledger-table')).toHaveCount(0)
 

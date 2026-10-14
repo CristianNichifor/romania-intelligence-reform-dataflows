@@ -155,7 +155,7 @@ never connects to real systems.
 | Reduced motion parks the handshake token | `tests/e2e/handshake-token.spec.ts` |
 | Assets under base path, no third-party requests | `tests/e2e/base-path.spec.ts` |
 | Unique bilingual nodes, valid flow endpoints | `src/lib/graph.test.ts`, `src/data/flows.test.ts` |
-| Ledger empty state, then entries after the handshake | `tests/e2e/ledger.spec.ts` |
+| Ledger: cleared empty state, then entries after the handshake | `tests/e2e/ledger.spec.ts` |
 | Edge colour per cluster (target); legend flow IDs | `src/lib/legend.test.ts`, `tests/e2e/graph-ux.spec.ts` |
 | Provenance line under H1 | `src/lib/provenance.test.ts` |
 | Family bar | `src/lib/links.test.ts`, `tests/e2e/family-bar.spec.ts` |
