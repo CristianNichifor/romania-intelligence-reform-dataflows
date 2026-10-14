@@ -13,6 +13,7 @@ import { useI18n } from './i18n/useI18n'
 import type { MessageKey } from './i18n/messages'
 import type { GraphMode } from './lib/graph'
 import { seedLedger } from './lib/ledger'
+import { ERRATA_URL } from './lib/links'
 
 type View =
   | 'overview'
@@ -283,6 +284,9 @@ export default function App() {
           <span>romania-intelligence-reform-dataflows</span>
           <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows" target="_blank" rel="noreferrer">
             source ↗
+          </a>
+          <a href={ERRATA_URL} target="_blank" rel="noreferrer">
+            {t('footer.corrections')} ↗
           </a>
           <span>{t('footer.tag')}</span>
         </div>
