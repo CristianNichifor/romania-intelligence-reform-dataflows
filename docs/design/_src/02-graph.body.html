@@ -36,13 +36,12 @@
       <!-- edges: solid = medie, dashed = scăzută, dotted = foarte scăzută/absentă; one neutral stroke, style carries meaning -->
       <g stroke="var(--canvas-muted)" marker-end="url(#ar)">
         <path class="edge edge-weak" d="M330,120 C300,60 480,60 452,118"/>            <!-- C1 SRI→SRI (self loop) -->
-        <path class="edge edge-weak" d="M372,150 L250,150"/>                            <!-- C7 STS→SRI drawn as medium below -->
         <path class="edge" d="M150,170 L300,170"/>                                      <!-- C7 STS→SRI medium -->
-        <path class="edge edge-none" d="M400,200 L240,330"/>                            <!-- C6 SRI→JPC low: rendered dashed in app; see legend -->
+        <path class="edge edge-weak" d="M400,200 L240,330"/>                            <!-- C6 SRI→JPC low: dashed -->
         <path class="edge edge-none" d="M400,110 L250,70"/>                             <!-- C3 SRI→CSAT very low -->
         <path class="edge edge-none" d="M700,110 L300,70"/>                             <!-- C3b SIE→CSAT very low -->
-        <path class="edge edge-weak" d="M460,200 L640,330"/>                            <!-- C4 SRI→DIICOT low -->
-        <path class="edge edge-none" d="M190,60 L470,40"/>                              <!-- C5 CSAT→PRES very low -->
+        <path class="edge" d="M460,200 L640,330"/>                                      <!-- C4 SRI→DIICOT medium: solid -->
+        <path class="edge edge-weak" d="M190,60 L470,40"/>                              <!-- C5 CSAT→PRES low: dashed -->
         <path class="edge edge-weak" d="M700,150 L520,150"/>                            <!-- C2 SIE→SRI low -->
         <path class="edge edge-none" d="M460,220 L820,480"/>                            <!-- C10 SRI→PUB none -->
       </g>
@@ -85,9 +84,9 @@
       </ul>
       <p class="small muted" style="margin:.75rem 0 .25rem">Muchii, starea actuală: stilul liniei = pista de audit</p>
       <ul>
-        <li><span class="ln" aria-hidden="true"></span> continuă: auditabilitate medie (C7, C8)</li>
-        <li><span class="ln weak" aria-hidden="true"></span> întreruptă: scăzută (C1, C2, C4, C6, C9, C12)</li>
-        <li><span class="ln none" aria-hidden="true"></span> punctată: foarte scăzută sau absentă (C3, C3b, C5, C10, C11, C13)</li>
+        <li><span class="ln" aria-hidden="true"></span> continuă: auditabilitate medie (C4, C7)</li>
+        <li><span class="ln weak" aria-hidden="true"></span> întreruptă: scăzută (C1, C2, C5, C6, C8, C12)</li>
+        <li><span class="ln none" aria-hidden="true"></span> punctată: foarte scăzută sau absentă (C3, C3b, C9, C10, C11, C13)</li>
       </ul>
       <p class="small muted" style="margin:.75rem 0 .25rem">Muchii, starea țintă: toate continue; culoarea = clusterul partener, eticheta = ID flux</p>
       <ul>
