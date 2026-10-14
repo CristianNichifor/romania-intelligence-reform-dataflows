@@ -2,12 +2,14 @@ import type { ActorCategory } from '../data/types'
 import { categoryColors, currentStateOverrides } from '../data/actors'
 import type { MessageKey } from '../i18n/messages'
 import type { GraphMode } from './graph'
+import { CATEGORY_GLYPHS } from './glyphs'
 
 export interface LegendSwatch {
   key: MessageKey
   color: string
   // The node category the swatch stands for; absent for edge entries.
   category?: ActorCategory
+  glyph?: string
 }
 
 const nodeColor = (category: ActorCategory, mode: GraphMode): string =>
@@ -17,6 +19,7 @@ const node = (key: MessageKey, category: ActorCategory, mode: GraphMode): Legend
   key,
   category,
   color: nodeColor(category, mode),
+  glyph: CATEGORY_GLYPHS[category],
 })
 
 // Node swatches read their colour from the same table the nodes are drawn from, so the legend

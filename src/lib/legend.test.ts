@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { legendSwatches } from './legend'
+import { CATEGORY_GLYPHS } from './glyphs'
 import { currentActors, resolveActorColor, targetActors } from '../data/actors'
 
 describe('legend swatches', () => {
@@ -18,5 +19,14 @@ describe('legend swatches', () => {
   it('the civilianized agencies swatch matches the agency nodes', () => {
     const agency = legendSwatches('target').find((s) => s.key === 'legend.target.i6')
     expect(agency?.color).toBe('#f87171')
+  })
+})
+
+describe('legend glyphs', () => {
+  it.each(['current', 'target'] as const)('every %s category swatch carries the glyph its nodes show', (mode) => {
+    for (const swatch of legendSwatches(mode)) {
+      if (!swatch.category) continue
+      expect(swatch.glyph, `${mode}: ${swatch.key}`).toBe(CATEGORY_GLYPHS[swatch.category])
+    }
   })
 })

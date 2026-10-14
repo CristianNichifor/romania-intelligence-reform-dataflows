@@ -206,9 +206,14 @@ function Legend({ mode }: { mode: GraphMode }) {
       </button>
       {open && (
         <div className="legend-items">
-          {legendSwatches(mode).map(({ key, color }) => (
+          {legendSwatches(mode).map(({ key, color, glyph }) => (
             <span key={key}>
               <i style={{ background: color }} />
+              {glyph && (
+                <b className="legend-glyph" style={{ color }} aria-hidden="true">
+                  {glyph}
+                </b>
+              )}
               {t(key)}
             </span>
           ))}

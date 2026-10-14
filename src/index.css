@@ -1869,3 +1869,11 @@ h3 {
     fill: HighlightText;
   }
 }
+
+/* ---------- Legend glyphs (DS-2) ---------- */
+
+.legend-glyph {
+  font-weight: 400;
+  font-size: 11px;
+  margin-right: 4px;
+}

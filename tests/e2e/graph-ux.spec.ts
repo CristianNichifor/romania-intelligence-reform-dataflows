@@ -48,3 +48,10 @@ test('the footer scrolls with the page on a phone', async ({ page }) => {
   const box = await footer.boundingBox()
   expect(box!.y).toBeGreaterThan(760)
 })
+
+test('the legend shows each category glyph next to its colour', async ({ page }) => {
+  await page.goto(`${BASE}#/current`)
+  const glyphs = page.locator('.legend-items .legend-glyph')
+  await expect(glyphs.first()).toHaveText('◆')
+  expect(await glyphs.count()).toBeGreaterThanOrEqual(4)
+})
