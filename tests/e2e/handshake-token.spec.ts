@@ -49,3 +49,20 @@ test('reduced motion keeps the highlight and parks the chip without animation', 
   await expect(map.locator('.token-chip')).toHaveAttribute('transform', /translate/)
   await expect(map.locator('animateMotion')).toHaveCount(0)
 })
+
+test('controls are 44 px targets, progress is a progressbar and the current step is marked', async ({ page }) => {
+  await page.goto(`${BASE}#/handshake`)
+  for (const name of [/Next/, /Auto/, /Reset/]) {
+    const box = await page.getByRole('button', { name }).boundingBox()
+    expect(box!.height).toBeGreaterThanOrEqual(44)
+  }
+  const progress = page.getByRole('progressbar', { name: /Handshake/ })
+  await expect(progress).toHaveAttribute('aria-valuemin', '0')
+  await expect(progress).toHaveAttribute('aria-valuemax', '11')
+  await expect(progress).toHaveAttribute('aria-valuenow', '0')
+  await expect(page.locator('.timeline li[aria-current="step"]')).toHaveCount(1)
+
+  await advance(page, 2)
+  await expect(progress).toHaveAttribute('aria-valuenow', '2')
+  await expect(page.locator('.timeline li').nth(2)).toHaveAttribute('aria-current', 'step')
+})
