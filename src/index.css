@@ -612,6 +612,11 @@ h3 {
   gap: 7px;
 }
 
+.legend .legend-ids {
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+
 .legend i {
   display: inline-block;
   width: 10px;
@@ -1917,6 +1922,14 @@ h3 {
     min-height: 44px;
     padding: 4px 12px;
   }
+}
+
+/* ---------- Legend glyphs (DS-2) ---------- */
+
+.legend-glyph {
+  font-weight: 400;
+  font-size: 11px;
+  margin-right: 4px;
 }
 
 /* ---------- Legend glyphs (DS-2) ---------- */
