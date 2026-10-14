@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cristiannichifor.github.io/ro-intel-reform-dataflows/schemas/cooling-off-compliance-report.schema.json",
+  "$id": "https://projects.cristian-nichifor.com/romania-intelligence-reform-dataflows/schemas/cooling-off-compliance-report.schema.json",
   "title": "CoolingOffComplianceReport",
   "description": "DEMO // UNCLASSIFIED - SIMULATED DATA - NO REAL SYSTEMS. Aggregated annual cooling-off compliance report laid before the JPC and published publicly (doc 16).",
   "type": "object",

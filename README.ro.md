@@ -45,7 +45,7 @@ npm run lint     # oxlint
 ## Structura repo-ului
 
 ```
-ro-intel-reform-dataflows/
+romania-intelligence-reform-dataflows/
 ├── docs/                       # specificația arhitecturii, împărțită pe secțiuni (EN)
 │   ├── 00-design-principles.md
 │   ├── 01-actor-map.md

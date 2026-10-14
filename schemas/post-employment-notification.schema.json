@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cristiannichifor.github.io/ro-intel-reform-dataflows/schemas/post-employment-notification.schema.json",
+  "$id": "https://projects.cristian-nichifor.com/romania-intelligence-reform-dataflows/schemas/post-employment-notification.schema.json",
   "title": "PostEmploymentNotification",
   "description": "DEMO // UNCLASSIFIED - SIMULATED DATA - NO REAL SYSTEMS. Pre-departure declaration for a departing official under the cooling-off regime (doc 16).",
   "type": "object",

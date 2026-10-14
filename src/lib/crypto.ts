@@ -20,7 +20,13 @@ export async function hmacSign(key: string, data: string): Promise<string> {
 export const SSC_SIGNING_KEY = 'demo-ssc-signing-key'
 
 export function canonicalize(obj: unknown): string {
-  return JSON.stringify(obj, Object.keys(obj as Record<string, unknown>).sort())
+  return JSON.stringify(obj, (_key, value: unknown) => {
+    if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+      const record = value as Record<string, unknown>
+      return Object.fromEntries(Object.keys(record).sort().map(key => [key, record[key]]))
+    }
+    return value
+  })
 }
 
 export function shortHash(hash: string): string {

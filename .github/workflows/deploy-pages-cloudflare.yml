@@ -1,0 +1,76 @@
+name: Deploy to Cloudflare Pages
+
+# main is public behind projects.cristian-nichifor.com/romania-intelligence-reform-dataflows/;
+# dev is its protected preview behind projects-dev.cristian-nichifor.com, through the CN Webify
+# preview gate (ADR-022), which functions/_middleware.js requires on every preview host.
+# The CN Webify token broker issues a one-hour Cloudflare token for this exact file, on main and
+# dev, for push and workflow_dispatch. No secret lives in the repo. deploy.yml (GitHub Pages)
+# stays until the hub proxies the Cloudflare build.
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # the broker reads this job's GitHub OIDC token
+
+concurrency:
+  group: deploy-pages-cloudflare-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_NAME: romania-intelligence-reform-dataflows
+  BASE_PATH: /romania-intelligence-reform-dataflows/
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # As deploy.yml builds (npm run build), with the base the hub proxies 1:1.
+      - name: Build
+        run: npx tsc -b && npx vite build --base "$BASE_PATH"
+      # The GitHub Pages layout: the app under /<slug>/, the root sends there.
+      - name: Stage the site
+        run: |
+          set -euo pipefail
+          mkdir -p "site/$PROJECT_NAME"
+          cp -r dist/. "site/$PROJECT_NAME/"
+          printf '/ %s 302\n' "$BASE_PATH" > site/_redirects
+
+      - name: Cloudflare token from the CN Webify broker
+        run: |
+          set -euo pipefail
+          jwt=$(curl -sf -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://tokens.cnwebify.com" | jq -r .value)
+          reply=$(curl -sf -X POST -H "Authorization: Bearer $jwt" https://tokens.cnwebify.com/token)
+          token=$(jq -r .token <<<"$reply"); echo "::add-mask::$token"
+          echo "CLOUDFLARE_API_TOKEN=$token" >> "$GITHUB_ENV"
+          echo "CLOUDFLARE_ACCOUNT_ID=5d5a0c8a05e5d8292065cd0c0cf60291" >> "$GITHUB_ENV"
+
+      - name: Create Pages project if missing
+        run: |
+          set -uo pipefail
+          if ! out=$(npx --yes wrangler@4.149.0 pages project create "$PROJECT_NAME" --production-branch main 2>&1); then
+            grep -qi "already exists" <<<"$out" || { echo "$out"; exit 1; }
+            echo "Pages project $PROJECT_NAME already exists"
+          fi
+
+      # functions/ is picked up from the repository root.
+      - name: Deploy to Cloudflare Pages
+        run: npx --yes wrangler@4.149.0 pages deploy site --project-name="$PROJECT_NAME" --branch="$GITHUB_REF_NAME"
+
+      - name: Report pages.dev hostname
+        run: |
+          set -euo pipefail
+          subdomain=$(curl -sf -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT_NAME" \
+            | jq -r .result.subdomain)
+          echo "Pages project \`$PROJECT_NAME\` ($GITHUB_REF_NAME): https://$subdomain$BASE_PATH" >> "$GITHUB_STEP_SUMMARY"

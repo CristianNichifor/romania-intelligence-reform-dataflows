@@ -31,6 +31,8 @@ const GENESIS_HASH = '0'.repeat(64)
 let entries: LedgerEntry[] = []
 let seqCounter = 0
 let seeded = false
+let appendQueue: Promise<void> = Promise.resolve()
+let generation = 0
 const listeners = new Set<() => void>()
 
 function emit() {
@@ -57,6 +59,8 @@ export function getLedgerEntries(): LedgerEntry[] {
 }
 
 export function clearLedger() {
+  generation += 1
+  appendQueue = Promise.resolve()
   entries = []
   seqCounter = 0
   seeded = false
@@ -64,8 +68,7 @@ export function clearLedger() {
 }
 
 async function computeEntry(draft: LedgerDraft): Promise<LedgerEntry> {
-  seqCounter += 1
-  const seq = seqCounter
+  const seq = seqCounter + 1
   const id = uuid()
   const timestamp = new Date().toISOString()
   const tokenId = draft.tokenId ?? null
@@ -84,16 +87,29 @@ async function computeEntry(draft: LedgerDraft): Promise<LedgerEntry> {
 }
 
 export async function appendLedger(draft: LedgerDraft): Promise<LedgerEntry> {
-  const entry = await computeEntry(draft)
-  entries = [...entries, entry]
-  emit()
-  return entry
+  const startedIn = generation
+  const operation = appendQueue.then(async () => {
+    if (startedIn !== generation) throw new Error('Ledger cleared during append')
+    const entry = await computeEntry(draft)
+    if (startedIn !== generation) throw new Error('Ledger cleared during append')
+    seqCounter = entry.seq
+    entries = [...entries, entry]
+    emit()
+    return entry
+  })
+  appendQueue = operation.then(() => undefined, () => undefined)
+  return operation
 }
 
 export async function verifyLedgerIntegrity(): Promise<{ valid: boolean; brokenAt: number | null }> {
   let prevHash = GENESIS_HASH
+  let expectedSeq = 1
   for (const entry of entries) {
-    if (entry.prevHash !== prevHash) {
+    const metadataHash = await sha256Hex(JSON.stringify({
+      flowType: entry.flowType, initiator: entry.initiator, receiver: entry.receiver,
+      tokenId: entry.tokenId, status: entry.status, note: entry.note,
+    }))
+    if (entry.seq !== expectedSeq || entry.metadataHash !== metadataHash || entry.prevHash !== prevHash) {
       return { valid: false, brokenAt: entry.seq }
     }
     const expected = await sha256Hex([entry.seq, entry.timestamp, entry.metadataHash, entry.prevHash].join('|'))
@@ -101,6 +117,7 @@ export async function verifyLedgerIntegrity(): Promise<{ valid: boolean; brokenA
       return { valid: false, brokenAt: entry.seq }
     }
     prevHash = entry.entryHash
+    expectedSeq += 1
   }
   return { valid: true, brokenAt: null }
 }
