@@ -728,6 +728,11 @@ h3 {
   transition: opacity 0.2s ease;
 }
 
+.react-flow__edge.faded {
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
 .react-flow__edge:hover .react-flow__edge-path {
   stroke-width: 3 !important;
   filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.5));
@@ -1907,6 +1912,26 @@ h3 {
   position: static;
   transform: none;
   max-width: none;
+}
+
+/* ---------- Flow detail status blocks (DS-4) ---------- */
+
+.detail-status,
+.detail-note {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--border-strong);
+  border-left-width: 3px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.detail-status {
+  border-left-color: var(--warn);
+}
+
+.detail-note {
+  border-left-color: var(--accent);
 }
 
 /* ---------- Source host and checked date ---------- */
