@@ -13,6 +13,7 @@ import { useI18n } from './i18n/useI18n'
 import type { MessageKey } from './i18n/messages'
 import type { GraphMode } from './lib/graph'
 import { seedLedger } from './lib/ledger'
+import { DOCS_URL, ERRATA_URL } from './lib/links'
 
 type View =
   | 'overview'
@@ -58,7 +59,10 @@ function Overview() {
         </p>
         <p className="muted">
           <GlossedText text={t('overview.mission.p2')} /> {t('overview.mission.docs')}{' '}
-          <code>docs/</code>.
+          <a href={DOCS_URL} target="_blank" rel="noreferrer">
+            <code>docs/</code>
+          </a>
+          .
         </p>
       </section>
 
@@ -151,9 +155,9 @@ function Overview() {
 }
 
 function LanguageToggle() {
-  const { lang, setLang } = useI18n()
+  const { lang, setLang, t } = useI18n()
   return (
-    <div className="lang-toggle" role="group" aria-label="Language">
+    <div className="lang-toggle" role="group" aria-label={t('lang.toggle')}>
       {(['en', 'ro'] as const).map((code) => (
         <button
           key={code}
@@ -185,6 +189,22 @@ export default function App() {
   function navigate(next: View) {
     window.location.assign(`#/${next}`)
     setView(next)
+  }
+
+  // Arrow keys, Home and End move between tabs and open the focused one.
+  function onNavKey(event: React.KeyboardEvent<HTMLElement>) {
+    const index = NAV.findIndex((item) => item.id === view)
+    const moves: Record<string, number> = {
+      ArrowRight: (index + 1) % NAV.length,
+      ArrowLeft: (index - 1 + NAV.length) % NAV.length,
+      Home: 0,
+      End: NAV.length - 1,
+    }
+    if (!(event.key in moves)) return
+    event.preventDefault()
+    const next = NAV[moves[event.key]].id
+    navigate(next)
+    document.getElementById(`tab-${next}`)?.focus()
   }
 
   let content: React.ReactNode
@@ -238,25 +258,38 @@ export default function App() {
             <LanguageToggle />
           </div>
         </div>
-        <nav className="app-nav">
+        <nav className="app-nav" role="tablist" aria-label={t('nav.label')} onKeyDown={onNavKey}>
           {NAV.map((item, index) => (
             <button
               key={item.id}
+              id={`tab-${item.id}`}
+              type="button"
+              role="tab"
+              aria-selected={view === item.id}
+              aria-controls="view-panel"
+              tabIndex={view === item.id ? 0 : -1}
               className={view === item.id ? 'nav-btn active' : 'nav-btn'}
               onClick={() => navigate(item.id)}
             >
-              <span className="idx">{String(index).padStart(2, '0')}</span>
+              <span className="idx" aria-hidden="true">{String(index).padStart(2, '0')}</span>
               {t(item.labelKey)}
             </button>
           ))}
         </nav>
       </header>
-      <main className="app-main">{content}</main>
+      <main className="app-main">
+        <div id="view-panel" role="tabpanel" aria-labelledby={`tab-${view}`} tabIndex={0}>
+          {content}
+        </div>
+      </main>
       <footer className="app-footer">
         <div className="app-footer-inner">
           <span>romania-intelligence-reform-dataflows</span>
           <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows" target="_blank" rel="noreferrer">
             source ↗
+          </a>
+          <a href={ERRATA_URL} target="_blank" rel="noreferrer">
+            {t('footer.corrections')} ↗
           </a>
           <span>{t('footer.tag')}</span>
         </div>
