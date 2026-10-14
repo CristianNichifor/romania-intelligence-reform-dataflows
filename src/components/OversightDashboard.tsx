@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { shortHash } from '../lib/crypto'
 import { useLedger, verifyLedgerIntegrity } from '../lib/ledger'
 import { useI18n } from '../i18n/useI18n'
+import { formatTime } from '../lib/time'
 import type { MessageKey } from '../i18n/messages'
 
 export default function OversightDashboard() {
-  const { t } = useI18n()
+  const { lang, t } = useI18n()
   const ledger = useLedger()
   const [integrity, setIntegrity] = useState<{ valid: boolean; brokenAt: number | null } | null>(null)
 
@@ -99,7 +100,7 @@ export default function OversightDashboard() {
                 <strong>{entry.flowType}</strong> · {entry.initiator} → {entry.receiver}
               </div>
               <div className="muted">{entry.note}</div>
-              <div className="mono">entry {shortHash(entry.entryHash)} · {new Date(entry.timestamp).toLocaleTimeString()}</div>
+              <div className="mono">{t('ledger.entry')} {shortHash(entry.entryHash)} · {formatTime(entry.timestamp, lang)}</div>
             </div>
           ))}
         </section>
