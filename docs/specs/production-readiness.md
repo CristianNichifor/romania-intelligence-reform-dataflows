@@ -146,6 +146,14 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Test: docs-only; the checklist rows point at `tests/e2e/*.spec.ts` and
   `src/**/*.test.ts`. Known deviations are backlog, not regressions.
 
+### UX-6 Forced colours (ux-guidelines D6) — done
+- Given `forced-colors: active`, then actor nodes have a 2 px CanvasText border,
+  edges stroke CanvasText with their audit dash patterns kept, the active tab has
+  a 3 px Highlight underline, pressed chips a 2 px Highlight border, and the
+  active handshake hop a Highlight stroke at least 4 px wide.
+- Test: `tests/e2e/forced-colors.spec.ts` (runs in CI).
+- `docs/ux-guidelines.md` D6 can be closed once PR #32, which edits that file, lands.
+
 ## Out of scope here
 
 ### INT-10 Retire the GitHub Pages deploy — needs-human
