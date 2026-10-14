@@ -1869,3 +1869,17 @@ h3 {
     fill: HighlightText;
   }
 }
+
+/* ---------- Phone list rows (DS-3) ---------- */
+
+.audit-swatch {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@media (max-width: 639px) {
+  .explorer-toolbar .chip {
+    min-height: 44px;
+    padding: 4px 12px;
+  }
+}
