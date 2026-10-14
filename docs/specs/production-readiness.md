@@ -96,6 +96,27 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   (`diagrams/*.mmd`) stay in English.
 - Tests: `src/components/governanceDocs.test.ts`, `tests/e2e/i18n.spec.ts`.
 
+## Theme E: graph usability (UX review)
+
+### UX-1 Readable target graph — done
+- Given the Target State view, when it opens, then only Agencies and Broker are
+  shown, zoom is at least 0.6, and "Show all" reveals all 15 actors.
+- Given either graph, then there is no minimap and no attribution badge.
+- Test: `tests/e2e/graph-ux.spec.ts`.
+
+### UX-2 Legend and non-colour edge encoding — done
+- Given a graph view, then the legend starts open.
+- Given current-state flows, then line style encodes the audit trail: solid
+  (medium), dashed (low), dotted (very low or none).
+- Test: `tests/e2e/graph-ux.spec.ts`.
+
+### UX-3 Overview docs link and phone footer — done
+- Given the Overview, then `docs/` links to the docs folder on GitHub.
+- Given a 390 px wide screen, then the footer sits below the content, not pinned.
+- Test: `tests/e2e/graph-ux.spec.ts`.
+
+### UX-4 Mobile list view, animated handshake token — todo (larger, not started)
+
 ## Out of scope here
 
 ### INT-10 Retire the GitHub Pages deploy — needs-human
