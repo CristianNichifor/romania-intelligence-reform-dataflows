@@ -1,0 +1,21 @@
+flowchart LR
+    D[Declarație anuală depusă de toți oficialii] --> IGR[Verificarea completitudinii de către IG]
+    IGR --> RA{Audit aleatoriu selectat?}
+    RA -->|Da| AUD[Audit complet: verificări încrucișate ANI și achiziții]
+    RA -->|Nu| REN[Aviz reînnoit]
+    AUD --> RF{Semnal de alarmă?}
+    RF -->|Nu| REN
+    RF -->|Da| INV[Anchetă IG]
+    INV --> CON{Încălcare confirmată?}
+    CON -->|Nu| REN
+    CON -->|Da| ACT[Demitere sau sesizare penală]
+    REN -->|Ciclul următor| D
+
+    classDef step fill:#0f1a2e,stroke:#2b3f63,color:#dce5f5,stroke-width:1px;
+    classDef decide fill:#2a2410,stroke:#fbbf24,color:#fbbf24,stroke-width:1.5px;
+    classDef good fill:#0f2a20,stroke:#34d399,color:#a7f3d0,stroke-width:1.5px;
+    classDef bad fill:#2a1016,stroke:#fb7185,color:#fecdd3,stroke-width:1.5px;
+    class D,IGR,AUD,INV step
+    class RA,RF,CON decide
+    class REN good
+    class ACT bad

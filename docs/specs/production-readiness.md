@@ -92,8 +92,9 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   with the same name.
 - Given the Governance tab in RO, then the documents render from `docs/ro/`, their
   headings come from i18n keys, and `gov.langNote` no longer says "(în engleză)".
-- Translations are machine-assisted: **needs human review**. Diagram labels
-  (`diagrams/*.mmd`) stay in English.
+- Translations are machine-assisted: **needs human review**. Diagram labels have
+  Romanian twins in `diagrams/ro/*.mmd` with the same node ids and edges
+  (`src/components/governanceDiagrams.test.ts`); agent-written, **needs human review**.
 - Tests: `src/components/governanceDocs.test.ts`, `tests/e2e/i18n.spec.ts`.
 
 ## Theme E: graph usability (UX review)

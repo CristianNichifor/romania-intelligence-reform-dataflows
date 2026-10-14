@@ -1,0 +1,49 @@
+flowchart LR
+    subgraph INT["Stratul de control intern"]
+        IG[Inspector General]
+        IA[Unitatea de audit intern]
+        WB[Canal pentru avertizori de integritate]
+    end
+    subgraph EXE["Stratul executiv"]
+        CSAT[CSAT]
+        GOV[Guvern]
+    end
+    subgraph PAR["Stratul parlamentar"]
+        JPC[JPC - Parlament]
+        ITAP[Panelul tehnic ITAP]
+    end
+    subgraph JUD["Stratul judiciar"]
+        SSC[SSC - Curtea de Supraveghere]
+        ICCJ[ICCJ]
+    end
+    subgraph PUB["Stratul public"]
+        CSO[Societatea civilă]
+        MED[Presa]
+        ACA[Mediul academic]
+    end
+    AG[SRI - SIE - STS - SPP - DNSC]
+    IA -->|raportează către| IG
+    WB -->|canal protejat| IG
+    AG -->|supervizează| CSAT
+    CSAT -->|răspunde în fața| JPC
+    IG -->|constatări de audit| JPC
+    ITAP -->|validare tehnică| JPC
+    AG -->|cereri de mandat| SSC
+    SSC -->|tokenuri de mandat| AG
+    SSC -->|căi de atac| ICCJ
+    JPC -->|rapoarte publice| PUB
+    PUB -->|contestare| JPC
+    CSO -->|cereri de protecție| IG
+
+    classDef int fill:#0f2a20,stroke:#34d399,color:#dce5f5,stroke-width:1px;
+    classDef exec fill:#0f1a2e,stroke:#2b3f63,color:#dce5f5,stroke-width:1px;
+    classDef par fill:#0e2436,stroke:#38bdf8,color:#dce5f5,stroke-width:1px;
+    classDef jud fill:#1b1433,stroke:#a78bfa,color:#dce5f5,stroke-width:1px;
+    classDef pub fill:#13213a,stroke:#7184a5,color:#dce5f5,stroke-width:1px;
+    classDef svc fill:#2a1016,stroke:#fb7185,color:#fecdd3,stroke-width:1.5px;
+    class IG,IA,WB int
+    class CSAT,GOV exec
+    class JPC,ITAP par
+    class SSC,ICCJ jud
+    class CSO,MED,ACA pub
+    class AG svc

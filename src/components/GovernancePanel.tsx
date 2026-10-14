@@ -2,27 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import MarkdownIt from 'markdown-it'
 import mermaid from 'mermaid'
 import { useI18n } from '../i18n/useI18n'
-import type { MessageKey } from '../i18n/messages'
 import { MERMAID_CONFIG } from '../lib/mermaidConfig'
 import { pick } from '../i18n/messages'
 import { GOVERNANCE_DOCS } from './governanceDocs'
-
-
-import diagAppointment from '../../diagrams/leadership-appointment.mmd?raw'
-import diagLayering from '../../diagrams/oversight-layering.mmd?raw'
-import diagCoolingOff from '../../diagrams/cooling-off-enforcement.mmd?raw'
-import diagConflict from '../../diagrams/conflict-of-interest-cycle.mmd?raw'
+import { GOVERNANCE_DIAGRAMS } from './governanceDiagrams'
 
 const md = new MarkdownIt({ html: false, linkify: true })
 
 mermaid.initialize(MERMAID_CONFIG)
-
-const DIAGRAMS: Array<{ id: string; titleKey: MessageKey; source: string }> = [
-  { id: 'gov-mm-appointment', titleKey: 'gov.diagram.appointment', source: diagAppointment },
-  { id: 'gov-mm-layering', titleKey: 'gov.diagram.layering', source: diagLayering },
-  { id: 'gov-mm-coolingoff', titleKey: 'gov.diagram.coolingoff', source: diagCoolingOff },
-  { id: 'gov-mm-conflict', titleKey: 'gov.diagram.conflict', source: diagConflict },
-]
 
 const MIN_ZOOM = 0.4
 const MAX_ZOOM = 4
@@ -289,11 +276,11 @@ export default function GovernancePanel() {
         <h3>{t('gov.section.diagrams')}</h3>
         <p className="muted">{t('gov.hint')}</p>
         <div className="gov-grid">
-          {DIAGRAMS.map((diagram) => (
+          {GOVERNANCE_DIAGRAMS.map((diagram) => (
             <MermaidDiagram
-              key={diagram.id}
+              key={`${diagram.id}-${lang}`}
               id={diagram.id}
-              code={diagram.source}
+              code={pick(diagram.source, lang)}
               title={t(diagram.titleKey)}
             />
           ))}
