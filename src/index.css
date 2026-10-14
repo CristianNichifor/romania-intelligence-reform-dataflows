@@ -1734,3 +1734,75 @@ h3 {
   margin: 0;
   overflow-wrap: anywhere;
 }
+
+/* ---------- Handshake map ---------- */
+
+.handshake-map {
+  margin: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.handshake-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.handshake-map .hop {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 2;
+  transition: stroke 0.2s ease;
+}
+
+.handshake-map marker path {
+  fill: var(--border-strong);
+}
+
+.handshake-map .hop.active {
+  stroke: var(--accent);
+  stroke-width: 3.5;
+}
+
+.handshake-map .hop-node circle {
+  fill: var(--bg-2);
+  stroke: var(--text-dim);
+  stroke-width: 1.5;
+}
+
+.handshake-map text {
+  fill: var(--text);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.handshake-map .token-chip rect {
+  fill: var(--accent);
+}
+
+.handshake-map .token-chip text {
+  fill: var(--bg-2);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.handshake-map figcaption {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  display: grid;
+  gap: 4px;
+}
+
+.handshake-map-hop {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handshake-map .hop {
+    transition: none;
+  }
+}

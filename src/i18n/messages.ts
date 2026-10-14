@@ -154,6 +154,8 @@ const en = {
   'handshake.note':
     'Why this matters: content moves only with a warrant token; the broker sees metadata only; every hop lands on the immutable audit ledger; oversight bodies query the ledger without touching raw content.',
   'handshake.artifact.pending': 'Artifacts appear here',
+  'handshake.map.title': 'T3–T6 path on the target graph',
+  'handshake.map.idle': 'No hop yet: the token moves at steps 5, 6, 8 and 9.',
   'handshake.artifact.pendingHint':
     'Run the handshake to see request objects, warrant tokens and audit queries.',
   'handshake.artifact.request': 'Request Object',
@@ -467,6 +469,8 @@ const ro: Record<MessageKey, string> = {
   'handshake.title': 'Fluxul T3–T6 · Handshake de date interinstituțional',
   'handshake.note':
     'De ce contează: conținutul circulă doar cu un token de mandat; brokerul vede doar metadate; fiecare pas ajunge în registrul de audit imutabil; organele de supraveghere interoghează registrul fără să atingă conținutul brut.',
+  'handshake.map.title': 'Traseul T3–T6 în graful-țintă',
+  'handshake.map.idle': 'Niciun pas încă: tokenul se mișcă la pașii 5, 6, 8 și 9.',
   'handshake.artifact.pending': 'Artefactele apar aici',
   'handshake.artifact.pendingHint':
     'Rulează handshake-ul pentru a vedea obiecte de cerere, tokenuri de mandat și interogări de audit.',

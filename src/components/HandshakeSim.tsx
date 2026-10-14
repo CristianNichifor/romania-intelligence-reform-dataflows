@@ -3,6 +3,7 @@ import { appendLedger, getLedgerEntries } from '../lib/ledger'
 import { shortHash } from '../lib/crypto'
 import { sscReview, type RequestObject, type WarrantToken } from '../lib/warrant'
 import GlossedText from './GlossedText'
+import HandshakeMap from './HandshakeMap'
 import { useI18n } from '../i18n/useI18n'
 import type { MessageKey } from '../i18n/messages'
 
@@ -21,6 +22,9 @@ const REQUEST: RequestObject = {
 }
 
 const STEP_KEYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+// Step indexes whose ledger append is a T3–T6 hop.
+const HOP_AT_STEP: Record<number, string> = { 4: 'T3', 5: 'T4', 7: 'T5', 8: 'T6' }
 
 export default function HandshakeSim() {
   const { t, lang } = useI18n()
@@ -196,6 +200,7 @@ export default function HandshakeSim() {
           ))}
         </ol>
         <div className="sim-side">
+          <HandshakeMap activeHop={HOP_AT_STEP[stepIndex - 1] ?? null} />
           <div className="artifact-panel">
             <h3>{artifact ? artifact.label : t('handshake.artifact.pending')}</h3>
             {artifact && <pre className="artifact-json">{JSON.stringify(artifact.json, null, 2)}</pre>}
