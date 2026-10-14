@@ -1869,3 +1869,12 @@ h3 {
     fill: HighlightText;
   }
 }
+
+/* ---------- Source host and checked date ---------- */
+
+.source-meta {
+  display: block;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
