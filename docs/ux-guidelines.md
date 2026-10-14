@@ -29,9 +29,7 @@ Top to bottom, on every tab:
 2. Family bar (civic-ui `FamilyBar`) — **not yet present**, see backlog D1.
 3. Header: kicker, H1 (`header.title`), language toggle EN/RO.
 4. Provenance line under the H1: `Date: <sursă>, <an>` / `Data: <source>, <year>`
-   built from `DATASET_AS_OF` in `src/data/sources.ts` — **not yet present**, see D2.
-   Until then, the per-flow detail panel carries provenance ("Sources checked
-   {date}").
+   built from `DATASET_AS_OF` in `src/data/sources.ts` by `src/lib/provenance.ts`.
 5. Tab list (`role="tablist"`, arrow keys, Home/End) → one tab panel.
 6. Primary task of the tab (graph, handshake timeline, ledger table…), then
    secondary views (detail panel, legend, filters).
@@ -155,7 +153,7 @@ never connects to real systems.
 | Unique bilingual nodes, valid flow endpoints | `src/lib/graph.test.ts`, `src/data/flows.test.ts` |
 | Ledger empty state | `ledger.empty` message; no test yet |
 | Edge colour per cluster (target) | none yet — legend table above is the reference |
-| Provenance line under H1 | none yet — D2 |
+| Provenance line under H1 | `src/lib/provenance.test.ts` |
 | Family bar | none yet — D1 |
 | Forced colours | none yet — D6 |
 
@@ -164,7 +162,7 @@ never connects to real systems.
 | ID | Deviation | Where |
 |---|---|---|
 | D1 | No civic-ui family bar / link back to the hub | `src/App.tsx` header |
-| D2 | No `Date: sursă, an` line under the H1 (as-of only inside the flow panel) | `src/App.tsx`, `DATASET_AS_OF` |
+| D2 | Fixed (`src/lib/provenance.ts`): no `Date: sursă, an` line under the H1 (as-of only inside the flow panel) | `src/App.tsx`, `DATASET_AS_OF` |
 | D3 | Fixed: node swatches now come from `src/lib/legend.ts`, which reads the node colour table (`src/lib/legend.test.ts`). Still open: target legend has no executive (slate) entry and does not explain edge colours | `src/components/FlowExplorer.tsx` `Legend` |
 | D4 | Current state uses yellow `#facc15` for both oversight nodes and medium-audit edges; reads as one concept | `src/data/actors.ts`, `src/lib/graph.ts` |
 | D5 | Dark-only theme with its own tokens; fleet default is light civic-ui tokens (dark canvases allowed for graphs) | `src/index.css` |
