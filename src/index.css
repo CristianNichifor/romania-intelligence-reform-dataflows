@@ -1807,3 +1807,65 @@ h3 {
     transition: none;
   }
 }
+
+/* ---------- Forced colors (Windows High Contrast) ---------- */
+/* Colour carries category and audit level, so in forced colours the
+   shape cues take over: thicker borders, system colours, dash patterns kept. */
+
+@media (forced-colors: active) {
+  .actor-node {
+    border: 2px solid CanvasText !important;
+    box-shadow: none;
+  }
+
+  .actor-node-bar,
+  .react-flow__handle {
+    background: CanvasText !important;
+  }
+
+  .actor-node-glyph {
+    color: CanvasText !important;
+  }
+
+  .react-flow__edge-path {
+    stroke: CanvasText !important;
+  }
+
+  .react-flow__edge.selected .react-flow__edge-path {
+    stroke: Highlight !important;
+  }
+
+  .react-flow__edge-text {
+    fill: CanvasText;
+  }
+
+  .nav-btn.active {
+    border-bottom: 3px solid Highlight;
+  }
+
+  .chip.on {
+    border: 2px solid Highlight;
+  }
+
+  .handshake-map .hop {
+    stroke: GrayText;
+  }
+
+  .handshake-map .hop.active {
+    stroke: Highlight;
+    stroke-width: 4.5;
+  }
+
+  .handshake-map .hop-node circle,
+  .handshake-map marker path {
+    stroke: CanvasText;
+  }
+
+  .handshake-map .token-chip rect {
+    fill: Highlight;
+  }
+
+  .handshake-map .token-chip text {
+    fill: HighlightText;
+  }
+}
