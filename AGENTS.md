@@ -1,4 +1,4 @@
-# ro-intel-reform-dataflows
+# romania-intelligence-reform-dataflows
 
 Interactive demo of current and target-state information data flows between Romanian intelligence, oversight, judicial and civilian institutions
 

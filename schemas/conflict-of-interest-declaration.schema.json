@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cristiannichifor.github.io/ro-intel-reform-dataflows/schemas/conflict-of-interest-declaration.schema.json",
+  "$id": "https://projects.cristian-nichifor.com/romania-intelligence-reform-dataflows/schemas/conflict-of-interest-declaration.schema.json",
   "title": "ConflictOfInterestDeclaration",
   "description": "DEMO // UNCLASSIFIED - SIMULATED DATA - NO REAL SYSTEMS. Annual conflict-of-interest declaration filed with the IG (doc 15).",
   "type": "object",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cristiannichifor.github.io/ro-intel-reform-dataflows/schemas/leadership-nomination.schema.json",
+  "$id": "https://projects.cristian-nichifor.com/romania-intelligence-reform-dataflows/schemas/leadership-nomination.schema.json",
   "title": "LeadershipNomination",
   "description": "DEMO // UNCLASSIFIED - SIMULATED DATA - NO REAL SYSTEMS. Full record of a depoliticized nomination for SRI/SIE Director or Deputy (doc 14).",
   "type": "object",
