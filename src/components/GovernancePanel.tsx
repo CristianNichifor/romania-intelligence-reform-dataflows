@@ -4,13 +4,9 @@ import mermaid from 'mermaid'
 import { useI18n } from '../i18n/useI18n'
 import type { MessageKey } from '../i18n/messages'
 import { MERMAID_CONFIG } from '../lib/mermaidConfig'
+import { pick } from '../i18n/messages'
+import { GOVERNANCE_DOCS } from './governanceDocs'
 
-import doc14 from '../../docs/14-leadership-appointment.md?raw'
-import doc15 from '../../docs/15-conflict-of-interest.md?raw'
-import doc16 from '../../docs/16-cooling-off-regime.md?raw'
-import doc17 from '../../docs/17-civil-society-oversight.md?raw'
-import doc18 from '../../docs/18-internal-control.md?raw'
-import doc19 from '../../docs/19-dcaf-references.md?raw'
 
 import diagAppointment from '../../diagrams/leadership-appointment.mmd?raw'
 import diagLayering from '../../diagrams/oversight-layering.mmd?raw'
@@ -20,15 +16,6 @@ import diagConflict from '../../diagrams/conflict-of-interest-cycle.mmd?raw'
 const md = new MarkdownIt({ html: false, linkify: true })
 
 mermaid.initialize(MERMAID_CONFIG)
-
-const DOCS: Array<{ key: string; source: string }> = [
-  { key: '14 · Leadership Appointment', source: doc14 },
-  { key: '15 · Conflict of Interest', source: doc15 },
-  { key: '16 · Cooling-Off Regime', source: doc16 },
-  { key: '17 · Civil Society Oversight', source: doc17 },
-  { key: '18 · Internal Control', source: doc18 },
-  { key: '19 · DCAF References', source: doc19 },
-]
 
 const DIAGRAMS: Array<{ id: string; titleKey: MessageKey; source: string }> = [
   { id: 'gov-mm-appointment', titleKey: 'gov.diagram.appointment', source: diagAppointment },
@@ -285,7 +272,7 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
 }
 
 export default function GovernancePanel() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
 
   return (
     <div className="shell">
@@ -317,10 +304,10 @@ export default function GovernancePanel() {
         <p className="section-label">{t('gov.section.docs')}</p>
         <h3>{t('gov.section.docs')}</h3>
         <div className="gov-docs">
-          {DOCS.map((doc) => (
-            <article className="gov-md" key={doc.key}>
-              <div className="gov-doc-key">{doc.key}</div>
-              <div dangerouslySetInnerHTML={{ __html: md.render(doc.source) }} />
+          {GOVERNANCE_DOCS.map((doc) => (
+            <article className="gov-md" key={doc.id} lang={lang}>
+              <div className="gov-doc-key">{`${doc.id} · ${t(doc.titleKey)}`}</div>
+              <div dangerouslySetInnerHTML={{ __html: md.render(pick(doc.source, lang)) }} />
             </article>
           ))}
         </div>

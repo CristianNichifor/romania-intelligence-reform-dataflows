@@ -27,7 +27,13 @@ const en = {
   'gov.intro':
     'The data-flow layer (docs 00–07) answers "how does data flow between institutions?". This layer answers "who controls the system" — appointment, conflict of interest, cooling-off, civil-society oversight and internal control, built on the DCAF framework as the authoritative reference.',
   'gov.langNote':
-    'This tab renders the repository files directly. Full text: docs/14–19 (English), diagrams/*.mmd, schemas/*.json.',
+    'This tab renders the repository files directly. Full text: docs/14–19 (Romanian in docs/ro/), diagrams/*.mmd, schemas/*.json.',
+  'gov.doc.14': 'Leadership Appointment',
+  'gov.doc.15': 'Conflict of Interest',
+  'gov.doc.16': 'Cooling-Off Regime',
+  'gov.doc.17': 'Civil Society Oversight',
+  'gov.doc.18': 'Internal Control',
+  'gov.doc.19': 'DCAF References',
   'gov.section.diagrams': 'Diagrams',
   'gov.section.docs': 'Specification — docs 14–19',
   'gov.diagram.appointment': 'Leadership appointment — depoliticized selection & confirmation',
@@ -327,7 +333,13 @@ const ro: Record<MessageKey, string> = {
   'gov.intro':
     'Stratul fluxurilor de date (docs 00–07) răspunde la „cum circulă datele între instituții?". Acest strat răspunde la „cine controlează sistemul" — numirea conducerii, conflictele de interese, restricțiile post-mandat, supravegherea societății civile și controlul intern, construite pe cadrul DCAF ca referință autoritară.',
   'gov.langNote':
-    'Această filă redă direct fișierele din repo. Text integral: docs/14–19 (în engleză), diagrams/*.mmd, schemas/*.json.',
+    'Această filă redă direct fișierele din repo. Text integral: docs/ro/14–19, diagrams/*.mmd, schemas/*.json. Traducerea documentelor 14–19 așteaptă o revizuire umană.',
+  'gov.doc.14': 'Numirea conducerii',
+  'gov.doc.15': 'Conflictul de interese',
+  'gov.doc.16': 'Restricțiile post-mandat',
+  'gov.doc.17': 'Supravegherea de către societatea civilă',
+  'gov.doc.18': 'Controlul intern',
+  'gov.doc.19': 'Referințe DCAF',
   'gov.section.diagrams': 'Diagrame',
   'gov.section.docs': 'Specificație — docs 14–19',
   'gov.diagram.appointment': 'Numirea conducerii — selecție și confirmare depolitizate',
