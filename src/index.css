@@ -909,6 +909,7 @@ h3 {
   color: #03101d;
   border: none;
   border-radius: 8px;
+  min-height: 44px;
   padding: 8px 16px;
   font-weight: 600;
   cursor: pointer;
@@ -1873,6 +1874,61 @@ h3 {
   .handshake-map .token-chip text {
     fill: HighlightText;
   }
+
+/* ---------- Empty filter result ---------- */
+
+.explorer-empty {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(90%, 360px);
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13px;
+  text-align: center;
+}
+
+.explorer-list .explorer-empty {
+  position: static;
+  transform: none;
+  max-width: none;
+}
+
+/* ---------- Source host and checked date ---------- */
+
+.source-meta {
+  display: block;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+/* ---------- Phone list rows (DS-3) ---------- */
+
+.audit-swatch {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@media (max-width: 639px) {
+  .explorer-toolbar .chip {
+    min-height: 44px;
+    padding: 4px 12px;
+  }
+}
+
+/* ---------- Legend glyphs (DS-2) ---------- */
+
+.legend-glyph {
+  font-weight: 400;
+  font-size: 11px;
+  margin-right: 4px;
 }
 
 /* ---------- Legend glyphs (DS-2) ---------- */

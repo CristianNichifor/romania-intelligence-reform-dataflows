@@ -12,7 +12,7 @@ import {
 import '@xyflow/react/dist/style.css'
 import ActorNode from './ActorNode'
 import GlossedText from './GlossedText'
-import { buildGraph, type GraphMode } from '../lib/graph'
+import { buildGraph, edgeColor, edgeDash, type GraphMode } from '../lib/graph'
 import { edgeClusterSwatches, legendSwatches, lineStyleFlowIds, type LineStyle } from '../lib/legend'
 import { currentActors, targetActors } from '../data/actors'
 import { currentFlows, targetFlows } from '../data/flows'
@@ -21,6 +21,7 @@ import { pick, type MessageKey } from '../i18n/messages'
 import type { Actor, ActorCategory, Flow } from '../data/types'
 import { DATASET_AS_OF } from '../data/sources'
 import { ERRATA_URL } from '../lib/links'
+import { sourceMeta } from '../lib/sourceMeta'
 
 const nodeTypes = { actor: ActorNode }
 
@@ -106,6 +107,7 @@ function DetailPanel({ selection, onClose }: { selection: Selection; onClose: ()
                   <a href={source.url} target="_blank" rel="noreferrer">
                     {source.title}
                   </a>
+                  <span className="source-meta">{sourceMeta(source)}</span>
                 </li>
               ))}
             </ul>
@@ -172,7 +174,20 @@ function FlowList({ flows, actors }: { flows: Flow[]; actors: Actor[] }) {
             <dt>{t(flow.category === 'current' ? 'detail.legalBasis' : 'detail.legalGate')}</dt>
             <dd>{pick(flow.legal, lang)}</dd>
             <dt>{t(flow.category === 'current' ? 'detail.auditability' : 'detail.auditEntry')}</dt>
-            <dd>{flow.audit ? pick(flow.audit, lang) : '—'}</dd>
+            <dd>
+              {flow.category === 'current' && (
+                <svg className="audit-swatch" width="22" height="6" aria-hidden="true">
+                  <line x1="0" y1="3" x2="22" y2="3" stroke={edgeColor(flow)} strokeWidth="2" strokeDasharray={edgeDash(flow)} />
+                </svg>
+              )}
+              {flow.audit ? pick(flow.audit, lang) : '—'}
+            </dd>
+            {flow.risk && (
+              <>
+                <dt>{t('detail.risk')}</dt>
+                <dd>{pick(flow.risk, lang)}</dd>
+              </>
+            )}
             <dt>{t('detail.sources')}</dt>
             <dd>
               {flow.sources.length > 0
@@ -219,13 +234,13 @@ function Legend({ mode }: { mode: GraphMode }) {
           ))}
           {mode === 'current' &&
             ([
-              ['legend.lines.audited', undefined, 'solid'],
-              ['legend.lines.weak', '7 4', 'dashed'],
-              ['legend.lines.none', '2 4', 'dotted'],
-            ] as Array<[MessageKey, string | undefined, LineStyle]>).map(([key, dash, style]) => (
+              ['legend.lines.audited', undefined, '#4ade80', 'solid'],
+              ['legend.lines.weak', '7 4', '#f59e0b', 'dashed'],
+              ['legend.lines.none', '2 4', '#ef4444', 'dotted'],
+            ] as Array<[MessageKey, string | undefined, string, LineStyle]>).map(([key, dash, stroke, style]) => (
               <span key={key}>
                 <svg width="22" height="6" aria-hidden="true">
-                  <line x1="0" y1="3" x2="22" y2="3" stroke="#cbd5e1" strokeWidth="2" strokeDasharray={dash} />
+                  <line x1="0" y1="3" x2="22" y2="3" stroke={stroke} strokeWidth="2" strokeDasharray={dash} />
                 </svg>
                 {t(key)}
                 <span className="legend-ids"> · {lineStyleFlowIds()[style].join(', ')}</span>
@@ -424,8 +439,13 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
           )}
         </div>
       </div>
+      {visibleActorIds.size === 0 ? (
+        <p role="status" className="explorer-empty">{t('explorer.empty')}</p>
+      ) : layout === 'list' && listFlows.length === 0 ? (
+        <p role="status" className="explorer-empty">{t('explorer.noFlows')}</p>
+      ) : null}
       {layout === 'list' ? (
-        <FlowList flows={listFlows} actors={actors} />
+        listFlows.length > 0 && <FlowList flows={listFlows} actors={actors} />
       ) : (
         <div className="explorer-canvas">
           <ReactFlow

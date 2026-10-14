@@ -13,7 +13,8 @@ import { useI18n } from './i18n/useI18n'
 import type { MessageKey } from './i18n/messages'
 import type { GraphMode } from './lib/graph'
 import { seedLedger } from './lib/ledger'
-import { DOCS_URL, ERRATA_URL } from './lib/links'
+import { DOCS_URL, ERRATA_URL, HUB_URL } from './lib/links'
+import './familyBar.css'
 import { provenanceLine } from './lib/provenance'
 import { DATASET_AS_OF } from './data/sources'
 
@@ -243,6 +244,11 @@ export default function App() {
     <div className="app">
       <div className="class-strip">
         <div className="class-strip-inner">
+          <nav className="family-bar" aria-label={t('family.label')}>
+            <a href={HUB_URL}>
+              <span aria-hidden="true">←</span> {t('family.home')}
+            </a>
+          </nav>
           <span className="live-dot" />
           <span>{t('class.demo')}</span>
           <span className="spacer" />
@@ -289,7 +295,7 @@ export default function App() {
         <div className="app-footer-inner">
           <span>romania-intelligence-reform-dataflows</span>
           <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows" target="_blank" rel="noreferrer">
-            source ↗
+            {t('footer.source')} ↗
           </a>
           <a href={ERRATA_URL} target="_blank" rel="noreferrer">
             {t('footer.corrections')} ↗
