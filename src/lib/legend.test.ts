@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { legendSwatches, lineStyleFlowIds } from './legend'
+import { edgeClusterSwatches, legendSwatches, lineStyleFlowIds } from './legend'
 import { CATEGORY_GLYPHS } from './glyphs'
 import { currentActors, resolveActorColor, targetActors } from '../data/actors'
-import { currentFlows } from '../data/flows'
-import { edgeDash } from './graph'
+import { currentFlows, targetFlows } from '../data/flows'
+import { edgeColor, edgeDash } from './graph'
 
 describe('legend swatches', () => {
   it.each([
@@ -51,5 +51,34 @@ describe('line-style flow ids', () => {
     const { dotted, solid } = lineStyleFlowIds()
     expect(dotted).toEqual(expect.arrayContaining(['C10', 'C13']))
     expect(solid).toContain('C7')
+  })
+})
+
+describe('target edge clusters', () => {
+  it('lists every target flow under exactly one edge colour', () => {
+    const clusters = edgeClusterSwatches()
+    const all = clusters.flatMap((cluster) => cluster.ids).sort()
+    expect(all).toEqual(targetFlows.map((flow) => flow.id).sort())
+  })
+
+  it('uses the colour each edge is drawn with', () => {
+    for (const cluster of edgeClusterSwatches()) {
+      for (const id of cluster.ids) {
+        const flow = targetFlows.find((candidate) => candidate.id === id)!
+        expect(edgeColor(flow), id).toBe(cluster.color)
+      }
+    }
+  })
+
+  it('names the warrant edges judicial and the broker edges broker', () => {
+    const clusters = edgeClusterSwatches()
+    expect(clusters.find((cluster) => cluster.key === 'cat.judicial')?.ids).toEqual(['W1', 'W2'])
+    expect(clusters.find((cluster) => cluster.key === 'cat.broker')?.ids).toEqual(expect.arrayContaining(['T3', 'T4', 'T5', 'T6']))
+  })
+
+  it('gives the target legend an executive swatch', () => {
+    const executive = legendSwatches('target').find((swatch) => swatch.category === 'executive')
+    expect(executive?.key).toBe('cat.executive')
+    expect(executive?.color).toBe('#94a3b8')
   })
 })
