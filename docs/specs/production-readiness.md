@@ -39,7 +39,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 
 ## Theme B: security and accessibility
 
-### INT-8 Security headers and strict Mermaid — todo
+### INT-8 Security headers and strict Mermaid — done
 - Given `public/_headers`, then it sets a `Content-Security-Policy` with
   `default-src 'self'`, no third-party origins and `object-src 'none'`,
   plus `X-Content-Type-Options: nosniff`, `Referrer-Policy` and `frame-ancestors`.
@@ -53,7 +53,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   `site/<project>/`; Pages reads `_headers` only at the output root, so the
   workflow must move it (diff in the PR, **needs-human**).
 
-### INT-7 Accessible navigation and graph controls — todo
+### INT-7 Accessible navigation and graph controls — done
 - Given the main navigation, then it is a `tablist` whose items are `tab`s with
   `aria-selected` on the current view and `aria-controls` pointing at the
   `tabpanel`.
