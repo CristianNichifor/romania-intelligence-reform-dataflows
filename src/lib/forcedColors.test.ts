@@ -1,5 +1,8 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import css from '../index.css?raw'
+
+// Read from disk: vitest hands CSS imports back empty, even with ?raw.
+const css = readFileSync(new URL('../index.css', import.meta.url), 'utf8')
 
 // Windows High Contrast drops author colours; state has to survive through system
 // colours and borders (ux-guidelines, deviation D6). The block sits at the end of
