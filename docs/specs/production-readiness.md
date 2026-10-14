@@ -214,7 +214,9 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   (H1, title, family bar, provenance line); closes D1, D2.
 - Landed: hub link (#44), registry H1 and title (#48), provenance line (#35),
   tool name "Fluxuri de date" in the family bar, the purpose line, and stat
-  tiles that name their scope (`tests/e2e/names.spec.ts`). Open: the badge
+  tiles that name their scope, and the three route links (Starea actuală,
+  Starea țintă, Handshake T3–T6) in the mission card
+  (`tests/e2e/names.spec.ts`). Open: the badge
   "Date demonstrative" waits on the owner's call on the classification strip.
   Purpose line and tile labels are agent-written: **needs human review**.
 

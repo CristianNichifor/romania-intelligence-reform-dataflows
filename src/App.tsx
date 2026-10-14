@@ -67,6 +67,17 @@ function Overview() {
           </a>
           .
         </p>
+        <nav className="route-row" aria-label={t('overview.route.label')}>
+          <a className="btn" href="#/current">
+            {t('nav.current')} <span aria-hidden="true">→</span>
+          </a>
+          <a className="btn btn-ghost" href="#/target">
+            {t('nav.target')} <span aria-hidden="true">→</span>
+          </a>
+          <a className="btn btn-ghost" href="#/handshake">
+            {t('nav.handshake')} <span aria-hidden="true">→</span>
+          </a>
+        </nav>
       </section>
 
       <div className="stat-row">
