@@ -14,6 +14,7 @@ import ActorNode from './ActorNode'
 import GlossedText from './GlossedText'
 import { buildGraph, type GraphMode } from '../lib/graph'
 import { currentActors, targetActors } from '../data/actors'
+import { currentFlows, targetFlows } from '../data/flows'
 import { useI18n } from '../i18n/useI18n'
 import { pick, type MessageKey } from '../i18n/messages'
 import type { Actor, ActorCategory, Flow } from '../data/types'
@@ -41,6 +42,13 @@ function fitOptions(): FitViewOptions {
     minZoom: 0.6,
     maxZoom: 1,
   }
+}
+
+// Below this width a 15-node graph cannot be read, so the flows open as a list.
+const NARROW_QUERY = '(max-width: 639px)'
+
+function prefersList(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia(NARROW_QUERY).matches
 }
 
 const TARGET_DEFAULT = new Set<ActorCategory>(['agency', 'broker'])
@@ -143,6 +151,45 @@ function DetailPanel({ selection, onClose }: { selection: Selection; onClose: ()
   )
 }
 
+function FlowList({ flows, actors }: { flows: Flow[]; actors: Actor[] }) {
+  const { t, lang } = useI18n()
+  const name = (id: string) => {
+    const actor = actors.find((candidate) => candidate.id === id)
+    return actor ? pick(actor.name, lang) : id
+  }
+  return (
+    <ul className="flow-list" aria-label={t('explorer.flows')}>
+      {flows.map((flow) => (
+        <li key={flow.id} className="flow-item">
+          <h3>
+            <span className="flow-id">{flow.id}</span> {name(flow.source)} <span aria-hidden="true">→</span>
+            <span className="sr-only">{lang === 'ro' ? ' către ' : ' to '}</span> {name(flow.target)}
+          </h3>
+          <dl>
+            <dt>{t('detail.dataType')}</dt>
+            <dd>{pick(flow.dataType, lang)}</dd>
+            <dt>{t(flow.category === 'current' ? 'detail.legalBasis' : 'detail.legalGate')}</dt>
+            <dd>{pick(flow.legal, lang)}</dd>
+            <dt>{t(flow.category === 'current' ? 'detail.auditability' : 'detail.auditEntry')}</dt>
+            <dd>{flow.audit ? pick(flow.audit, lang) : '—'}</dd>
+            <dt>{t('detail.sources')}</dt>
+            <dd>
+              {flow.sources.length > 0
+                ? flow.sources.map((source, index) => (
+                    <span key={source.url}>
+                      {index > 0 && ' · '}
+                      <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>
+                    </span>
+                  ))
+                : t('detail.sourceNeeded')}
+            </dd>
+          </dl>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 function Legend({ mode }: { mode: GraphMode }) {
   const { t } = useI18n()
   const [open, setOpen] = useState(true)
@@ -195,6 +242,8 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
   const { t, lang } = useI18n()
   const graph = useMemo(() => buildGraph(mode, lang), [mode, lang])
   const actors = mode === 'current' ? currentActors : targetActors
+  const flows = mode === 'current' ? currentFlows : targetFlows
+  const [layout, setLayout] = useState<'list' | 'graph'>(() => (prefersList() ? 'list' : 'graph'))
 
   const [query, setQuery] = useState('')
   const [showLabels, setShowLabels] = useState(true)
@@ -268,6 +317,11 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
     return { nodes: visibleNodes, edges: visibleEdges }
   }, [graph, hoveredId, mode, selectedEdgeId, showLabels, visibleActorIds])
 
+  const listFlows = useMemo(
+    () => flows.filter((flow) => visibleActorIds.has(flow.source) && visibleActorIds.has(flow.target)),
+    [flows, visibleActorIds],
+  )
+
   const [instance, setInstance] = useState<ReactFlowInstance | null>(null)
   const visibleKey = nodes.map((node) => node.id).join(',')
   useEffect(() => {
@@ -297,9 +351,22 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
   }
 
   return (
-    <div className="explorer">
-      <Legend mode={mode} />
+    <div className={`explorer${layout === 'list' ? ' explorer-list' : ''}`}>
+      {layout === 'graph' && <Legend mode={mode} />}
       <div className="explorer-toolbar">
+        <div className="layout-toggle" role="group" aria-label={t('explorer.view')}>
+          {(['list', 'graph'] as const).map((value) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={layout === value}
+              className={`chip ${layout === value ? 'on' : 'off'}`}
+              onClick={() => setLayout(value)}
+            >
+              {t(value === 'list' ? 'explorer.list' : 'explorer.graph')}
+            </button>
+          ))}
+        </div>
         <div className="search-wrap">
           <svg aria-hidden="true" className="search-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" strokeWidth="2" strokeLinecap="round">
             <circle cx="10.5" cy="10.5" r="6.5" />
@@ -336,39 +403,45 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
               {t('explorer.showAll')}
             </button>
           )}
-          <button
-            type="button"
-            aria-pressed={showLabels}
-            className={`chip ${showLabels ? 'on' : 'off'}`}
-            onClick={() => setShowLabels((value) => !value)}
-          >
-            {t('explorer.labels')}
-          </button>
+          {layout === 'graph' && (
+            <button
+              type="button"
+              aria-pressed={showLabels}
+              className={`chip ${showLabels ? 'on' : 'off'}`}
+              onClick={() => setShowLabels((value) => !value)}
+            >
+              {t('explorer.labels')}
+            </button>
+          )}
         </div>
       </div>
-      <div className="explorer-canvas">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          onEdgeClick={onEdgeClick}
-          onNodeClick={onNodeClick}
-          onNodeMouseEnter={(_event, node) => setHoveredId(node.id)}
-          onNodeMouseLeave={() => setHoveredId(null)}
-          onPaneClick={() => {
-            setSelection(null)
-            setSelectedEdgeId(null)
-          }}
-          onInit={setInstance}
-          fitView
-          fitViewOptions={fitOptions()}
-          minZoom={0.6}
-          proOptions={{ hideAttribution: true }}
-        >
-          <Background variant={BackgroundVariant.Dots} gap={22} size={1.2} color="#16233c" />
-          <Controls />
-        </ReactFlow>
-      </div>
+      {layout === 'list' ? (
+        <FlowList flows={listFlows} actors={actors} />
+      ) : (
+        <div className="explorer-canvas">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            onEdgeClick={onEdgeClick}
+            onNodeClick={onNodeClick}
+            onNodeMouseEnter={(_event, node) => setHoveredId(node.id)}
+            onNodeMouseLeave={() => setHoveredId(null)}
+            onPaneClick={() => {
+              setSelection(null)
+              setSelectedEdgeId(null)
+            }}
+            onInit={setInstance}
+            fitView
+            fitViewOptions={fitOptions()}
+            minZoom={0.6}
+            proOptions={{ hideAttribution: true }}
+          >
+            <Background variant={BackgroundVariant.Dots} gap={22} size={1.2} color="#16233c" />
+            <Controls />
+          </ReactFlow>
+        </div>
+      )}
       <DetailPanel selection={selection} onClose={() => setSelection(null)} />
     </div>
   )
