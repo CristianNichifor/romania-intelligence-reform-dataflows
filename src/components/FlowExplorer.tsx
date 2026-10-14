@@ -112,13 +112,15 @@ function DetailPanel({ selection, onClose }: { selection: Selection; onClose: ()
               ))}
             </ul>
           ) : (
-            <p>
-              {t('detail.sourceNeeded')} {flow.sourceNeeded ? pick(flow.sourceNeeded, lang) : ''}{' '}
+            <div className="detail-status" role="status">
+              <strong>{t('detail.sourceNeeded')}</strong>{' '}
+              {flow.sourceNeeded ? pick(flow.sourceNeeded, lang) : ''}{' '}
               <a href={ERRATA_URL} target="_blank" rel="noreferrer">
                 {t('footer.corrections')}
               </a>
-            </p>
+            </div>
           )}
+          {flow.category === 'target' && <p className="detail-note">{t('detail.proposalNote')}</p>}
           <p className="muted">{t('detail.sourcesChecked', { date: DATASET_AS_OF })}</p>
         </div>
       </div>
@@ -320,6 +322,8 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
         ...edge,
         label: showLabels ? (edge.label as string) : undefined,
         selected: edge.id === selectedEdgeId,
+        // A selected flow keeps full weight; the rest step back so it reads first.
+        className: selectedEdgeId && edge.id !== selectedEdgeId ? 'faded' : undefined,
       }))
 
     if (hoveredId) {
@@ -488,7 +492,13 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
           </ReactFlow>
         </div>
       )}
-      <DetailPanel selection={selection} onClose={() => setSelection(null)} />
+      <DetailPanel
+        selection={selection}
+        onClose={() => {
+          setSelection(null)
+          setSelectedEdgeId(null)
+        }}
+      />
     </div>
   )
 }

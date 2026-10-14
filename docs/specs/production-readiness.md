@@ -219,12 +219,17 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   (`tests/e2e/mobile-list.spec.ts`, `src/i18n/count.test.ts`). No error state:
   the list reads bundled data and cannot fail to load.
 
-### DS-4 Flow detail with sources — todo
+### DS-4 Flow detail with sources — done (route glyphs open)
 - Given a selected flow, then the panel shows the route with glyphs, the key/value
   table, the description, every source with host and checked date, and the
   no-verified-source state (C10) with a link to `ERRATA.md`; target flows carry
   the "propunere" note.
 - Mockup: `04-flow-detail.html`. Test: extend `tests/e2e/provenance.spec.ts`.
+- Landed: sources with host and checked date (`src/lib/sourceMeta.ts`); the
+  no-verified-source state as a `role="status"` block linking `ERRATA.md`; a
+  proposal note on target flows only; the selected edge stays at full weight
+  while the others fade to 40 % (`tests/e2e/provenance.spec.ts`). Open: the
+  route row with category glyphs.
 
 ### DS-5 Handshake controls and states — done
 - Given the Handshake, then controls are ≥ 44 px, the progress bar is a
