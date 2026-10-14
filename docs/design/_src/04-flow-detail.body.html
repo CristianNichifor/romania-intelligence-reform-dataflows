@@ -1,0 +1,69 @@
+<p class="small muted">Panoul de detaliu se deschide la alegerea unei muchii (desktop: lateral; telefon: foaie de jos, peste listă). Două exemple reale din date și starea fără sursă.</p>
+<div class="two">
+  <figure class="canvas mini" style="margin:0" aria-label="Graful stării actuale cu muchia C7 selectată">
+    <svg viewBox="0 0 600 400" role="img" aria-label="STS trimite interceptări către SRI (C7); muchia selectată este îngroșată">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--canvas-text)"/></marker></defs>
+      <path class="edge" d="M190,200 L330,200" stroke="var(--canvas-text)" stroke-width="4" marker-end="url(#ar2)"/>
+      <rect class="elabel-bg" x="246" y="182" width="28" height="16" rx="3"/><text class="elabel" x="251" y="194" style="font-size:12px">C7</text>
+      <g class="node" transform="translate(60,170)"><rect width="130" height="56" rx="6" stroke="var(--canvas-viz-2)"/><rect width="6" height="56" rx="3" fill="var(--canvas-viz-2)"/><text class="glyph" x="14" y="34" fill="var(--canvas-viz-2)">◆</text><text class="name" x="32" y="24">STS</text><text class="role" x="32" y="42">Interceptări tehnice</text></g>
+      <g class="node" transform="translate(340,170)"><rect width="190" height="56" rx="6" stroke="var(--canvas-viz-2)" stroke-width="3"/><rect width="6" height="56" rx="3" fill="var(--canvas-viz-2)"/><text class="glyph" x="14" y="34" fill="var(--canvas-viz-2)">◆</text><text class="name" x="32" y="24">SRI</text><text class="role" x="32" y="42">Informații interne (militar)</text></g>
+      <text x="20" y="380" fill="var(--canvas-muted)" font-size="11">Celelalte 13 muchii rămân vizibile, estompate la 40 %.</text>
+    </svg>
+  </figure>
+
+  <section class="detail" role="dialog" aria-labelledby="d-c7" aria-modal="false">
+    <button class="close" aria-label="Închide">×</button>
+    <p class="small muted" style="margin:0">Flux · starea actuală</p>
+    <h2 id="d-c7"><span class="flow-id">C7</span> Interceptări</h2>
+    <p class="route"><span class="n" style="color:var(--civic-viz-2)"><span aria-hidden="true">◆</span> STS</span><span aria-hidden="true">→</span><span class="sr-only">către</span><span class="n" style="color:var(--civic-viz-2)"><span aria-hidden="true">◆</span> SRI</span></p>
+    <table class="kv"><tbody>
+      <tr><td>Tip de date</td><td>Metadate/conținut</td></tr>
+      <tr><td>Temei legal</td><td>Mandat (teoretic)</td></tr>
+      <tr><td>Auditabilitate</td><td><span class="ln" aria-hidden="true" style="display:inline-block;width:1.25rem;vertical-align:middle"></span> Medie</td></tr>
+      <tr><td>Risc</td><td>Infrastructură comună, separare neclară</td></tr>
+    </tbody></table>
+    <p>STS furnizează interceptări tehnice către SRI pe o infrastructură comună, cu o separare neclară a rolurilor.</p>
+    <h3 id="s-c7">Surse</h3>
+    <ul class="sources" aria-labelledby="s-c7">
+      <li><a href="https://legislatie.just.ro/Public/DetaliiDocumentAfis/8502">Legea nr. 92/1996 privind organizarea și funcționarea Serviciului de Telecomunicații Speciale</a><div class="acc">legislatie.just.ro · verificat <time datetime="2026-10-14">2026-10-14</time></div></li>
+      <li><a href="https://legislatie.just.ro/Public/DetaliiDocumentAfis/176576">Curtea Constituțională, Decizia nr. 51/2016 (art. 142 alin. (1) Cod procedură penală)</a><div class="acc">legislatie.just.ro · verificat <time datetime="2026-10-14">2026-10-14</time></div></li>
+    </ul>
+    <p class="small muted">Surse verificate la 2026-10-14. Ați găsit o eroare? <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/blob/main/ERRATA.md">Corecturi</a>.</p>
+  </section>
+</div>
+
+<div class="three" style="margin-top:var(--civic-space-6)">
+  <section class="detail" aria-labelledby="d-t3">
+    <button class="close" aria-label="Închide">×</button>
+    <p class="small muted" style="margin:0">Flux · starea țintă (propunere)</p>
+    <h2 id="d-t3"><span class="flow-id">T3</span> Cerere + token</h2>
+    <p class="route"><span class="n" style="color:var(--civic-viz-2)"><span aria-hidden="true">◆</span> SRI (civilianizat)</span><span aria-hidden="true">→</span><span class="sr-only">către</span><span class="n" style="color:var(--civic-viz-1)"><span aria-hidden="true">▦</span> IADE</span></p>
+    <table class="kv"><tbody>
+      <tr><td>Tip de date</td><td>Cerere legată de caz</td></tr>
+      <tr><td>Poartă legală</td><td>Necesită token de mandat</td></tr>
+      <tr><td>Înregistrare în registrul de audit</td><td>Da</td></tr>
+      <tr><td>Vizibilitate supraveghere</td><td>IG, JPC (agregat)</td></tr>
+    </tbody></table>
+    <p>Un obiect de cerere legat de caz călătorește cu tokenul său de mandat SSC către brokerul IADE.</p>
+    <h3 id="s-t3">Surse</h3>
+    <ul class="sources" aria-labelledby="s-t3">
+      <li><a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/blob/main/docs/03-target-state-flows.md">Acest proiect, docs/03-target-state-flows.md (stare țintă propusă)</a><div class="acc">specificație · verificat <time datetime="2026-10-14">2026-10-14</time></div></li>
+    </ul>
+    <div class="status info"><span class="ico" aria-hidden="true">i</span><div class="small">Fluxurile din starea țintă sunt o propunere: sursa lor principală este specificația acestui proiect, nu un act normativ.</div></div>
+  </section>
+
+  <section class="detail" aria-labelledby="d-c10">
+    <button class="close" aria-label="Închide">×</button>
+    <p class="small muted" style="margin:0">Flux · starea actuală</p>
+    <h2 id="d-c10"><span class="flow-id">C10</span> Narative</h2>
+    <p class="route"><span class="n" style="color:var(--civic-viz-2)"><span aria-hidden="true">◆</span> SRI</span><span aria-hidden="true">→</span><span class="sr-only">către</span><span class="n" style="color:var(--civic-muted)"><span aria-hidden="true">◎</span> Public / Presă</span></p>
+    <table class="kv"><tbody>
+      <tr><td>Tip de date</td><td>Narative</td></tr>
+      <tr><td>Auditabilitate</td><td><span class="ln none" aria-hidden="true" style="display:inline-block;width:1.25rem;vertical-align:middle"></span> Nicio</td></tr>
+      <tr><td>Risc</td><td>Fără atribuire sau audit</td></tr>
+    </tbody></table>
+    <h3 id="s-c10">Surse</h3>
+    <div class="status" role="status"><span class="ico" style="background:var(--civic-raised)" aria-hidden="true">?</span><div><strong>Încă nu există o sursă verificată.</strong><div class="small">O evaluare a practicii de comunicare publică; niciun document public nu o stabilește. Fluxul este listat în <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows/blob/main/ERRATA.md">ERRATA.md</a>.</div></div></div>
+    <p class="small muted">Golul se afișează, nu se ascunde (ghid UX, §4).</p>
+  </section>
+</div>

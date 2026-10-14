@@ -1,0 +1,75 @@
+<div class="sim-head">
+  <div>
+    <p class="small muted" style="margin:0">Simulare pas cu pas</p>
+    <h2 style="margin:0">Fluxul T3–T6: handshake de date interinstituțional</h2>
+    <p class="small muted" style="margin:.25rem 0 0">Un analist SRI cere date deținute de SIE. Conținutul circulă doar cu un token de mandat SSC; brokerul IADE vede doar metadate; fiecare pas ajunge în registrul de audit.</p>
+  </div>
+  <div class="sim-actions">
+    <span class="step" aria-live="polite">PAS 06/11</span>
+    <button class="btn"><span aria-hidden="true">▶</span> Pasul următor</button>
+    <button class="btn secondary"><span aria-hidden="true">▶▶</span> Rulează automat</button>
+    <button class="btn secondary"><span aria-hidden="true">↺</span> Resetează</button>
+  </div>
+</div>
+<div class="progress" role="progressbar" aria-valuenow="6" aria-valuemin="0" aria-valuemax="11" aria-label="Progres handshake"><i style="width:54.5%"></i></div>
+
+<div class="two" style="margin-top:var(--civic-space-5)">
+  <ol class="timeline" aria-label="Pașii handshake-ului">
+    <li class="done"><div class="who">Analist SRI</div><div class="what">Creează obiectul de cerere <span class="state">· finalizat</span></div><div class="small">ID caz, temei legal, subiecți minimizați, câmpuri solicitate, justificare.</div></li>
+    <li class="done"><div class="who">SRI → SSC</div><div class="what">Solicită token de mandat interinstituțional <span class="state">· finalizat</span></div></li>
+    <li class="done"><div class="who">SSC</div><div class="what">Validează temeiul + specificitatea <span class="state">· finalizat</span></div><div class="small">Verificare dublă: temei în sfera legală, nu e expediție de pescuit, nu există mijloace mai puțin intruzive.</div></li>
+    <li class="done"><div class="who">SSC</div><div class="what">Emite token criptografic de mandat <span class="state">· finalizat · W1</span></div></li>
+    <li class="done"><div class="who">SRI → IADE</div><div class="what">Trimite Cerere + Token <span class="state">· finalizat · T3</span></div></li>
+    <li class="current" aria-current="step"><div class="who">IADE</div><div class="what">Validează semnătura tokenului, înregistrează, rutează <span class="state">· în curs · T4</span></div><div class="small">Tranzacția e înregistrată (ID cerere, timestamp, agenții, ID token, temei — nu conținut).</div></li>
+    <li><div class="who">SIE</div><div class="what">Validează tokenul, preia datele, minimizează</div></li>
+    <li><div class="who">SIE → IADE</div><div class="what">Returnează pachetul de răspuns <span class="state">· T5</span></div></li>
+    <li><div class="who">IADE</div><div class="what">Înregistrează metadatele răspunsului, rutează către SRI <span class="state">· T6</span></div></li>
+    <li><div class="who">SRI</div><div class="what">Atașează la dosarul de caz</div></li>
+    <li><div class="who">IG</div><div class="what">Interoghează registrul de audit după ID caz</div></li>
+  </ol>
+
+  <div class="side">
+    <figure class="canvas" style="margin:0" aria-labelledby="map-cap">
+      <svg viewBox="0 0 320 170" role="img" aria-label="Traseul T3–T6: SRI, IADE, SIE. Pasul curent: T4, de la IADE către SIE">
+        <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--canvas-viz-1)"/></marker></defs>
+        <path class="hop" d="M62,104 Q76,52 142,44"/>
+        <path class="hop active" d="M178,44 Q244,52 258,104" marker-end="url(#ar3)"/>
+        <path class="hop" d="M262,136 Q200,100 180,54" stroke-dasharray="4 4"/>
+        <path class="hop" d="M58,136 Q120,100 140,54" stroke-dasharray="4 4"/>
+        <text class="elabel" x="90" y="60">T3</text><text class="elabel" x="218" y="60" fill="var(--canvas-viz-1)">T4</text><text class="elabel" x="210" y="112">T5</text><text class="elabel" x="96" y="112">T6</text>
+        <g class="node" transform="translate(8,98)"><rect width="100" height="44" rx="6" stroke="var(--canvas-viz-2)"/><rect width="6" height="44" rx="3" fill="var(--canvas-viz-2)"/><text class="glyph" x="12" y="28" fill="var(--canvas-viz-2)">◆</text><text class="name" x="30" y="20">SRI</text><text class="role" x="30" y="34">cere</text></g>
+        <g class="node" transform="translate(110,14)"><rect width="100" height="44" rx="6" stroke="var(--canvas-viz-1)"/><rect width="6" height="44" rx="3" fill="var(--canvas-viz-1)"/><text class="glyph" x="12" y="28" fill="var(--canvas-viz-1)">▦</text><text class="name" x="30" y="20">IADE</text><text class="role" x="30" y="34">broker</text></g>
+        <g class="node" transform="translate(212,98)"><rect width="100" height="44" rx="6" stroke="var(--canvas-viz-2)"/><rect width="6" height="44" rx="3" fill="var(--canvas-viz-2)"/><text class="glyph" x="12" y="28" fill="var(--canvas-viz-2)">◆</text><text class="name" x="30" y="20">SIE</text><text class="role" x="30" y="34">răspunde</text></g>
+        <!-- token chip: parked at the hop midpoint (reduced-motion still state); animates along the path otherwise -->
+        <g transform="translate(222,66)"><rect class="token" x="-22" y="-9" width="44" height="18" rx="9"/><text x="0" y="4" text-anchor="middle" font-size="9" font-weight="700" fill="var(--civic-on-warning)">token</text></g>
+      </svg>
+      <figcaption id="map-cap" class="small" style="padding:var(--civic-space-2) var(--civic-space-3);color:var(--canvas-muted)">T4: IADE validează tokenul și rutează cererea către SIE. Cu <span lang="en">prefers-reduced-motion</span>, jetonul stă pe muchie, fără animație.</figcaption>
+    </figure>
+
+    <section class="card" style="margin:0" aria-labelledby="h-art">
+      <h3 id="h-art">Token de mandat (semnat)</h3>
+      <pre>{
+  "tokenId": "WT-…",
+  "caseId": "C-2026-0417",
+  "predicate": "foreign_state_espionage",
+  "subjects": ["SUBJ-8812", "SUBJ-8813"],
+  "fields": ["travel_records", "comms_metadata", "financial_links"],
+  "receivingAgency": "SIE",
+  "window": { "from": "—", "to": "—" },
+  "signature": "HMAC-SHA-256 (demo) …"
+}</pre>
+      <p class="small muted" style="margin:.5rem 0 0">Semnătura este o simulare HMAC-SHA-256 în locul Ed25519 din specificație; cheia este publică, de demonstrație.</p>
+    </section>
+
+    <section class="card" style="margin:0" aria-labelledby="h-led">
+      <h3 id="h-led">Registrul de audit, intrările acestui caz</h3>
+      <div class="ledger-row"><span class="flow-id">SSC</span><span>Token de mandat emis (verificare dublă trecută)</span><span class="badge success">acceptat</span></div>
+      <div class="ledger-row"><span class="flow-id">T3</span><span>Cerere legată de caz + token (cazul C-2026-0417)</span><span class="badge success">acceptat</span></div>
+      <div class="ledger-row"><span class="flow-id">T4</span><span>Semnătura tokenului validă — cerere rutată</span><span class="badge neutral">se verifică…</span></div>
+      <p class="small muted" style="margin:.5rem 0 0">Lanț intact · 3 intrări · hash-urile sunt text, nu culoare.</p>
+    </section>
+
+    <div class="empty" role="status"><strong>Niciun pas încă.</strong><p class="small muted">Jetonul se mișcă la pașii 5, 6, 8 și 9. Apăsați „Pasul următor”.</p></div>
+    <div class="status error" role="alert"><span class="ico" aria-hidden="true">!</span><div><strong>Tokenul nu a putut fi semnat</strong><div class="small muted">Browserul nu a oferit Web Crypto. Reîncărcați pagina sau folosiți un browser actual.</div><div style="margin-top:.5rem"><button class="btn small secondary">Reîncercați</button></div></div></div>
+  </div>
+</div>

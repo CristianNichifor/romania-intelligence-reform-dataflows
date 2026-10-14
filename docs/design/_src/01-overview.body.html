@@ -1,0 +1,66 @@
+<section class="card" aria-labelledby="h-mission">
+  <h2 id="h-mission">Ce arată această pagină</h2>
+  <p>Aceasta este o <strong>simulare</strong> a fluxurilor de date dintre instituțiile de informații, de supraveghere, judiciare și civile din România: nu se conectează la niciun sistem real. Comparați <em>starea actuală</em> cu <em>starea țintă</em> propusă, apoi urmăriți un mandat prin handshake-ul T3–T6.</p>
+  <div class="btn-row">
+    <a class="btn" href="02-graph.html">Starea actuală <span aria-hidden="true">→</span></a>
+    <a class="btn secondary" href="02-graph.html#tinta">Starea țintă <span aria-hidden="true">→</span></a>
+    <a class="btn secondary" href="05-handshake.html">Handshake T3–T6 <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<section aria-labelledby="h-stats">
+  <h2 id="h-stats" class="sr-only">Indicatori-cheie</h2>
+  <div class="stat-grid">
+    <div class="stat"><div class="v">13</div><div class="l">actori, starea actuală</div><div class="asof">din <code>src/data/actors.ts</code></div></div>
+    <div class="stat"><div class="v">14</div><div class="l">fluxuri, starea actuală</div><div class="asof">C1–C13, C3b</div></div>
+    <div class="stat"><div class="v">15</div><div class="l">actori, starea țintă</div><div class="asof">+ SSC, IADE, IG, ITAP</div></div>
+    <div class="stat"><div class="v">33</div><div class="l">fluxuri, starea țintă</div><div class="asof">T1–T21, W1–W3</div></div>
+    <div class="stat"><div class="v">6</div><div class="l">fluxuri actuale cu pistă de audit foarte scăzută sau absentă</div><div class="asof">C3, C3b, C9, C10, C11, C13</div></div>
+  </div>
+</section>
+
+<div class="three">
+  <section class="card" aria-labelledby="h-now">
+    <p class="muted small">Stare actuală</p>
+    <h2 id="h-now">Starea actuală (pre-reformă)</h2>
+    <ul>
+      <li>SRI primește, stochează și corelează date fără un registru unic de mandate</li>
+      <li>CSAT coordonează cu transparență limitată</li>
+      <li>Parlamentul primește informări filtrate, nu date verificabile</li>
+      <li>Procurorii primesc sesizări, nu lanțuri de probe trasabile</li>
+      <li>Nu există o pistă de audit independentă care să lege datele de un temei legal</li>
+    </ul>
+  </section>
+  <section class="card" aria-labelledby="h-target">
+    <p class="muted small">Propunere</p>
+    <h2 id="h-target">Starea țintă (post-reformă)</h2>
+    <ul>
+      <li>Hub-and-spoke: vault-uri de caz ale agențiilor în jurul unui broker IADE fără stare</li>
+      <li>Tokenurile de mandat SSC controlează fiecare transfer de conținut</li>
+      <li>Registru de audit append-only, verificabil criptografic</li>
+      <li>Supraveghere IG / JPC / ITAP fără acces operațional</li>
+      <li>DNSC gestionează apărarea cibernetică civilă, separat de serviciile de informații</li>
+    </ul>
+    <p class="small muted">Starea țintă este o propunere a acestui proiect, nu legea în vigoare.</p>
+  </section>
+</div>
+
+<section class="card" aria-labelledby="h-tour">
+  <h2 id="h-tour">Traseu sugerat prin demo</h2>
+  <ol>
+    <li><a href="02-graph.html">Starea actuală</a>: alegeți noduri și muchii pentru a inspecta pistele de audit de bază.</li>
+    <li><a href="02-graph.html#tinta">Starea țintă</a>: arhitectura hub-and-spoke cu tokenuri de mandat.</li>
+    <li><a href="05-handshake.html">Handshake T3–T6</a>: parcurgeți o cerere legală de date interinstituțională.</li>
+    <li>Red Team: o interogare masivă neautorizată este blocată de două ori și înregistrată.</li>
+    <li>Supraveghere: metrici agregate și integritatea lanțului hash din registrul de audit.</li>
+  </ol>
+</section>
+
+<section class="card" aria-labelledby="h-states">
+  <h2 id="h-states">Stări ale paginii</h2>
+  <p class="small muted" lang="en">Design reference: the states every data surface on this app renders. The app is static and in-memory, so only the Governance diagrams can take time.</p>
+  <div class="three">
+    <div class="status loading" role="status"><span class="ico" aria-hidden="true">…</span><div><strong>Se pregătesc diagramele</strong><div class="small muted">Pasul 2 din 3: se redă diagrama „Supravegherea pe straturi”.</div><div class="progress"><i style="width:66%"></i></div></div></div>
+    <div class="status error" role="alert"><span class="ico" aria-hidden="true">!</span><div><strong>Diagrama nu a putut fi redată</strong><div class="small muted">Textul documentului rămâne disponibil mai jos.</div><div style="margin-top:.5rem"><button class="btn small secondary">Reîncercați</button></div></div></div>
+  </div>
+</section>

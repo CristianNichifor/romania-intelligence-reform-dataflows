@@ -1,0 +1,9 @@
+.graph-head{display:flex;flex-wrap:wrap;gap:var(--civic-space-3);align-items:end;justify-content:space-between;margin-bottom:var(--civic-space-4)}
+.seg{display:inline-flex;border:1px solid var(--civic-border);border-radius:var(--civic-radius);overflow:hidden}
+.seg button{min-height:var(--civic-control-height);padding:0 var(--civic-space-4);border:0;background:var(--civic-surface);color:var(--civic-text);font:inherit;font-weight:var(--civic-weight-heading);cursor:pointer}
+.seg [aria-pressed=true]{background:var(--civic-action);color:var(--civic-on-action)}
+.filters{display:flex;flex-wrap:wrap;gap:var(--civic-space-3);align-items:end;margin-bottom:var(--civic-space-4)}
+.filters .field{min-width:16rem;flex:1}
+.states{display:grid;gap:var(--civic-space-4);margin-top:var(--civic-space-5)}
+.canvas.c-current{aspect-ratio:16/9}
+@media (max-width:639px){.canvas{display:none}.legend-side{order:-1}}
