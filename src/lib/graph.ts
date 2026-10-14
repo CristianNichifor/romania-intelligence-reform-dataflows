@@ -105,7 +105,7 @@ export function edgeColor(flow: Flow): string {
     const audit = flow.audit ? pick(flow.audit, 'en') : 'Low'
     if (audit === 'Very low' || audit === 'None') return '#ef4444'
     if (audit === 'Low') return '#f59e0b'
-    return '#facc15'
+    return '#4ade80'
   }
   if (flow.id === 'W1' || flow.id === 'W2') return '#4ade80'
   if (flow.source === 'IADE' || flow.target === 'IADE') return '#60a5fa'
@@ -131,6 +131,15 @@ export function edgeColor(flow: Flow): string {
     return '#94a3b8'
   }
   return '#60a5fa'
+}
+
+/** Line style carries the audit trail, so it reads without colour: solid, dashed, dotted. */
+export function edgeDash(flow: Flow): string | undefined {
+  if (flow.category === 'target') return undefined
+  const audit = flow.audit ? pick(flow.audit, 'en') : 'Low'
+  if (audit === 'Very low' || audit === 'None') return '2 4'
+  if (audit === 'Low') return '7 4'
+  return undefined
 }
 
 export function buildGraph(
@@ -166,7 +175,7 @@ export function buildGraph(
       type: routing.type,
       sourceHandle: routing.sourceHandle,
       targetHandle: routing.targetHandle,
-      style: { stroke: color, strokeWidth: 1.5 },
+      style: { stroke: color, strokeWidth: 1.5, strokeDasharray: edgeDash(flow) },
       markerEnd: { type: MarkerType.ArrowClosed, color },
       labelStyle: { fill: '#cbd5e1', fontSize: 9, fontWeight: 700 },
       labelBgStyle: { fill: '#0b1220', fillOpacity: 0.92 },

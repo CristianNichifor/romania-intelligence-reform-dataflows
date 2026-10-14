@@ -3,6 +3,7 @@ import { appendLedger, getLedgerEntries } from '../lib/ledger'
 import { shortHash } from '../lib/crypto'
 import { sscReview, type RequestObject, type WarrantToken } from '../lib/warrant'
 import GlossedText from './GlossedText'
+import HandshakeMap from './HandshakeMap'
 import { useI18n } from '../i18n/useI18n'
 import type { MessageKey } from '../i18n/messages'
 
@@ -22,6 +23,9 @@ const REQUEST: RequestObject = {
 
 const STEP_KEYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
+// Step indexes whose ledger append is a T3–T6 hop.
+const HOP_AT_STEP: Record<number, string> = { 4: 'T3', 5: 'T4', 7: 'T5', 8: 'T6' }
+
 export default function HandshakeSim() {
   const { t, lang } = useI18n()
   const [stepIndex, setStepIndex] = useState(0)
@@ -30,6 +34,7 @@ export default function HandshakeSim() {
   const tokenRef = useRef<WarrantToken | null>(null)
   const [artifact, setArtifact] = useState<Artifact | null>(null)
   const [running, setRunning] = useState(false)
+  const [failed, setFailed] = useState(false)
   const timerRef = useRef<number | null>(null)
 
   const done = stepIndex >= STEP_KEYS.length
@@ -104,12 +109,24 @@ export default function HandshakeSim() {
     }
   }
 
+  // A step that throws (no Web Crypto, say) stays current and can be retried.
+  async function advance(): Promise<boolean> {
+    try {
+      await runStep(stepRef.current)
+    } catch {
+      setFailed(true)
+      return false
+    }
+    setFailed(false)
+    stepRef.current += 1
+    setStepIndex(stepRef.current)
+    return true
+  }
+
   async function next() {
     if (done || busyRef.current) return
     busyRef.current = true
-    await runStep(stepRef.current)
-    stepRef.current += 1
-    setStepIndex(stepRef.current)
+    await advance()
     busyRef.current = false
   }
 
@@ -132,11 +149,9 @@ export default function HandshakeSim() {
         return
       }
       busyRef.current = true
-      void runStep(stepRef.current).then(() => {
-        stepRef.current += 1
-        setStepIndex(stepRef.current)
+      void advance().then((ok) => {
         busyRef.current = false
-        if (stepRef.current >= STEP_KEYS.length) stopTimer()
+        if (!ok || stepRef.current >= STEP_KEYS.length) stopTimer()
       })
     }, 1100)
   }
@@ -145,6 +160,7 @@ export default function HandshakeSim() {
     stopTimer()
     stepRef.current = 0
     setStepIndex(0)
+    setFailed(false)
     tokenRef.current = null
     setArtifact(null)
   }
@@ -154,7 +170,7 @@ export default function HandshakeSim() {
       <div className="sim-head">
         <div>
           <p className="section-label">{t('section.sim')}</p>
-          <h2>{t('handshake.title')}</h2>
+          <h2 id="handshake-title">{t('handshake.title')}</h2>
         </div>
         <div className="sim-actions">
           <span className="sim-progress">
@@ -171,7 +187,22 @@ export default function HandshakeSim() {
           </button>
         </div>
       </div>
-      <div className="progress-track">
+      {failed && (
+        <div className="sim-error" role="alert">
+          <strong>{t('sim.failed')}</strong> {t('sim.failedHint')}{' '}
+          <button type="button" className="btn btn-ghost" onClick={next}>
+            {t('sim.retry')}
+          </button>
+        </div>
+      )}
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-labelledby="handshake-title"
+        aria-valuemin={0}
+        aria-valuemax={STEP_KEYS.length}
+        aria-valuenow={stepIndex}
+      >
         <div className="progress-fill" style={{ width: `${(stepIndex / STEP_KEYS.length) * 100}%` }} />
       </div>
       <div className="sim-body">
@@ -182,6 +213,7 @@ export default function HandshakeSim() {
               className={
                 index < stepIndex ? 'done' : index === stepIndex ? 'current' : 'pending'
               }
+              aria-current={index === stepIndex ? 'step' : undefined}
             >
               <div className="timeline-actor">{t(`handshake.s${key}.a` as MessageKey)}</div>
               <div className="timeline-title">
@@ -196,6 +228,7 @@ export default function HandshakeSim() {
           ))}
         </ol>
         <div className="sim-side">
+          <HandshakeMap activeHop={HOP_AT_STEP[stepIndex - 1] ?? null} />
           <div className="artifact-panel">
             <h3>{artifact ? artifact.label : t('handshake.artifact.pending')}</h3>
             {artifact && <pre className="artifact-json">{JSON.stringify(artifact.json, null, 2)}</pre>}

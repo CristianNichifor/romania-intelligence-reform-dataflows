@@ -1,0 +1,20 @@
+flowchart LR
+    DEP[Declarație înainte de plecare, depusă cu 30 de zile înainte de ieșire] --> IGR[Verificarea de către IG a destinației vizate]
+    IGR --> DB[Înregistrare în baza de date IG privind angajările]
+    DB --> PROC[Verificare încrucișată cu evidențele achizițiilor]
+    PROC --> DEC{Decizie de conformitate}
+    DEC -->|Aprobată| MON[Monitorizare pe durata perioadei de cooling-off]
+    DEC -->|Respinsă sau încălcare constatată| CON[Consecințe]
+    CON --> P1[Reducerea sau suspendarea pensiei]
+    CON --> P2[Recuperarea remunerației de la angajatorul interzis]
+    CON --> P3[Sesizare penală pentru declarație falsă]
+    MON --> REP[Raport public anual de conformitate către JPC]
+
+    classDef step fill:#0f1a2e,stroke:#2b3f63,color:#dce5f5,stroke-width:1px;
+    classDef decide fill:#2a2410,stroke:#fbbf24,color:#fbbf24,stroke-width:1.5px;
+    classDef bad fill:#2a1016,stroke:#fb7185,color:#fecdd3,stroke-width:1.5px;
+    classDef good fill:#0f2a20,stroke:#34d399,color:#a7f3d0,stroke-width:1.5px;
+    class DEP,IGR,DB,PROC step
+    class DEC decide
+    class CON,P1,P2,P3 bad
+    class MON,REP good

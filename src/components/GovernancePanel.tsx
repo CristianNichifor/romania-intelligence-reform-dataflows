@@ -2,60 +2,30 @@ import { useEffect, useRef, useState } from 'react'
 import MarkdownIt from 'markdown-it'
 import mermaid from 'mermaid'
 import { useI18n } from '../i18n/useI18n'
-import type { MessageKey } from '../i18n/messages'
+import type { Localized, MessageKey } from '../i18n/messages'
+import { MERMAID_CONFIG } from '../lib/mermaidConfig'
+import { pick } from '../i18n/messages'
+import { GOVERNANCE_DOCS } from './governanceDocs'
 
-import doc14 from '../../docs/14-leadership-appointment.md?raw'
-import doc15 from '../../docs/15-conflict-of-interest.md?raw'
-import doc16 from '../../docs/16-cooling-off-regime.md?raw'
-import doc17 from '../../docs/17-civil-society-oversight.md?raw'
-import doc18 from '../../docs/18-internal-control.md?raw'
-import doc19 from '../../docs/19-dcaf-references.md?raw'
 
 import diagAppointment from '../../diagrams/leadership-appointment.mmd?raw'
 import diagLayering from '../../diagrams/oversight-layering.mmd?raw'
 import diagCoolingOff from '../../diagrams/cooling-off-enforcement.mmd?raw'
 import diagConflict from '../../diagrams/conflict-of-interest-cycle.mmd?raw'
+import diagAppointmentRo from '../../diagrams/ro/leadership-appointment.mmd?raw'
+import diagLayeringRo from '../../diagrams/ro/oversight-layering.mmd?raw'
+import diagCoolingOffRo from '../../diagrams/ro/cooling-off-enforcement.mmd?raw'
+import diagConflictRo from '../../diagrams/ro/conflict-of-interest-cycle.mmd?raw'
 
 const md = new MarkdownIt({ html: false, linkify: true })
 
-mermaid.initialize({
-  startOnLoad: false,
-  theme: 'base',
-  securityLevel: 'loose',
-  fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
-  flowchart: { curve: 'basis', padding: 12, nodeSpacing: 36, rankSpacing: 36, htmlLabels: true },
-  themeVariables: {
-    darkMode: true,
-    background: '#070d18',
-    fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
-    fontSize: '14px',
-    primaryColor: '#0f1a2e',
-    primaryTextColor: '#dce5f5',
-    primaryBorderColor: '#38bdf8',
-    lineColor: '#7184a5',
-    secondaryColor: '#13213a',
-    tertiaryColor: '#1b2a45',
-    clusterBkg: '#0b1322',
-    clusterBorder: '#2b3f63',
-    edgeLabelBackground: '#070d18',
-    titleColor: '#dce5f5',
-  },
-})
+mermaid.initialize(MERMAID_CONFIG)
 
-const DOCS: Array<{ key: string; source: string }> = [
-  { key: '14 · Leadership Appointment', source: doc14 },
-  { key: '15 · Conflict of Interest', source: doc15 },
-  { key: '16 · Cooling-Off Regime', source: doc16 },
-  { key: '17 · Civil Society Oversight', source: doc17 },
-  { key: '18 · Internal Control', source: doc18 },
-  { key: '19 · DCAF References', source: doc19 },
-]
-
-const DIAGRAMS: Array<{ id: string; titleKey: MessageKey; source: string }> = [
-  { id: 'gov-mm-appointment', titleKey: 'gov.diagram.appointment', source: diagAppointment },
-  { id: 'gov-mm-layering', titleKey: 'gov.diagram.layering', source: diagLayering },
-  { id: 'gov-mm-coolingoff', titleKey: 'gov.diagram.coolingoff', source: diagCoolingOff },
-  { id: 'gov-mm-conflict', titleKey: 'gov.diagram.conflict', source: diagConflict },
+const DIAGRAMS: Array<{ id: string; titleKey: MessageKey; source: Localized }> = [
+  { id: 'gov-mm-appointment', titleKey: 'gov.diagram.appointment', source: { en: diagAppointment, ro: diagAppointmentRo } },
+  { id: 'gov-mm-layering', titleKey: 'gov.diagram.layering', source: { en: diagLayering, ro: diagLayeringRo } },
+  { id: 'gov-mm-coolingoff', titleKey: 'gov.diagram.coolingoff', source: { en: diagCoolingOff, ro: diagCoolingOffRo } },
+  { id: 'gov-mm-conflict', titleKey: 'gov.diagram.conflict', source: { en: diagConflict, ro: diagConflictRo } },
 ]
 
 const MIN_ZOOM = 0.4
@@ -66,8 +36,10 @@ function clampZoom(zoom: number): number {
 }
 
 function MermaidDiagram({ id, code, title }: { id: string; code: string; title: string }) {
+  const { t } = useI18n()
   const [svg, setSvg] = useState('')
   const [failed, setFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const [view, setView] = useState({ zoom: 1, x: 0, y: 0 })
   const [dragging, setDragging] = useState(false)
   const [boxSize, setBoxSize] = useState<{ w: number; h: number } | null>(null)
@@ -111,8 +83,11 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
 
   useEffect(() => {
     let cancelled = false
+    setSvg('')
+    setFailed(false)
+    // A fresh id per attempt: Mermaid leaves the failed render's node in the DOM.
     mermaid
-      .render(id, code)
+      .render(attempt ? `${id}-${attempt}` : id, code)
       .then((result) => {
         if (!cancelled) setSvg(result.svg)
       })
@@ -122,7 +97,7 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
     return () => {
       cancelled = true
     }
-  }, [id, code])
+  }, [id, code, attempt])
 
   function clampPan(zoom: number, size: number, value: number): number {
     const min = size * (1 - zoom)
@@ -263,21 +238,34 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
     }
   }
 
-  if (failed) return <div className="mermaid-error">diagram failed to render</div>
+  if (failed)
+    return (
+      <div className="gov-diagram-card">
+        <div className="gov-diagram-head">
+          <div className="gov-diagram-title">{title}</div>
+        </div>
+        <div className="mermaid-error" role="alert">
+          <p>{t('gov.diagram.failed')}</p>
+          <button type="button" className="btn" onClick={() => setAttempt((value) => value + 1)}>
+            {t('gov.diagram.retry')}
+          </button>
+        </div>
+      </div>
+    )
 
   return (
     <div className="gov-diagram-card">
       <div className="gov-diagram-head">
         <div className="gov-diagram-title">{title}</div>
         <div className="gov-diagram-controls">
-          <button type="button" onClick={() => zoomButtons(1 / 1.25)} aria-label="zoom out">
+          <button type="button" onClick={() => zoomButtons(1 / 1.25)} aria-label={t('gov.zoomOut')}>
             −
           </button>
           <span className="gov-zoom-value">{Math.round(view.zoom * 100)}%</span>
-          <button type="button" onClick={() => zoomButtons(1.25)} aria-label="zoom in">
+          <button type="button" onClick={() => zoomButtons(1.25)} aria-label={t('gov.zoomIn')}>
             +
           </button>
-          <button type="button" onClick={reset} aria-label="reset view">
+          <button type="button" onClick={reset} aria-label={t('gov.resetView')}>
             ⤢
           </button>
         </div>
@@ -298,6 +286,11 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
           className="mermaid-zoomable"
           style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.zoom})` }}
         >
+          {!svg && (
+            <p className="gov-diagram-status" role="status">
+              {t('gov.diagram.loading')}
+            </p>
+          )}
           <div ref={hostRef} className="mermaid-svg-host" dangerouslySetInnerHTML={{ __html: svg }} />
         </div>
       </div>
@@ -306,7 +299,7 @@ function MermaidDiagram({ id, code, title }: { id: string; code: string; title: 
 }
 
 export default function GovernancePanel() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
 
   return (
     <div className="shell">
@@ -327,7 +320,7 @@ export default function GovernancePanel() {
             <MermaidDiagram
               key={diagram.id}
               id={diagram.id}
-              code={diagram.source}
+              code={pick(diagram.source, lang)}
               title={t(diagram.titleKey)}
             />
           ))}
@@ -338,10 +331,10 @@ export default function GovernancePanel() {
         <p className="section-label">{t('gov.section.docs')}</p>
         <h3>{t('gov.section.docs')}</h3>
         <div className="gov-docs">
-          {DOCS.map((doc) => (
-            <article className="gov-md" key={doc.key}>
-              <div className="gov-doc-key">{doc.key}</div>
-              <div dangerouslySetInnerHTML={{ __html: md.render(doc.source) }} />
+          {GOVERNANCE_DOCS.map((doc) => (
+            <article className="gov-md" key={doc.id} lang={lang}>
+              <div className="gov-doc-key">{`${doc.id} · ${t(doc.titleKey)}`}</div>
+              <div dangerouslySetInnerHTML={{ __html: md.render(pick(doc.source, lang)) }} />
             </article>
           ))}
         </div>

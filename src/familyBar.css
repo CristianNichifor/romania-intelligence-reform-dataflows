@@ -1,0 +1,21 @@
+/* Family bar: the link back to the hub, at the start of the classification strip. */
+.family-bar a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+}
+.family-bar a:hover,
+.family-bar a:focus-visible {
+  text-decoration: underline;
+}
+
+/* Tool name next to the hub link, as in the DS-1 mockup. */
+.family-bar .family-tool {
+  margin-left: 10px;
+  color: var(--text);
+  letter-spacing: 0.06em;
+}

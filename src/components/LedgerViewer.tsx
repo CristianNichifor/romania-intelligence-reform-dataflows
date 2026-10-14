@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { shortHash } from '../lib/crypto'
 import { clearLedger, useLedger, verifyLedgerIntegrity } from '../lib/ledger'
 import { useI18n } from '../i18n/useI18n'
+import { formatTime } from '../lib/time'
 
 export default function LedgerViewer() {
-  const { t } = useI18n()
+  const { lang, t } = useI18n()
   const ledger = useLedger()
   const [integrity, setIntegrity] = useState<{ valid: boolean; brokenAt: number | null } | null>(null)
 
@@ -53,7 +54,7 @@ export default function LedgerViewer() {
               {[...ledger].reverse().map((entry) => (
                 <tr key={entry.id} className={entry.status === 'rejected' ? 'row-rejected' : undefined}>
                   <td>{entry.seq}</td>
-                  <td>{new Date(entry.timestamp).toLocaleTimeString()}</td>
+                  <td>{formatTime(entry.timestamp, lang)}</td>
                   <td><strong>{entry.flowType}</strong></td>
                   <td>{entry.initiator}</td>
                   <td>{entry.receiver}</td>

@@ -148,6 +148,13 @@ code,
   font-family: var(--display);
 }
 
+.app-title .header-purpose {
+  margin: 4px 0 2px;
+  max-width: 72ch;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
 .app-title .kicker {
   font-family: var(--mono);
   font-size: 10px;
@@ -213,6 +220,7 @@ code,
 }
 
 .nav-btn {
+  min-height: 44px;
   background: transparent;
   color: var(--text-dim);
   border: none;
@@ -250,6 +258,17 @@ code,
   min-height: 0;
   overflow: auto;
   padding: 20px;
+}
+
+/* The explorer fills the panel, so the panel takes the main area's height. */
+#view-panel {
+  height: 100%;
+}
+
+#view-panel:focus-visible,
+.nav-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .shell {
@@ -600,6 +619,11 @@ h3 {
   gap: 7px;
 }
 
+.legend .legend-ids {
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+
 .legend i {
   display: inline-block;
   width: 10px;
@@ -711,6 +735,11 @@ h3 {
   transition: opacity 0.2s ease;
 }
 
+.react-flow__edge.faded {
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
 .react-flow__edge:hover .react-flow__edge-path {
   stroke-width: 3 !important;
   filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.5));
@@ -815,6 +844,40 @@ h3 {
   padding-top: 10px;
 }
 
+.detail-sources {
+  margin-top: 12px;
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.detail-sources h4 {
+  margin: 0 0 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.detail-sources ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.detail-sources li + li {
+  margin-top: 4px;
+}
+
+.detail-sources a {
+  color: var(--accent);
+}
+
+.detail-sources p {
+  margin: 6px 0 0;
+}
+
 /* ---------- Simulations ---------- */
 
 .sim-head {
@@ -858,6 +921,7 @@ h3 {
   color: #03101d;
   border: none;
   border-radius: 8px;
+  min-height: 44px;
   padding: 8px 16px;
   font-weight: 600;
   cursor: pointer;
@@ -868,6 +932,17 @@ h3 {
   align-items: center;
   gap: 6px;
   transition: filter 0.12s ease, transform 0.12s ease;
+}
+
+.route-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.route-row .btn {
+  text-decoration: none;
 }
 
 .btn:hover:not(:disabled) {
@@ -1481,6 +1556,17 @@ h3 {
   padding: 12px;
 }
 
+.mermaid-error p {
+  margin: 0 0 10px;
+}
+
+.gov-diagram-status {
+  margin: 0;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .gov-docs {
   display: flex;
   flex-direction: column;
@@ -1598,4 +1684,387 @@ h3 {
   .mermaid-box {
     height: 480px;
   }
+}
+
+/* On phones the whole page scrolls, so the footer sits after the content instead of
+   holding a strip of the screen. */
+@media (max-width: 760px) {
+  .app {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .app-main {
+    overflow: visible;
+  }
+
+  #view-panel {
+    height: auto;
+  }
+}
+
+/* ---------- Explorer list layout (phones) ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.layout-toggle {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.explorer.explorer-list {
+  height: auto;
+  min-height: 0;
+}
+
+.explorer-list .explorer-toolbar {
+  position: static;
+  margin-bottom: 12px;
+}
+
+.flow-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.flow-item {
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  border-radius: 12px;
+  background: var(--bg-2);
+  padding: 12px 14px;
+}
+
+.flow-item h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.flow-id {
+  font-family: var(--mono);
+  color: var(--accent);
+  margin-right: 4px;
+}
+
+.flow-item dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(90px, auto) 1fr;
+  gap: 4px 10px;
+  font-size: 12.5px;
+}
+
+.flow-item dt {
+  color: var(--muted);
+}
+
+.flow-item dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Handshake map ---------- */
+
+.handshake-map {
+  margin: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.handshake-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.handshake-map .hop {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 2;
+  transition: stroke 0.2s ease;
+}
+
+.handshake-map marker path {
+  fill: var(--border-strong);
+}
+
+.handshake-map .hop.active {
+  stroke: var(--accent);
+  stroke-width: 3.5;
+}
+
+.handshake-map .hop-node circle {
+  fill: var(--bg-2);
+  stroke: var(--text-dim);
+  stroke-width: 1.5;
+}
+
+.handshake-map text {
+  fill: var(--text);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.handshake-map .token-chip rect {
+  fill: var(--accent);
+}
+
+.handshake-map .token-chip text {
+  fill: var(--bg-2);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.handshake-map figcaption {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  display: grid;
+  gap: 4px;
+}
+
+.handshake-map-hop {
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handshake-map .hop {
+    transition: none;
+  }
+}
+
+/* ---------- Forced colors (Windows High Contrast) ---------- */
+/* Colour carries category and audit level, so in forced colours the
+   shape cues take over: thicker borders, system colours, dash patterns kept. */
+
+@media (forced-colors: active) {
+  .actor-node {
+    border: 2px solid CanvasText !important;
+    box-shadow: none;
+  }
+
+  .actor-node-bar,
+  .react-flow__handle {
+    background: CanvasText !important;
+  }
+
+  .actor-node-glyph {
+    color: CanvasText !important;
+  }
+
+  .react-flow__edge-path {
+    stroke: CanvasText !important;
+  }
+
+  .react-flow__edge.selected .react-flow__edge-path {
+    stroke: Highlight !important;
+  }
+
+  .react-flow__edge-text {
+    fill: CanvasText;
+  }
+
+  .nav-btn.active {
+    border-bottom: 3px solid Highlight;
+  }
+
+  .chip.on {
+    border: 2px solid Highlight;
+  }
+
+  .handshake-map .hop {
+    stroke: GrayText;
+  }
+
+  .handshake-map .hop.active {
+    stroke: Highlight;
+    stroke-width: 4.5;
+  }
+
+  .handshake-map .hop-node circle,
+  .handshake-map marker path {
+    stroke: CanvasText;
+  }
+
+  .handshake-map .token-chip rect {
+    fill: Highlight;
+  }
+
+  .handshake-map .token-chip text {
+    fill: HighlightText;
+  }
+}
+
+/* ---------- Target view start hint (DS-2) ---------- */
+
+.explorer-hint {
+  position: absolute;
+  z-index: 5;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: min(70%, 460px);
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+.explorer-list .explorer-hint {
+  position: static;
+  transform: none;
+  width: auto;
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* ---------- Simulation step failure ---------- */
+
+.sim-error {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--bad);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.sim-error .btn {
+  margin-left: 6px;
+}
+
+/* ---------- Empty filter result ---------- */
+
+.explorer-empty {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(90%, 360px);
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 13px;
+  text-align: center;
+}
+
+.explorer-empty p {
+  margin: 0 0 10px;
+}
+
+.explorer-empty .chip {
+  min-height: 44px;
+}
+
+.explorer-list .explorer-empty {
+  position: static;
+  transform: none;
+  max-width: none;
+}
+
+/* ---------- Flow detail route row (DS-4) ---------- */
+
+.detail-route {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.route-glyph {
+  font-size: 12px;
+}
+
+/* ---------- Flow detail status blocks (DS-4) ---------- */
+
+.detail-status,
+.detail-note {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--border-strong);
+  border-left-width: 3px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.detail-status {
+  border-left-color: var(--warn);
+}
+
+.detail-note {
+  border-left-color: var(--accent);
+}
+
+/* ---------- Phone list count line (DS-3) ---------- */
+
+.flow-count {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+/* ---------- Source host and checked date ---------- */
+
+.source-meta {
+  display: block;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+/* ---------- Phone list rows (DS-3) ---------- */
+
+.audit-swatch {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@media (max-width: 639px) {
+  .explorer-toolbar .chip {
+    min-height: 44px;
+    padding: 4px 12px;
+  }
+}
+
+/* ---------- Legend glyphs (DS-2) ---------- */
+
+.legend-glyph {
+  font-weight: 400;
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+/* ---------- Legend glyphs (DS-2) ---------- */
+
+.legend-glyph {
+  font-weight: 400;
+  font-size: 11px;
+  margin-right: 4px;
 }

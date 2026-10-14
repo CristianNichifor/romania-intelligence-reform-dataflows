@@ -29,6 +29,7 @@ export default function RedTeamScenario() {
   const busyRef = useRef(false)
   const [artifact, setArtifact] = useState<Artifact | null>(null)
   const [running, setRunning] = useState(false)
+  const [failed, setFailed] = useState(false)
   const timerRef = useRef<number | null>(null)
 
   const done = stepIndex >= STEP_KEYS.length
@@ -72,12 +73,24 @@ export default function RedTeamScenario() {
     }
   }
 
+  // A step that throws (no Web Crypto, say) stays current and can be retried.
+  async function advance(): Promise<boolean> {
+    try {
+      await runStep(stepRef.current)
+    } catch {
+      setFailed(true)
+      return false
+    }
+    setFailed(false)
+    stepRef.current += 1
+    setStepIndex(stepRef.current)
+    return true
+  }
+
   async function next() {
     if (done || busyRef.current) return
     busyRef.current = true
-    await runStep(stepRef.current)
-    stepRef.current += 1
-    setStepIndex(stepRef.current)
+    await advance()
     busyRef.current = false
   }
 
@@ -100,11 +113,9 @@ export default function RedTeamScenario() {
         return
       }
       busyRef.current = true
-      void runStep(stepRef.current).then(() => {
-        stepRef.current += 1
-        setStepIndex(stepRef.current)
+      void advance().then((ok) => {
         busyRef.current = false
-        if (stepRef.current >= STEP_KEYS.length) stopTimer()
+        if (!ok || stepRef.current >= STEP_KEYS.length) stopTimer()
       })
     }, 1300)
   }
@@ -113,6 +124,7 @@ export default function RedTeamScenario() {
     stopTimer()
     stepRef.current = 0
     setStepIndex(0)
+    setFailed(false)
     setArtifact(null)
   }
 
@@ -121,7 +133,7 @@ export default function RedTeamScenario() {
       <div className="sim-head">
         <div>
           <p className="section-label">{t('section.sim')}</p>
-          <h2>{t('redteam.title')}</h2>
+          <h2 id="redteam-title">{t('redteam.title')}</h2>
         </div>
         <div className="sim-actions">
           <span className="sim-progress">
@@ -138,7 +150,22 @@ export default function RedTeamScenario() {
           </button>
         </div>
       </div>
-      <div className="progress-track">
+      {failed && (
+        <div className="sim-error" role="alert">
+          <strong>{t('sim.failed')}</strong> {t('sim.failedHint')}{' '}
+          <button type="button" className="btn btn-ghost" onClick={next}>
+            {t('sim.retry')}
+          </button>
+        </div>
+      )}
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-labelledby="redteam-title"
+        aria-valuemin={0}
+        aria-valuemax={STEP_KEYS.length}
+        aria-valuenow={stepIndex}
+      >
         <div className="progress-fill" style={{ width: `${(stepIndex / STEP_KEYS.length) * 100}%` }} />
       </div>
       {blocked && (
@@ -149,6 +176,7 @@ export default function RedTeamScenario() {
           {STEP_KEYS.map((key, index) => (
             <li
               key={key}
+              aria-current={index === stepIndex ? 'step' : undefined}
               className={
                 index < stepIndex
                   ? FAILED_STEPS.has(index)
