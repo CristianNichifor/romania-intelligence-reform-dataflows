@@ -1732,6 +1732,7 @@ h3 {
 
 .flow-item {
   border: 1px solid var(--border);
+  border-left-width: 4px;
   border-radius: 12px;
   background: var(--bg-2);
   padding: 12px 14px;

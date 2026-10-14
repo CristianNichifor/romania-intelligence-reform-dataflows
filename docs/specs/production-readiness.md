@@ -239,7 +239,8 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   horizontal overflow; chips and toggles ≥ 44 px.
 - Mockup: `03-mobile-list.html`. Test: extend `tests/e2e/mobile-list.spec.ts`.
 - Landed: risk and audit line swatch per row (#45), 44 px chips, the empty
-  states (UX-11, DS-2) and a count line "5 din 14 fluxuri"
+  states (UX-11, DS-2), a count line "5 din 14 fluxuri" and a left edge in
+  the destination's category colour beside its name
   (`tests/e2e/mobile-list.spec.ts`, `src/i18n/count.test.ts`). No error state:
   the list reads bundled data and cannot fail to load.
 

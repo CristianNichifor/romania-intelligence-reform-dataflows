@@ -186,16 +186,21 @@ function DetailPanel({
   )
 }
 
-function FlowList({ flows, actors }: { flows: Flow[]; actors: Actor[] }) {
+function FlowList({ flows, actors, mode }: { flows: Flow[]; actors: Actor[]; mode: GraphMode }) {
   const { t, lang } = useI18n()
   const name = (id: string) => {
     const actor = actors.find((candidate) => candidate.id === id)
     return actor ? pick(actor.name, lang) : id
   }
+  // The destination's category colour, beside its name in the heading, never alone.
+  const destinationColor = (id: string) => {
+    const actor = actors.find((candidate) => candidate.id === id)
+    return actor ? resolveActorColor(actor, mode) : undefined
+  }
   return (
     <ul className="flow-list" aria-label={t('explorer.flows')}>
       {flows.map((flow) => (
-        <li key={flow.id} className="flow-item">
+        <li key={flow.id} className="flow-item" style={{ borderLeftColor: destinationColor(flow.target) }}>
           <h3>
             <span className="flow-id">{flow.id}</span> {name(flow.source)} <span aria-hidden="true">→</span>
             <span className="sr-only">{` ${t('detail.routeTo')} `}</span> {name(flow.target)}
@@ -507,7 +512,7 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
         listFlows.length > 0 && (
           <>
             <p className="flow-count">{t('explorer.count', { shown: listFlows.length, total: flows.length })}</p>
-            <FlowList flows={listFlows} actors={actors} />
+            <FlowList flows={listFlows} actors={actors} mode={mode} />
           </>
         )
       ) : (
