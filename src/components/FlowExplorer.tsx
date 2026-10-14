@@ -14,7 +14,8 @@ import ActorNode from './ActorNode'
 import GlossedText from './GlossedText'
 import { buildGraph, edgeColor, edgeDash, type GraphMode } from '../lib/graph'
 import { edgeClusterSwatches, legendSwatches, lineStyleFlowIds, type LineStyle } from '../lib/legend'
-import { currentActors, targetActors } from '../data/actors'
+import { currentActors, resolveActorColor, targetActors } from '../data/actors'
+import { CATEGORY_GLYPHS } from '../lib/glyphs'
 import { currentFlows, targetFlows } from '../data/flows'
 import { useI18n } from '../i18n/useI18n'
 import { pick, type MessageKey } from '../i18n/messages'
@@ -60,7 +61,30 @@ type Selection =
   | { kind: 'actor'; actor: Actor }
   | null
 
-function DetailPanel({ selection, onClose }: { selection: Selection; onClose: () => void }) {
+function RouteEnd({ actor, mode, fallback }: { actor: Actor | undefined; mode: GraphMode; fallback: string }) {
+  const { lang } = useI18n()
+  if (!actor) return <span className="route-end">{fallback}</span>
+  return (
+    <span className="route-end">
+      <span className="route-glyph" aria-hidden="true" style={{ color: resolveActorColor(actor, mode) }}>
+        {CATEGORY_GLYPHS[actor.category]}
+      </span>{' '}
+      {pick(actor.name, lang)}
+    </span>
+  )
+}
+
+function DetailPanel({
+  selection,
+  actors,
+  mode,
+  onClose,
+}: {
+  selection: Selection
+  actors: Actor[]
+  mode: GraphMode
+  onClose: () => void
+}) {
   const { t, lang } = useI18n()
   if (!selection) return null
   if (selection.kind === 'flow') {
@@ -83,6 +107,12 @@ function DetailPanel({ selection, onClose }: { selection: Selection; onClose: ()
             ×
           </button>
         </div>
+        <p className="detail-route">
+          <RouteEnd actor={actors.find((actor) => actor.id === flow.source)} mode={mode} fallback={flow.source} />{' '}
+          <span aria-hidden="true">→</span>
+          <span className="sr-only">{lang === 'ro' ? ' către ' : ' to '}</span>{' '}
+          <RouteEnd actor={actors.find((actor) => actor.id === flow.target)} mode={mode} fallback={flow.target} />
+        </p>
         <table className="kv-table">
           <tbody>
             {rows.map(([key, value]) => (
@@ -494,6 +524,8 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
       )}
       <DetailPanel
         selection={selection}
+        actors={actors}
+        mode={mode}
         onClose={() => {
           setSelection(null)
           setSelectedEdgeId(null)

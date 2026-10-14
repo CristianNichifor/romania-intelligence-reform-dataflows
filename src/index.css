@@ -1914,6 +1914,18 @@ h3 {
   max-width: none;
 }
 
+/* ---------- Flow detail route row (DS-4) ---------- */
+
+.detail-route {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.route-glyph {
+  font-size: 12px;
+}
+
 /* ---------- Flow detail status blocks (DS-4) ---------- */
 
 .detail-status,

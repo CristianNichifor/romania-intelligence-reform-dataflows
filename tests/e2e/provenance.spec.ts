@@ -56,3 +56,14 @@ test('selecting a flow fades the other edges', async ({ page }) => {
   await expect(page.locator('.react-flow__edge[data-id="current:C6"]')).not.toHaveClass(/faded/)
   await expect(page.locator('.react-flow__edge[data-id="current:C1"]')).toHaveClass(/faded/)
 })
+
+test('the flow detail opens with its route and category glyphs', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ro-intel-lang', 'en'))
+  await page.goto(`${BASE}#/current`)
+  await page.locator('.react-flow__edge[data-id="current:C6"] .react-flow__edge-textwrapper').dispatchEvent('click')
+  const route = page.locator('.detail-panel .detail-route')
+  await expect(route).toBeVisible()
+  await expect(route.locator('.route-glyph')).toHaveCount(2)
+  await expect(route).toContainText('→')
+  await expect(route.locator('.sr-only')).toHaveText(/^\s*to\s*$/)
+})
