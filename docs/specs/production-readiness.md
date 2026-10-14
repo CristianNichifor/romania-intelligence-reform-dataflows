@@ -195,13 +195,19 @@ Romanian copy in the mockups is agent-written: **needs human review**.
 - Mockup: `docs/design/screens/01-overview.html`. Test to add: `tests/e2e/names.spec.ts`
   (H1, title, family bar, provenance line); closes D1, D2.
 
-### DS-2 Graph legend explains every channel — todo
+### DS-2 Graph legend explains every channel — done (filter echo open)
 - Given either graph, then the legend lists node glyph + category, the three line
   styles (current) and the edge-colour clusters (target), each with the flow IDs it
   covers; an "Afișează ca tabel" link opens the list view at any width.
 - Given a filter with no match, then an empty state names the filter and offers
   "Șterge filtrele".
 - Mockup: `02-graph.html`. Test: extend `tests/e2e/graph-ux.spec.ts`; closes D3, D11.
+- Landed: legend glyphs, line-style and edge-colour flow IDs (`src/lib/legend.ts`,
+  `tests/e2e/graph-ux.spec.ts`); the Graf/Listă toggle at every width and a
+  "Șterge filtrele" button in the empty state that clears the search and shows
+  every category (`tests/e2e/empty-filter.spec.ts`). Open: the empty state does
+  not yet repeat the filter text. "Șterge filtrele" is agent-written:
+  **needs human review**.
 
 ### DS-3 Mobile list is the table alternative — todo
 - Given 390 px, then each list item shows ID, source → destination, data type,

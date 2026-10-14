@@ -1895,6 +1895,14 @@ h3 {
   text-align: center;
 }
 
+.explorer-empty p {
+  margin: 0 0 10px;
+}
+
+.explorer-empty .chip {
+  min-height: 44px;
+}
+
 .explorer-list .explorer-empty {
   position: static;
   transform: none;
