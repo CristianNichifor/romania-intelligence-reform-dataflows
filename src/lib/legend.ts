@@ -5,6 +5,8 @@ import type { GraphMode } from './graph'
 import { CATEGORY_GLYPHS } from './glyphs'
 import { currentFlows } from '../data/flows'
 import { edgeDash, type GraphMode } from './graph'
+import { currentFlows, targetFlows } from '../data/flows'
+import { edgeColor, edgeDash, type GraphMode } from './graph'
 
 export interface LegendSwatch {
   key: MessageKey
@@ -42,6 +44,7 @@ export function legendSwatches(mode: GraphMode): LegendSwatch[] {
         node('legend.target.i4', 'justice', mode),
         node('legend.target.i5', 'civilian', mode),
         node('legend.target.i6', 'agency', mode),
+        node('cat.executive', 'executive', mode),
       ]
 }
 
@@ -57,4 +60,29 @@ export function lineStyleFlowIds(): Record<LineStyle, string[]> {
     buckets[style].push(flow.id)
   }
   return buckets
+}
+
+export interface EdgeClusterSwatch {
+  key: MessageKey
+  color: string
+  ids: string[]
+}
+
+// Target-state edge colours name the counterpart cluster (src/lib/graph.ts edgeColor).
+// The legend reuses the category labels and lists the flows behind each colour.
+const EDGE_CLUSTER_KEYS: Array<[string, MessageKey]> = [
+  ['#4ade80', 'cat.judicial'],
+  ['#60a5fa', 'cat.broker'],
+  ['#f472b6', 'cat.oversight'],
+  ['#2dd4bf', 'cat.civilian'],
+  ['#c084fc', 'cat.justice'],
+  ['#94a3b8', 'cat.executive'],
+]
+
+export function edgeClusterSwatches(): EdgeClusterSwatch[] {
+  return EDGE_CLUSTER_KEYS.map(([color, key]) => ({
+    key,
+    color,
+    ids: targetFlows.filter((flow) => edgeColor(flow) === color).map((flow) => flow.id),
+  })).filter((cluster) => cluster.ids.length > 0)
 }

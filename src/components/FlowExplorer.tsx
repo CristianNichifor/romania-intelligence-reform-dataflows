@@ -13,7 +13,7 @@ import '@xyflow/react/dist/style.css'
 import ActorNode from './ActorNode'
 import GlossedText from './GlossedText'
 import { buildGraph, type GraphMode } from '../lib/graph'
-import { legendSwatches, lineStyleFlowIds, type LineStyle } from '../lib/legend'
+import { edgeClusterSwatches, legendSwatches, lineStyleFlowIds, type LineStyle } from '../lib/legend'
 import { currentActors, targetActors } from '../data/actors'
 import { currentFlows, targetFlows } from '../data/flows'
 import { useI18n } from '../i18n/useI18n'
@@ -229,6 +229,16 @@ function Legend({ mode }: { mode: GraphMode }) {
                 </svg>
                 {t(key)}
                 <span className="legend-ids"> · {lineStyleFlowIds()[style].join(', ')}</span>
+              </span>
+            ))}
+          {mode === 'target' &&
+            edgeClusterSwatches().map(({ key, color, ids }) => (
+              <span key={`edge-${key}`}>
+                <svg width="22" height="6" aria-hidden="true">
+                  <line x1="0" y1="3" x2="22" y2="3" stroke={color} strokeWidth="2" />
+                </svg>
+                {t(key)}
+                <span className="legend-ids"> · {ids.join(', ')}</span>
               </span>
             ))}
         </div>
