@@ -34,6 +34,7 @@ export default function HandshakeSim() {
   const tokenRef = useRef<WarrantToken | null>(null)
   const [artifact, setArtifact] = useState<Artifact | null>(null)
   const [running, setRunning] = useState(false)
+  const [failed, setFailed] = useState(false)
   const timerRef = useRef<number | null>(null)
 
   const done = stepIndex >= STEP_KEYS.length
@@ -108,12 +109,24 @@ export default function HandshakeSim() {
     }
   }
 
+  // A step that throws (no Web Crypto, say) stays current and can be retried.
+  async function advance(): Promise<boolean> {
+    try {
+      await runStep(stepRef.current)
+    } catch {
+      setFailed(true)
+      return false
+    }
+    setFailed(false)
+    stepRef.current += 1
+    setStepIndex(stepRef.current)
+    return true
+  }
+
   async function next() {
     if (done || busyRef.current) return
     busyRef.current = true
-    await runStep(stepRef.current)
-    stepRef.current += 1
-    setStepIndex(stepRef.current)
+    await advance()
     busyRef.current = false
   }
 
@@ -136,11 +149,9 @@ export default function HandshakeSim() {
         return
       }
       busyRef.current = true
-      void runStep(stepRef.current).then(() => {
-        stepRef.current += 1
-        setStepIndex(stepRef.current)
+      void advance().then((ok) => {
         busyRef.current = false
-        if (stepRef.current >= STEP_KEYS.length) stopTimer()
+        if (!ok || stepRef.current >= STEP_KEYS.length) stopTimer()
       })
     }, 1100)
   }
@@ -149,6 +160,7 @@ export default function HandshakeSim() {
     stopTimer()
     stepRef.current = 0
     setStepIndex(0)
+    setFailed(false)
     tokenRef.current = null
     setArtifact(null)
   }
@@ -175,6 +187,14 @@ export default function HandshakeSim() {
           </button>
         </div>
       </div>
+      {failed && (
+        <div className="sim-error" role="alert">
+          <strong>{t('sim.failed')}</strong> {t('sim.failedHint')}{' '}
+          <button type="button" className="btn btn-ghost" onClick={next}>
+            {t('sim.retry')}
+          </button>
+        </div>
+      )}
       <div
         className="progress-track"
         role="progressbar"

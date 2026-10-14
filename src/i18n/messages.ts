@@ -171,6 +171,9 @@ const en = {
   'sim.auto': 'Auto run',
   'sim.stop': 'Stop',
   'sim.reset': 'Reset',
+  'sim.failed': 'This step could not be signed.',
+  'sim.failedHint': 'The browser did not provide Web Crypto. Reload the page or use a current browser.',
+  'sim.retry': 'Retry',
   'sim.step': 'STEP {a}/{b}',
   'handshake.title': 'Flow T3–T6 · Cross-Agency Data Handshake',
   'handshake.note':
@@ -510,6 +513,9 @@ const ro: Record<MessageKey, string> = {
   'sim.auto': 'Auto',
   'sim.stop': 'Oprește',
   'sim.reset': 'Resetează',
+  'sim.failed': 'Pasul nu a putut fi semnat.',
+  'sim.failedHint': 'Browserul nu a oferit Web Crypto. Reîncărcați pagina sau folosiți un browser actual.',
+  'sim.retry': 'Reîncercați',
   'sim.step': 'PAS {a}/{b}',
   'handshake.title': 'Fluxul T3–T6 · Handshake de date interinstituțional',
   'handshake.note':

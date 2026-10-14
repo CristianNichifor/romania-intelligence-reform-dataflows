@@ -197,6 +197,14 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   then it uses comma-below ș ț, never cedilla ş ţ.
 - Test: `src/i18n/copyRules.test.ts`, `tests/unit/diacritics.test.mjs`.
 
+### UX-14 A failed simulation step is stated and retried — done
+- Given the handshake or red-team walkthrough, when a step throws (for example no
+  Web Crypto on an insecure origin), then a `role="alert"` says the step could
+  not be signed, the step stays current, auto-run stops, and "Reîncercați" runs
+  it again. Before, the walkthrough froze: `next()` never released its busy flag.
+- Copy from the DS-5 mockup, agent-written: **needs human review**.
+- Test: `tests/e2e/sim-failure.spec.ts`.
+
 ## Theme F: design screens (target state for implementation)
 
 Static mockups under `docs/design/screens/`, indexed by `docs/design/README.md`.

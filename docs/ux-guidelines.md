@@ -166,6 +166,7 @@ never connects to real systems.
 | Red-team progress and current step exposed | `tests/e2e/redteam.spec.ts` |
 | Handshake runs end to end with its audit trail; all four governance diagrams render | `tests/e2e/readiness.spec.ts` |
 | Copy rules, diacritics, no inline copy, stylesheet blocks | `src/i18n/copyRules.test.ts`, `tests/unit/diacritics.test.mjs`, `tests/unit/inline-copy.test.mjs`, `tests/unit/styles.test.mjs` |
+| A failed handshake or red-team step is stated and retried | `tests/e2e/sim-failure.spec.ts` |
 | Checklist cites real tests and lists every spec | `tests/unit/checklist.test.mjs` |
 
 ## 9. Known deviations (backlog)
