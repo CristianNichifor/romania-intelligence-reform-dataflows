@@ -110,7 +110,7 @@ function DetailPanel({
         <p className="detail-route">
           <RouteEnd actor={actors.find((actor) => actor.id === flow.source)} mode={mode} fallback={flow.source} />{' '}
           <span aria-hidden="true">→</span>
-          <span className="sr-only">{lang === 'ro' ? ' către ' : ' to '}</span>{' '}
+          <span className="sr-only">{` ${t('detail.routeTo')} `}</span>{' '}
           <RouteEnd actor={actors.find((actor) => actor.id === flow.target)} mode={mode} fallback={flow.target} />
         </p>
         <table className="kv-table">
@@ -198,7 +198,7 @@ function FlowList({ flows, actors }: { flows: Flow[]; actors: Actor[] }) {
         <li key={flow.id} className="flow-item">
           <h3>
             <span className="flow-id">{flow.id}</span> {name(flow.source)} <span aria-hidden="true">→</span>
-            <span className="sr-only">{lang === 'ro' ? ' către ' : ' to '}</span> {name(flow.target)}
+            <span className="sr-only">{` ${t('detail.routeTo')} `}</span> {name(flow.target)}
           </h3>
           <dl>
             <dt>{t('detail.dataType')}</dt>
