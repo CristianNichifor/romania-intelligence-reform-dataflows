@@ -153,6 +153,12 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   active handshake hop a Highlight stroke at least 4 px wide.
 - Test: `tests/e2e/forced-colors.spec.ts` (runs in CI).
 - `docs/ux-guidelines.md` D6 can be closed once PR #32, which edits that file, lands.
+### UX-7 Distinct audit edge colour (ux-guidelines D4) — done
+- Given the current-state graph, then no medium-audit edge shares a colour with
+  any current-state node (medium audit is green, not the oversight yellow), and
+  the legend's line samples use the edge colours.
+- Test: `src/lib/graph.test.ts`.
+- `docs/ux-guidelines.md` D4 can be closed once PR #32, which edits that file, lands.
 
 ## Out of scope here
 
