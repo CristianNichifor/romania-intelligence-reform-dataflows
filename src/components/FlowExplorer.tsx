@@ -20,7 +20,7 @@ import { useI18n } from '../i18n/useI18n'
 import { pick, type MessageKey } from '../i18n/messages'
 import type { Actor, ActorCategory, Flow } from '../data/types'
 import { DATASET_AS_OF } from '../data/sources'
-import { ERRATA_URL } from '../lib/links'
+import { ERRATA_URL, sourceHost } from '../lib/links'
 
 const nodeTypes = { actor: ActorNode }
 
@@ -106,6 +106,9 @@ function DetailPanel({ selection, onClose }: { selection: Selection; onClose: ()
                   <a href={source.url} target="_blank" rel="noreferrer">
                     {source.title}
                   </a>
+                  <span className="source-meta">
+                    {sourceHost(source.url)} · <time dateTime={source.accessed}>{source.accessed}</time>
+                  </span>
                 </li>
               ))}
             </ul>

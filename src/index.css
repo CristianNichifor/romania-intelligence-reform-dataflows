@@ -835,6 +835,13 @@ h3 {
   color: var(--text-dim);
 }
 
+.detail-sources .source-meta {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
 .detail-sources h4 {
   margin: 0 0 6px;
   font-family: var(--mono);
