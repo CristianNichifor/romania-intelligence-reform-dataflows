@@ -158,7 +158,7 @@ export default function HandshakeSim() {
       <div className="sim-head">
         <div>
           <p className="section-label">{t('section.sim')}</p>
-          <h2>{t('handshake.title')}</h2>
+          <h2 id="handshake-title">{t('handshake.title')}</h2>
         </div>
         <div className="sim-actions">
           <span className="sim-progress">
@@ -175,7 +175,14 @@ export default function HandshakeSim() {
           </button>
         </div>
       </div>
-      <div className="progress-track">
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-labelledby="handshake-title"
+        aria-valuemin={0}
+        aria-valuemax={STEP_KEYS.length}
+        aria-valuenow={stepIndex}
+      >
         <div className="progress-fill" style={{ width: `${(stepIndex / STEP_KEYS.length) * 100}%` }} />
       </div>
       <div className="sim-body">
@@ -186,6 +193,7 @@ export default function HandshakeSim() {
               className={
                 index < stepIndex ? 'done' : index === stepIndex ? 'current' : 'pending'
               }
+              aria-current={index === stepIndex ? 'step' : undefined}
             >
               <div className="timeline-actor">{t(`handshake.s${key}.a` as MessageKey)}</div>
               <div className="timeline-title">
