@@ -65,7 +65,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 
 ## Theme C: provenance
 
-### INT-4 Flow sources — todo
+### INT-4 Flow sources — done (C10 needs-human)
 - Given every flow, then it has `sources: {title, url, accessed}[]` with at least
   one entry, each URL valid `https:`, `accessed` an ISO date; or it is listed as
   needs-human with the reason.
@@ -73,8 +73,13 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Given a selected flow, when the detail panel opens, then it lists its sources as
   links.
 - Tests: `src/data/flows.test.ts`, `tests/e2e/provenance.spec.ts`.
+- Sources live in `src/data/sources.ts`, all checked 2026-10-14. Romanian acts
+  were matched to their legislatie.just.ro pages by the portal's own titles
+  (the portal refuses scripted requests, so a person should open each once):
+  **needs-human spot check**. C10 ("narratives" to the public) has no public
+  source and is listed in `ERRATA.md`: **needs-human**.
 
-### INT-5 Errata — todo
+### INT-5 Errata — done
 - Given the repo, then `ERRATA.md` explains how to report a correction and logs
   corrections.
 - Given the footer, then a "corrections" link points at `ERRATA.md` on GitHub.
