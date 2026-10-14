@@ -18,6 +18,8 @@ test('a phone opens the current flows as a list and toggles to the graph', async
   await expect(c1).toContainText('→')
   await expect(c1).toContainText('Legal basis')
   await expect(c1).toContainText('Auditability')
+  // The audit level repeats the graph's line style, so the list reads without colour: C1 is Low = dashed.
+  await expect(c1.locator('.audit-swatch line')).toHaveAttribute('stroke-dasharray', '7 4')
   await expect(c1.getByRole('link').first()).toHaveAttribute('href', /^https:/)
 
   await page.getByRole('button', { name: 'Graph' }).click()
