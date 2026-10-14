@@ -86,3 +86,16 @@ test('the list says how many flows it shows out of the total', async ({ page }) 
   await page.getByRole('button', { name: 'Show all' }).click()
   await expect(page.locator('.flow-count')).toHaveText('33 of 33 flows')
 })
+
+test('each list row is edged in its destination category colour', async ({ page }) => {
+  const { currentActors, resolveActorColor } = await import('../../src/data/actors')
+  const rgb = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((index) => parseInt(hex.slice(index, index + 2), 16))
+    return `rgb(${r}, ${g}, ${b})`
+  }
+  await page.goto(`${BASE}#/current`)
+  const c1 = page.getByRole('list', { name: 'Flows' }).getByRole('listitem').filter({ has: page.getByRole('heading', { name: /^C1 / }) })
+  const sri = currentActors.find((actor) => actor.id === 'SRI')!
+  await expect(c1).toHaveCSS('border-left-color', rgb(resolveActorColor(sri, 'current')))
+  await expect(c1).toHaveCSS('border-left-width', '4px')
+})
