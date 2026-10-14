@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { buildGraph } from './graph'
-import { currentActors, targetActors } from '../data/actors'
+import { buildGraph, edgeColor } from './graph'
+import { currentActors, resolveActorColor, targetActors } from '../data/actors'
 import { currentFlows, targetFlows } from '../data/flows'
 
 describe('graph data and rendering model', () => {
@@ -19,3 +19,12 @@ describe('graph data and rendering model', () => {
 
 })
 
+
+describe('current-state edge colours', () => {
+  it('never reuse a current-state node colour for an audit level', () => {
+    const nodeColours = new Set(currentActors.map((actor) => resolveActorColor(actor, 'current')))
+    const medium = currentFlows.filter((flow) => flow.audit?.en === 'Medium')
+    expect(medium.length).toBeGreaterThan(0)
+    for (const flow of medium) expect(nodeColours.has(edgeColor(flow))).toBe(false)
+  })
+})
