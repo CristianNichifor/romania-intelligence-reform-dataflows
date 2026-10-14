@@ -612,6 +612,11 @@ h3 {
   gap: 7px;
 }
 
+.legend .legend-ids {
+  font-family: var(--mono);
+  color: var(--text-dim);
+}
+
 .legend i {
   display: inline-block;
   width: 10px;

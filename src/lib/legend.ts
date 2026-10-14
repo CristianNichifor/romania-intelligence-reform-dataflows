@@ -3,6 +3,8 @@ import { categoryColors, currentStateOverrides } from '../data/actors'
 import type { MessageKey } from '../i18n/messages'
 import type { GraphMode } from './graph'
 import { CATEGORY_GLYPHS } from './glyphs'
+import { currentFlows } from '../data/flows'
+import { edgeDash, type GraphMode } from './graph'
 
 export interface LegendSwatch {
   key: MessageKey
@@ -41,4 +43,18 @@ export function legendSwatches(mode: GraphMode): LegendSwatch[] {
         node('legend.target.i5', 'civilian', mode),
         node('legend.target.i6', 'agency', mode),
       ]
+}
+
+export type LineStyle = 'solid' | 'dashed' | 'dotted'
+
+// The current-state legend names the flows each line style covers, so a reader
+// can check the graph against the list without relying on colour.
+export function lineStyleFlowIds(): Record<LineStyle, string[]> {
+  const buckets: Record<LineStyle, string[]> = { solid: [], dashed: [], dotted: [] }
+  for (const flow of currentFlows) {
+    const dash = edgeDash(flow)
+    const style: LineStyle = dash === '2 4' ? 'dotted' : dash === '7 4' ? 'dashed' : 'solid'
+    buckets[style].push(flow.id)
+  }
+  return buckets
 }

@@ -13,7 +13,7 @@ import '@xyflow/react/dist/style.css'
 import ActorNode from './ActorNode'
 import GlossedText from './GlossedText'
 import { buildGraph, type GraphMode } from '../lib/graph'
-import { legendSwatches } from '../lib/legend'
+import { legendSwatches, lineStyleFlowIds, type LineStyle } from '../lib/legend'
 import { currentActors, targetActors } from '../data/actors'
 import { currentFlows, targetFlows } from '../data/flows'
 import { useI18n } from '../i18n/useI18n'
@@ -219,15 +219,16 @@ function Legend({ mode }: { mode: GraphMode }) {
           ))}
           {mode === 'current' &&
             ([
-              ['legend.lines.audited', undefined],
-              ['legend.lines.weak', '7 4'],
-              ['legend.lines.none', '2 4'],
-            ] as Array<[MessageKey, string | undefined]>).map(([key, dash]) => (
+              ['legend.lines.audited', undefined, 'solid'],
+              ['legend.lines.weak', '7 4', 'dashed'],
+              ['legend.lines.none', '2 4', 'dotted'],
+            ] as Array<[MessageKey, string | undefined, LineStyle]>).map(([key, dash, style]) => (
               <span key={key}>
                 <svg width="22" height="6" aria-hidden="true">
                   <line x1="0" y1="3" x2="22" y2="3" stroke="#cbd5e1" strokeWidth="2" strokeDasharray={dash} />
                 </svg>
                 {t(key)}
+                <span className="legend-ids"> · {lineStyleFlowIds()[style].join(', ')}</span>
               </span>
             ))}
         </div>
