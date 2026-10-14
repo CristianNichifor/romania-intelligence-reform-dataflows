@@ -14,6 +14,8 @@ import type { MessageKey } from './i18n/messages'
 import type { GraphMode } from './lib/graph'
 import { seedLedger } from './lib/ledger'
 import { DOCS_URL, ERRATA_URL } from './lib/links'
+import { provenanceLine } from './lib/provenance'
+import { DATASET_AS_OF } from './data/sources'
 
 type View =
   | 'overview'
@@ -252,6 +254,7 @@ export default function App() {
           <div className="app-title">
             <div className="kicker">{t('header.kicker')}</div>
             <h1>{t('header.title')}</h1>
+            <div className="header-meta">{provenanceLine(lang, DATASET_AS_OF)}</div>
           </div>
           <div className="header-side">
             <span className="header-meta">{t('header.meta')}</span>
