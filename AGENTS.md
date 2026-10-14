@@ -14,7 +14,7 @@ Interactive demo of current and target-state information data flows between Roma
 
 - `dev` is the default branch. Correctness CI exposes `verify`; remote required-check settings are managed separately.
 - `main` is production. Agents must never merge any PR or deploy, regardless of credential permissions.
-- This repo ships GitHub Pages. That fires on a merge to `main`, which is the restricted branch — so an agent's work reaching `dev` deploys nothing.
+- This repo deploys to Cloudflare Pages (`.github/workflows/deploy-pages-cloudflare.yml`): `main` is production on projects.cristian-nichifor.com, `dev` is a gated preview. GitHub Pages (`deploy.yml`) publishes only a redirect from the old github.io URL.
 
 ## Working rules
 

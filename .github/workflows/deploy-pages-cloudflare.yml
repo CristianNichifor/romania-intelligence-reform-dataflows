@@ -4,8 +4,8 @@ name: Deploy to Cloudflare Pages
 # dev is its protected preview behind projects-dev.cristian-nichifor.com, through the CN Webify
 # preview gate (ADR-022), which functions/_middleware.js requires on every preview host.
 # The CN Webify token broker issues a one-hour Cloudflare token for this exact file, on main and
-# dev, for push and workflow_dispatch. No secret lives in the repo. deploy.yml (GitHub Pages)
-# stays until the hub proxies the Cloudflare build.
+# dev, for push and workflow_dispatch. No secret lives in the repo. GitHub Pages (deploy.yml)
+# only redirects the old github.io links here.
 
 on:
   push:
@@ -34,10 +34,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # As deploy.yml builds (npm run build), with the base the hub proxies 1:1.
+      # npm run build, with the base the hub proxies 1:1.
       - name: Build
         run: npx tsc -b && npx vite build --base "$BASE_PATH"
-      # The GitHub Pages layout: the app under /<slug>/, the root sends there.
+      # The app under /<slug>/, as the hub serves it; the root sends there.
       - name: Stage the site
         run: |
           set -euo pipefail
