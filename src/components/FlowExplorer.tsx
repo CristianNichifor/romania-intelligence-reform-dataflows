@@ -457,7 +457,12 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
         <p role="status" className="explorer-empty">{t('explorer.noFlows')}</p>
       ) : null}
       {layout === 'list' ? (
-        listFlows.length > 0 && <FlowList flows={listFlows} actors={actors} />
+        listFlows.length > 0 && (
+          <>
+            <p className="flow-count">{t('explorer.count', { shown: listFlows.length, total: flows.length })}</p>
+            <FlowList flows={listFlows} actors={actors} />
+          </>
+        )
       ) : (
         <div className="explorer-canvas">
           <ReactFlow

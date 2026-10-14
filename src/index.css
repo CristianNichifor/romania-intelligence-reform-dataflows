@@ -1909,6 +1909,15 @@ h3 {
   max-width: none;
 }
 
+/* ---------- Phone list count line (DS-3) ---------- */
+
+.flow-count {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
 /* ---------- Source host and checked date ---------- */
 
 .source-meta {
