@@ -162,7 +162,7 @@ never connects to real systems.
 
 | ID | Deviation | Where |
 |---|---|---|
-| D1 | Partly fixed: hub back link added; tool name, H1 from the naming registry and civic-ui `FamilyBar` still open | `src/App.tsx` header |
+| D1 | Mostly fixed (`tests/e2e/family-bar.spec.ts`, `tests/e2e/names.spec.ts`): hub back link, tool name, H1 and title from the naming registry, purpose line. Still open: civic-ui `FamilyBar` styling and the status badge (owner decision on the classification strip) | `src/App.tsx` header |
 | D2 | Fixed (`src/lib/provenance.ts`): no `Date: sursă, an` line under the H1 (as-of only inside the flow panel) | `src/App.tsx`, `DATASET_AS_OF` |
 | D3 | Fixed (`src/lib/legend.ts`, `src/lib/legend.test.ts`): legend node swatches come from the node colour table; line styles and target edge colours list their flow IDs, and the target legend has the executive entry | `src/components/FlowExplorer.tsx` `Legend` |
 | D4 | Current state uses yellow `#facc15` for both oversight nodes and medium-audit edges; reads as one concept | `src/data/actors.ts`, `src/lib/graph.ts` |
