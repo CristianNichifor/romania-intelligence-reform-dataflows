@@ -77,3 +77,12 @@ test('list rows carry risk and an audit line swatch; chips are 44 px', async ({ 
     expect((await chip.boundingBox())!.height).toBeGreaterThanOrEqual(44)
   }
 })
+
+test('the list says how many flows it shows out of the total', async ({ page }) => {
+  await page.goto(`${BASE}#/current`)
+  await expect(page.locator('.flow-count')).toHaveText('14 of 14 flows')
+  await page.goto(`${BASE}#/target`)
+  await expect(page.locator('.flow-count')).toHaveText(/^\d+ of 33 flows$/)
+  await page.getByRole('button', { name: 'Show all' }).click()
+  await expect(page.locator('.flow-count')).toHaveText('33 of 33 flows')
+})
