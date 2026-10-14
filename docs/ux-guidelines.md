@@ -155,11 +155,18 @@ never connects to real systems.
 | Reduced motion parks the handshake token | `tests/e2e/handshake-token.spec.ts` |
 | Assets under base path, no third-party requests | `tests/e2e/base-path.spec.ts` |
 | Unique bilingual nodes, valid flow endpoints | `src/lib/graph.test.ts`, `src/data/flows.test.ts` |
-| Ledger empty state | `ledger.empty` message; no test yet |
-| Edge colour per cluster (target) | none yet — legend table above is the reference |
+| Ledger: cleared empty state, then entries after the handshake | `tests/e2e/ledger.spec.ts` |
+| Edge colour per cluster (target); legend flow IDs | `src/lib/legend.test.ts`, `tests/e2e/graph-ux.spec.ts` |
 | Provenance line under H1 | `src/lib/provenance.test.ts` |
 | Family bar | `src/lib/links.test.ts`, `tests/e2e/family-bar.spec.ts` |
-| Forced colours | none yet — D6 |
+| Forced colours (D6) | `tests/e2e/forced-colors.spec.ts` |
+| Empty filter states and clear-filters (D11) | `tests/e2e/empty-filter.spec.ts` |
+| First screen names the tool, purpose, stat scopes, route | `tests/e2e/names.spec.ts` |
+| Governance diagrams: loading, failure + retry, RO controls | `tests/e2e/governance-states.spec.ts` |
+| Red-team progress and current step exposed | `tests/e2e/redteam.spec.ts` |
+| Handshake runs end to end with its audit trail; all four governance diagrams render | `tests/e2e/readiness.spec.ts` |
+| Copy rules, diacritics, no inline copy, stylesheet blocks | `src/i18n/copyRules.test.ts`, `tests/unit/diacritics.test.mjs`, `tests/unit/inline-copy.test.mjs`, `tests/unit/styles.test.mjs` |
+| Checklist cites real tests and lists every spec | `tests/unit/checklist.test.mjs` |
 
 ## 9. Known deviations (backlog)
 
