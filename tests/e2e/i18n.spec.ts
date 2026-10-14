@@ -15,3 +15,11 @@ test('html lang follows the language toggle', async ({ page }) => {
   await page.getByRole('button', { name: 'EN', exact: true }).click()
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
 })
+
+test('the governance tab renders the Romanian documents in Romanian', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ro-intel-lang', 'ro'))
+  await page.goto('/romania-intelligence-reform-dataflows/#/governance')
+  await expect(page.locator('.gov-doc-key').first()).toHaveText('14 · Numirea conducerii')
+  await expect(page.getByRole('heading', { level: 1, name: /^14 · Numirea conducerii/ })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /^19 · Referințe DCAF/ })).toBeVisible()
+})
