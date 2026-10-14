@@ -3,10 +3,11 @@ import {
   Background,
   BackgroundVariant,
   Controls,
-  MiniMap,
   ReactFlow,
   type Edge,
+  type FitViewOptions,
   type Node,
+  type ReactFlowInstance,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import ActorNode from './ActorNode'
@@ -15,7 +16,7 @@ import { buildGraph, type GraphMode } from '../lib/graph'
 import { currentActors, targetActors } from '../data/actors'
 import { useI18n } from '../i18n/useI18n'
 import { pick, type MessageKey } from '../i18n/messages'
-import type { Actor, ActorCategory, ActorNodeData, Flow } from '../data/types'
+import type { Actor, ActorCategory, Flow } from '../data/types'
 import { DATASET_AS_OF } from '../data/sources'
 import { ERRATA_URL } from '../lib/links'
 
@@ -31,6 +32,18 @@ const CATEGORY_FILTERS: Array<{ id: ActorCategory; labelKey: MessageKey }> = [
   { id: 'broker', labelKey: 'cat.broker' },
   { id: 'public', labelKey: 'cat.public' },
 ]
+
+// Keep nodes clear of the legend (top left) and the toolbar (top right) on wide screens.
+function fitOptions(): FitViewOptions {
+  const wide = typeof window !== 'undefined' && window.innerWidth > 920
+  return {
+    padding: wide ? { top: '120px', left: '330px', right: '40px', bottom: '40px' } : 0.1,
+    minZoom: 0.6,
+    maxZoom: 1,
+  }
+}
+
+const TARGET_DEFAULT = new Set<ActorCategory>(['agency', 'broker'])
 
 type Selection =
   | { kind: 'flow'; flow: Flow }
@@ -132,7 +145,7 @@ function DetailPanel({ selection, onClose }: { selection: Selection; onClose: ()
 
 function Legend({ mode }: { mode: GraphMode }) {
   const { t } = useI18n()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   const keys =
     mode === 'current'
       ? (['legend.current.i1', 'legend.current.i2', 'legend.current.i3', 'legend.current.i4', 'legend.current.i5'] as MessageKey[])
@@ -159,6 +172,19 @@ function Legend({ mode }: { mode: GraphMode }) {
               {t(key)}
             </span>
           ))}
+          {mode === 'current' &&
+            ([
+              ['legend.lines.audited', undefined],
+              ['legend.lines.weak', '7 4'],
+              ['legend.lines.none', '2 4'],
+            ] as Array<[MessageKey, string | undefined]>).map(([key, dash]) => (
+              <span key={key}>
+                <svg width="22" height="6" aria-hidden="true">
+                  <line x1="0" y1="3" x2="22" y2="3" stroke="#cbd5e1" strokeWidth="2" strokeDasharray={dash} />
+                </svg>
+                {t(key)}
+              </span>
+            ))}
         </div>
       )}
     </div>
@@ -172,7 +198,13 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
 
   const [query, setQuery] = useState('')
   const [showLabels, setShowLabels] = useState(true)
-  const [hiddenCats, setHiddenCats] = useState<Set<ActorCategory>>(new Set())
+  // 33 target flows at fit-to-screen zoom are unreadable, so the target view opens on the
+  // agencies and the broker; the visitor adds the rest.
+  const [hiddenCats, setHiddenCats] = useState<Set<ActorCategory>>(() =>
+    mode === 'target'
+      ? new Set(actors.map((actor) => actor.category).filter((category) => !TARGET_DEFAULT.has(category)))
+      : new Set(),
+  )
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [selection, setSelection] = useState<Selection>(null)
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null)
@@ -236,6 +268,12 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
     return { nodes: visibleNodes, edges: visibleEdges }
   }, [graph, hoveredId, mode, selectedEdgeId, showLabels, visibleActorIds])
 
+  const [instance, setInstance] = useState<ReactFlowInstance | null>(null)
+  const visibleKey = nodes.map((node) => node.id).join(',')
+  useEffect(() => {
+    if (instance) void instance.fitView({ ...fitOptions(), duration: 200 })
+  }, [instance, visibleKey])
+
   const onEdgeClick = (_event: React.MouseEvent, edge: Edge) => {
     const flow = (edge.data as { flow: Flow } | undefined)?.flow
     if (flow) {
@@ -293,6 +331,11 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
               {t(filter.labelKey)}
             </button>
           ))}
+          {hiddenCats.size > 0 && (
+            <button type="button" className="chip on" onClick={() => setHiddenCats(new Set())}>
+              {t('explorer.showAll')}
+            </button>
+          )}
           <button
             type="button"
             aria-pressed={showLabels}
@@ -316,18 +359,14 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
             setSelection(null)
             setSelectedEdgeId(null)
           }}
+          onInit={setInstance}
           fitView
-          fitViewOptions={{ padding: 0.15 }}
-          minZoom={0.3}
+          fitViewOptions={fitOptions()}
+          minZoom={0.6}
+          proOptions={{ hideAttribution: true }}
         >
           <Background variant={BackgroundVariant.Dots} gap={22} size={1.2} color="#16233c" />
           <Controls />
-          <MiniMap
-            pannable
-            zoomable
-            nodeColor={(node) => (node.data as ActorNodeData).color}
-            maskColor="rgba(2, 6, 14, 0.78)"
-          />
         </ReactFlow>
       </div>
       <DetailPanel selection={selection} onClose={() => setSelection(null)} />
