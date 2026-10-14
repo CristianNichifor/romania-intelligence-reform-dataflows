@@ -286,7 +286,7 @@ export default function App() {
         <div className="app-footer-inner">
           <span>romania-intelligence-reform-dataflows</span>
           <a href="https://github.com/CristianNichifor/romania-intelligence-reform-dataflows" target="_blank" rel="noreferrer">
-            source ↗
+            {t('footer.source')} ↗
           </a>
           <a href={ERRATA_URL} target="_blank" rel="noreferrer">
             {t('footer.corrections')} ↗

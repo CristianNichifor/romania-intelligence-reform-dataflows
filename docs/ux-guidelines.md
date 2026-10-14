@@ -169,8 +169,8 @@ never connects to real systems.
 | D4 | Current state uses yellow `#facc15` for both oversight nodes and medium-audit edges; reads as one concept | `src/data/actors.ts`, `src/lib/graph.ts` |
 | D5 | Dark-only theme with its own tokens; fleet default is light civic-ui tokens (dark canvases allowed for graphs) | `src/index.css` |
 | D6 | No `forced-colors` styles; node borders/edges unverified in High Contrast | `src/index.css` |
-| D7 | Ledger and oversight times use `toLocaleTimeString()` without the app language; "entry" is a hard-coded English literal | `src/components/LedgerViewer.tsx`, `src/components/OversightDashboard.tsx` |
-| D8 | Footer link text "source ↗" is a hard-coded English literal | `src/App.tsx` footer |
+| D7 | Fixed (`src/lib/time.ts`, `src/lib/time.test.ts`): ledger and oversight times used `toLocaleTimeString()` without the app language; "entry" is a hard-coded English literal | `src/components/LedgerViewer.tsx`, `src/components/OversightDashboard.tsx` |
+| D8 | Fixed (`footer.source`): footer link text "source ↗" was a hard-coded English literal | `src/App.tsx` footer |
 | D9 | Fixed (`min-height: 44px`, `tests/e2e/mobile-list.spec.ts`): tab buttons were ~33 px tall (`padding: 8px 12px 10px`, 12.5 px text): above 24 px, below the 44 px preference | `src/index.css` `.nav-btn` |
 | D10 | Diagram labels (`diagrams/*.mmd`) stay English in RO mode | `diagrams/` |
 | D11 | A search/chip filter with no matches shows an empty graph or list with no message | `src/components/FlowExplorer.tsx` |
