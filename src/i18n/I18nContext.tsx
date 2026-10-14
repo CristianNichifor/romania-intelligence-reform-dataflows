@@ -27,6 +27,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
+    document.documentElement.lang = lang
     document.title = translate('app.title', lang)
   }, [lang])
 
