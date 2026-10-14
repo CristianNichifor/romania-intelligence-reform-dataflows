@@ -153,6 +153,52 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   active handshake hop a Highlight stroke at least 4 px wide.
 - Test: `tests/e2e/forced-colors.spec.ts` (runs in CI).
 - `docs/ux-guidelines.md` D6 can be closed once PR #32, which edits that file, lands.
+## Theme F: design screens (target state for implementation)
+
+Static mockups under `docs/design/screens/`, indexed by `docs/design/README.md`.
+Each item below is an acceptance criterion an implementation PR turns into a test.
+Romanian copy in the mockups is agent-written: **needs human review**.
+
+### DS-1 Overview first screen — todo
+- Given the Overview, then a family bar (hub link "Proiecte civice", tool name
+  "Fluxuri de date", badge "Date demonstrative", language switch) sits above the
+  H1; the H1 is the registry name; a one-line purpose and a `Date: sursă, an`
+  provenance line with `DATASET_AS_OF` follow before any control.
+- Given the stat row, then the counts come from the data (13/14/15/33/6) and each
+  tile names its scope.
+- Mockup: `docs/design/screens/01-overview.html`. Test to add: `tests/e2e/names.spec.ts`
+  (H1, title, family bar, provenance line); closes D1, D2.
+
+### DS-2 Graph legend explains every channel — todo
+- Given either graph, then the legend lists node glyph + category, the three line
+  styles (current) and the edge-colour clusters (target), each with the flow IDs it
+  covers; an "Afișează ca tabel" link opens the list view at any width.
+- Given a filter with no match, then an empty state names the filter and offers
+  "Șterge filtrele".
+- Mockup: `02-graph.html`. Test: extend `tests/e2e/graph-ux.spec.ts`; closes D3, D11.
+
+### DS-3 Mobile list is the table alternative — todo
+- Given 390 px, then each list item shows ID, source → destination, data type,
+  legal basis, audit level with its line-style swatch, risk, and sources; no
+  horizontal overflow; chips and toggles ≥ 44 px.
+- Mockup: `03-mobile-list.html`. Test: extend `tests/e2e/mobile-list.spec.ts`.
+
+### DS-4 Flow detail with sources — todo
+- Given a selected flow, then the panel shows the route with glyphs, the key/value
+  table, the description, every source with host and checked date, and the
+  no-verified-source state (C10) with a link to `ERRATA.md`; target flows carry
+  the "propunere" note.
+- Mockup: `04-flow-detail.html`. Test: extend `tests/e2e/provenance.spec.ts`.
+
+### DS-5 Handshake controls and states — todo
+- Given the Handshake, then controls are ≥ 44 px, the progress bar is a
+  `progressbar` with values, the current step has `aria-current="step"`, the map
+  caption names the active hop, and reduced motion parks the token.
+- Mockup: `05-handshake.html`. Test: extend `tests/e2e/handshake-token.spec.ts`.
+
+### DS-6 Theme alignment — needs-human
+- The mockups use light civic-ui page chrome with a dark graph canvas (fleet
+  default, D5). Whether the app moves from dark-only to this is the owner's call.
 
 ## Out of scope here
 
