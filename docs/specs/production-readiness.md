@@ -153,6 +153,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   active handshake hop a Highlight stroke at least 4 px wide.
 - Test: `tests/e2e/forced-colors.spec.ts` (runs in CI).
 - `docs/ux-guidelines.md` D6 can be closed once PR #32, which edits that file, lands.
+
 ### UX-7 Distinct audit edge colour (ux-guidelines D4) — done
 - Given the current-state graph, then no medium-audit edge shares a colour with
   any current-state node (medium audit is green, not the oversight yellow), and
@@ -167,6 +168,16 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
   so instead of showing an empty list.
 - Romanian copy is agent-written: **needs human review**.
 - Test: `tests/e2e/empty-filter.spec.ts` (runs in CI).
+
+### UX-9 Romanian diagram labels (ux-guidelines D10) — done
+- Given every `diagrams/*.mmd`, then `diagrams/ro/` has a file with the same
+  name whose graph (node ids, edges, classes) matches line for line and whose
+  labels are Romanian with comma-below ș and ț.
+- Given the Governance tab in RO, then the diagrams render from `diagrams/ro/`.
+- Translations are agent-written: **needs human review**. The English edge
+  "AG supervises CSAT" reads inverted; the Romanian says "supravegheat de"
+  (supervised by): **needs human check**.
+- Test: `src/components/diagrams.test.ts`.
 
 ## Out of scope here
 

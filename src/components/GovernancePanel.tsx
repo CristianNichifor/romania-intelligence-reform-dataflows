@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import MarkdownIt from 'markdown-it'
 import mermaid from 'mermaid'
 import { useI18n } from '../i18n/useI18n'
-import type { MessageKey } from '../i18n/messages'
+import type { Localized, MessageKey } from '../i18n/messages'
 import { MERMAID_CONFIG } from '../lib/mermaidConfig'
 import { pick } from '../i18n/messages'
 import { GOVERNANCE_DOCS } from './governanceDocs'
@@ -12,16 +12,20 @@ import diagAppointment from '../../diagrams/leadership-appointment.mmd?raw'
 import diagLayering from '../../diagrams/oversight-layering.mmd?raw'
 import diagCoolingOff from '../../diagrams/cooling-off-enforcement.mmd?raw'
 import diagConflict from '../../diagrams/conflict-of-interest-cycle.mmd?raw'
+import diagAppointmentRo from '../../diagrams/ro/leadership-appointment.mmd?raw'
+import diagLayeringRo from '../../diagrams/ro/oversight-layering.mmd?raw'
+import diagCoolingOffRo from '../../diagrams/ro/cooling-off-enforcement.mmd?raw'
+import diagConflictRo from '../../diagrams/ro/conflict-of-interest-cycle.mmd?raw'
 
 const md = new MarkdownIt({ html: false, linkify: true })
 
 mermaid.initialize(MERMAID_CONFIG)
 
-const DIAGRAMS: Array<{ id: string; titleKey: MessageKey; source: string }> = [
-  { id: 'gov-mm-appointment', titleKey: 'gov.diagram.appointment', source: diagAppointment },
-  { id: 'gov-mm-layering', titleKey: 'gov.diagram.layering', source: diagLayering },
-  { id: 'gov-mm-coolingoff', titleKey: 'gov.diagram.coolingoff', source: diagCoolingOff },
-  { id: 'gov-mm-conflict', titleKey: 'gov.diagram.conflict', source: diagConflict },
+const DIAGRAMS: Array<{ id: string; titleKey: MessageKey; source: Localized }> = [
+  { id: 'gov-mm-appointment', titleKey: 'gov.diagram.appointment', source: { en: diagAppointment, ro: diagAppointmentRo } },
+  { id: 'gov-mm-layering', titleKey: 'gov.diagram.layering', source: { en: diagLayering, ro: diagLayeringRo } },
+  { id: 'gov-mm-coolingoff', titleKey: 'gov.diagram.coolingoff', source: { en: diagCoolingOff, ro: diagCoolingOffRo } },
+  { id: 'gov-mm-conflict', titleKey: 'gov.diagram.conflict', source: { en: diagConflict, ro: diagConflictRo } },
 ]
 
 const MIN_ZOOM = 0.4
@@ -293,7 +297,7 @@ export default function GovernancePanel() {
             <MermaidDiagram
               key={diagram.id}
               id={diagram.id}
-              code={diagram.source}
+              code={pick(diagram.source, lang)}
               title={t(diagram.titleKey)}
             />
           ))}
