@@ -146,7 +146,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Test: docs-only; the checklist rows point at `tests/e2e/*.spec.ts` and
   `src/**/*.test.ts`. Known deviations are backlog, not regressions.
 
-### UX-6 Forced colours (ux-guidelines D6) — done
+### UX-10 Forced colours (ux-guidelines D6) — done
 - Given `forced-colors: active`, then actor nodes have a 2 px CanvasText border,
   edges stroke CanvasText with their audit dash patterns kept, the active tab has
   a 3 px Highlight underline, pressed chips a 2 px Highlight border, and the
