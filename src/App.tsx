@@ -248,6 +248,7 @@ export default function App() {
             <a href={HUB_URL}>
               <span aria-hidden="true">←</span> {t('family.home')}
             </a>
+            <span className="family-tool">{t('family.tool')}</span>
           </nav>
           <span className="live-dot" />
           <span>{t('class.demo')}</span>
@@ -260,6 +261,7 @@ export default function App() {
           <div className="app-title">
             <div className="kicker">{t('header.kicker')}</div>
             <h1>{t('header.title')}</h1>
+            <p className="header-purpose">{t('header.purpose')}</p>
             <div className="header-meta">{provenanceLine(lang, DATASET_AS_OF)}</div>
           </div>
           <div className="header-side">

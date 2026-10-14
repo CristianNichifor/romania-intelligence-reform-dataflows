@@ -12,3 +12,10 @@
 .family-bar a:focus-visible {
   text-decoration: underline;
 }
+
+/* Tool name next to the hub link, as in the DS-1 mockup. */
+.family-bar .family-tool {
+  margin-left: 10px;
+  color: var(--text);
+  letter-spacing: 0.06em;
+}

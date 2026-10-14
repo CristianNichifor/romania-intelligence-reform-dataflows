@@ -185,7 +185,7 @@ Static mockups under `docs/design/screens/`, indexed by `docs/design/README.md`.
 Each item below is an acceptance criterion an implementation PR turns into a test.
 Romanian copy in the mockups is agent-written: **needs human review**.
 
-### DS-1 Overview first screen — todo
+### DS-1 Overview first screen — done (status badge: owner decision)
 - Given the Overview, then a family bar (hub link "Proiecte civice", tool name
   "Fluxuri de date", badge "Date demonstrative", language switch) sits above the
   H1; the H1 is the registry name; a one-line purpose and a `Date: sursă, an`
@@ -194,6 +194,11 @@ Romanian copy in the mockups is agent-written: **needs human review**.
   tile names its scope.
 - Mockup: `docs/design/screens/01-overview.html`. Test to add: `tests/e2e/names.spec.ts`
   (H1, title, family bar, provenance line); closes D1, D2.
+- Landed: hub link (#44), registry H1 and title (#48), provenance line (#35),
+  tool name "Fluxuri de date" in the family bar, the purpose line, and stat
+  tiles that name their scope (`tests/e2e/names.spec.ts`). Open: the badge
+  "Date demonstrative" waits on the owner's call on the classification strip.
+  Purpose line and tile labels are agent-written: **needs human review**.
 
 ### DS-2 Graph legend explains every channel — done (filter echo open)
 - Given either graph, then the legend lists node glyph + category, the three line
