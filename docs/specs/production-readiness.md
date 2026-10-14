@@ -125,7 +125,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Test: `tests/e2e/mobile-list.spec.ts`.
 - New Romanian labels (Listă, Graf, Fluxuri, Vizualizare) are agent-written: **needs human review**.
 
-### UX-5 Animated handshake token — todo
+### UX-5 Animated handshake token — done
 - Given the Handshake tab, then a map of the Target-graph actors on the T3–T6 path
   (SRI, IADE, SIE) sits beside the timeline.
 - When a step runs a T3–T6 hop, then that edge is highlighted and a token chip
@@ -133,6 +133,7 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Given `prefers-reduced-motion: reduce`, then the edge is highlighted and the chip
   sits still on it, with no animation.
 - Test: `tests/e2e/handshake-token.spec.ts`.
+- Romanian caption strings (`handshake.map.*`) are agent-written: **needs human review**.
 
 ## Out of scope here
 
