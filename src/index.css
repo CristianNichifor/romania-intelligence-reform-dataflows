@@ -826,6 +826,40 @@ h3 {
   padding-top: 10px;
 }
 
+.detail-sources {
+  margin-top: 12px;
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.detail-sources h4 {
+  margin: 0 0 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.detail-sources ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.detail-sources li + li {
+  margin-top: 4px;
+}
+
+.detail-sources a {
+  color: var(--accent);
+}
+
+.detail-sources p {
+  margin: 6px 0 0;
+}
+
 /* ---------- Simulations ---------- */
 
 .sim-head {

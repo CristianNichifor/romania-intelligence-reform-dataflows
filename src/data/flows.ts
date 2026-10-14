@@ -1,6 +1,7 @@
-import type { Flow } from './types'
+import { withSources } from './sources'
+import type { FlowDraft } from './types'
 
-export const currentFlows: Flow[] = [
+const currentDrafts: FlowDraft[] = [
   {
     id: 'C1',
     source: 'SRI',
@@ -240,7 +241,7 @@ export const currentFlows: Flow[] = [
   },
 ]
 
-export const targetFlows: Flow[] = [
+const targetDrafts: FlowDraft[] = [
   {
     id: 'T1',
     source: 'SRI',
@@ -803,3 +804,6 @@ export const targetFlows: Flow[] = [
     },
   },
 ]
+
+export const currentFlows = currentDrafts.map(withSources)
+export const targetFlows = targetDrafts.map(withSources)

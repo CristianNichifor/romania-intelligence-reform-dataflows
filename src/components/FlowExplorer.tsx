@@ -16,6 +16,8 @@ import { currentActors, targetActors } from '../data/actors'
 import { useI18n } from '../i18n/useI18n'
 import { pick, type MessageKey } from '../i18n/messages'
 import type { Actor, ActorCategory, ActorNodeData, Flow } from '../data/types'
+import { DATASET_AS_OF } from '../data/sources'
+import { ERRATA_URL } from '../lib/links'
 
 const nodeTypes = { actor: ActorNode }
 
@@ -73,6 +75,28 @@ function DetailPanel({ selection, onClose }: { selection: Selection; onClose: ()
             <GlossedText text={pick(flow.description, lang)} />
           </p>
         )}
+        <div className="detail-sources">
+          <h4 id={`sources-${flow.id}`}>{t('detail.sources')}</h4>
+          {flow.sources.length > 0 ? (
+            <ul aria-labelledby={`sources-${flow.id}`}>
+              {flow.sources.map((source) => (
+                <li key={source.url}>
+                  <a href={source.url} target="_blank" rel="noreferrer">
+                    {source.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              {t('detail.sourceNeeded')} {flow.sourceNeeded ? pick(flow.sourceNeeded, lang) : ''}{' '}
+              <a href={ERRATA_URL} target="_blank" rel="noreferrer">
+                {t('footer.corrections')}
+              </a>
+            </p>
+          )}
+          <p className="muted">{t('detail.sourcesChecked', { date: DATASET_AS_OF })}</p>
+        </div>
       </div>
     )
   }

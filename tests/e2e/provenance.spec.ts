@@ -5,7 +5,7 @@ const BASE = '/romania-intelligence-reform-dataflows/'
 test('the flow detail panel lists its sources', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('ro-intel-lang', 'en'))
   await page.goto(`${BASE}#/current`)
-  await page.locator('.react-flow__edge[data-id="current:C6"] .react-flow__edge-textwrapper').click({ force: true })
+  await page.locator('.react-flow__edge[data-id="current:C6"] .react-flow__edge-textwrapper').dispatchEvent('click')
   const panel = page.locator('.detail-panel')
   await expect(panel.getByRole('heading', { name: 'Flow C6' })).toBeVisible()
   const sources = panel.getByRole('list', { name: 'Sources' }).getByRole('link')
@@ -16,7 +16,7 @@ test('the flow detail panel lists its sources', async ({ page }) => {
 test('a flow without a verified source says so', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('ro-intel-lang', 'en'))
   await page.goto(`${BASE}#/current`)
-  await page.locator('.react-flow__edge[data-id="current:C10"] .react-flow__edge-textwrapper').click({ force: true })
+  await page.locator('.react-flow__edge[data-id="current:C10"] .react-flow__edge-textwrapper').dispatchEvent('click')
   await expect(page.locator('.detail-panel')).toContainText('No verified source yet')
 })
 
