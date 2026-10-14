@@ -301,7 +301,6 @@ export const categoryColors: Record<ActorCategory, string> = {
 
 export const currentStateOverrides: Partial<Record<ActorCategory, string>> = {
   agency: '#ef4444',
-  oversight: '#facc15',
   judicial: '#c084fc',
 }
 
