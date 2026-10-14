@@ -54,6 +54,9 @@ Top to bottom, on every tab:
 - Banned in UI copy: internal IDs as prose (`INT-…`, `UX-…`), `TODO`, `lorem`,
   "production", "real-time", "secure" without qualification, "legal advice".
   Flow IDs (C6, T3, W1) are allowed: they are labels the docs share.
+  `src/i18n/copyRules.test.ts` fails on placeholders, spec IDs and cedilla forms
+  in messages; `tests/unit/diacritics.test.mjs` checks `src/data`, `diagrams/ro`
+  and `docs/ro` for cedilla forms. The unqualified-claim words need a reader.
 
 ## 4. Data-viz rules
 
@@ -122,8 +125,8 @@ Edges (`src/lib/graph.ts`):
   with names and `aria-pressed` / `aria-expanded`.
 - `prefers-reduced-motion: reduce`: no transitions; the handshake token parks on
   the highlighted edge.
-- Forced colours (Windows High Contrast): node borders and edge strokes must stay
-  visible — not yet verified (backlog D6).
+- Forced colours (Windows High Contrast): node borders and edge strokes stay
+  visible (`tests/e2e/forced-colors.spec.ts`).
 - `<html lang>` follows the language toggle.
 
 ## 7. Status vocabulary
@@ -165,11 +168,11 @@ never connects to real systems.
 | D1 | Mostly fixed (`tests/e2e/family-bar.spec.ts`, `tests/e2e/names.spec.ts`): hub back link, tool name, H1 and title from the naming registry, purpose line. Still open: civic-ui `FamilyBar` styling and the status badge (owner decision on the classification strip) | `src/App.tsx` header |
 | D2 | Fixed (`src/lib/provenance.ts`): no `Date: sursă, an` line under the H1 (as-of only inside the flow panel) | `src/App.tsx`, `DATASET_AS_OF` |
 | D3 | Fixed (`src/lib/legend.ts`, `src/lib/legend.test.ts`): legend node swatches come from the node colour table; line styles and target edge colours list their flow IDs, and the target legend has the executive entry | `src/components/FlowExplorer.tsx` `Legend` |
-| D4 | Current state uses yellow `#facc15` for both oversight nodes and medium-audit edges; reads as one concept | `src/data/actors.ts`, `src/lib/graph.ts` |
+| D4 | Fixed (UX-7, `src/lib/graph.test.ts`): medium-audit edges have their own green, distinct from every current-state node colour | `src/data/actors.ts`, `src/lib/graph.ts` |
 | D5 | Dark-only theme with its own tokens; fleet default is light civic-ui tokens (dark canvases allowed for graphs) | `src/index.css` |
-| D6 | No `forced-colors` styles; node borders/edges unverified in High Contrast | `src/index.css` |
+| D6 | Fixed (UX-10, `tests/e2e/forced-colors.spec.ts`): under `forced-colors: active` nodes, edges, tabs, chips and the handshake hop keep system-colour borders and strokes | `src/index.css` |
 | D7 | Fixed (`src/lib/time.ts`, `src/lib/time.test.ts`): ledger and oversight times used `toLocaleTimeString()` without the app language; "entry" is a hard-coded English literal | `src/components/LedgerViewer.tsx`, `src/components/OversightDashboard.tsx` |
 | D8 | Fixed (`footer.source`): footer link text "source ↗" was a hard-coded English literal | `src/App.tsx` footer |
 | D9 | Fixed (`min-height: 44px`, `tests/e2e/mobile-list.spec.ts`): tab buttons were ~33 px tall (`padding: 8px 12px 10px`, 12.5 px text): above 24 px, below the 44 px preference | `src/index.css` `.nav-btn` |
-| D10 | Diagram labels (`diagrams/*.mmd`) stay English in RO mode | `diagrams/` |
+| D10 | Fixed (UX-9, `src/components/diagrams.test.ts`): RO mode renders `diagrams/ro/`, Romanian labels on the same graph | `diagrams/` |
 | D11 | Fixed (`tests/e2e/empty-filter.spec.ts`): a search/chip filter with no matches says so and offers "Șterge filtrele" | `src/components/FlowExplorer.tsx` |

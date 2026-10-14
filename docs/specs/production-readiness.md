@@ -190,6 +190,13 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Test: `tests/e2e/governance-states.spec.ts` (the failure case blocks Mermaid's
   flowchart chunk).
 
+### UX-13 Copy rules enforced in tests — done
+- Given any UI message (EN or RO), then it has no `TODO`/`TBD`/`lorem` and no
+  internal spec ID (`INT-n`, `UX-n`, `DS-n`); flow IDs stay allowed.
+- Given any Romanian text in messages, `src/data`, `diagrams/ro` or `docs/ro`,
+  then it uses comma-below ș ț, never cedilla ş ţ.
+- Test: `src/i18n/copyRules.test.ts`, `tests/unit/diacritics.test.mjs`.
+
 ## Theme F: design screens (target state for implementation)
 
 Static mockups under `docs/design/screens/`, indexed by `docs/design/README.md`.
