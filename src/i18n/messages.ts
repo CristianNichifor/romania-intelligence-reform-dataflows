@@ -3,11 +3,13 @@ export type Language = 'en' | 'ro'
 export type Localized = { en: string; ro: string }
 
 const en = {
-  'app.title': 'RO Intel Reform · Data Flows Demo',
+  'app.title': 'Intelligence Reform Data Flows',
   'class.demo': 'DEMO // UNCLASSIFIED',
   'class.simulated': 'SIMULATED DATA — NO REAL SYSTEMS',
+  'family.home': 'Civic projects',
+  'family.label': 'Civic projects family',
   'header.kicker': 'RO · Intel Reform',
-  'header.title': 'Information Data Flows',
+  'header.title': 'Intelligence Reform Data Flows',
   'header.meta': 'in-browser simulation · MIT',
   'header.provenance': 'Data: laws and public sources, checked {date}',
   'footer.tag': 'no real data · no real systems · no legal advice',
@@ -324,11 +326,13 @@ const en = {
 export type MessageKey = keyof typeof en
 
 const ro: Record<MessageKey, string> = {
-  'app.title': 'Reforma serviciilor RO · Demo fluxuri de date',
+  'app.title': 'Fluxuri de date pentru reforma serviciilor de informații',
   'class.demo': 'DEMO // NECLASIFICAT',
   'class.simulated': 'DATE SIMULATE — FĂRĂ SISTEME REALE',
+  'family.home': 'Proiecte civice',
+  'family.label': 'Familia de proiecte civice',
   'header.kicker': 'RO · Reforma serviciilor',
-  'header.title': 'Fluxuri informaționale de date',
+  'header.title': 'Fluxuri de date pentru reforma serviciilor de informații',
   'header.meta': 'simulare în browser · MIT',
   'header.provenance': 'Date: legi și surse publice, verificate la {date}',
   'footer.tag': 'fără date reale · fără sisteme reale · nu constituie consultanță juridică',

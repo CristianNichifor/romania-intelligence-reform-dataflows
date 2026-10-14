@@ -67,3 +67,13 @@ test('the view tabs are at least 44 px tall on a phone', async ({ page }) => {
     expect(box).toBeGreaterThanOrEqual(44)
   }
 })
+
+test('list rows carry risk and an audit line swatch; chips are 44 px', async ({ page }) => {
+  await page.goto(`${BASE}#/current`)
+  const c1 = page.getByRole('list', { name: 'Flows' }).getByRole('listitem').filter({ has: page.getByRole('heading', { name: /^C1 / }) })
+  await expect(c1).toContainText('Risk')
+  await expect(c1.locator('.audit-swatch line')).toHaveCount(1)
+  for (const chip of await page.locator('.explorer-toolbar .chip').all()) {
+    expect((await chip.boundingBox())!.height).toBeGreaterThanOrEqual(44)
+  }
+})

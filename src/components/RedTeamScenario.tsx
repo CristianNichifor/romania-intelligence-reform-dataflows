@@ -121,7 +121,7 @@ export default function RedTeamScenario() {
       <div className="sim-head">
         <div>
           <p className="section-label">{t('section.sim')}</p>
-          <h2>{t('redteam.title')}</h2>
+          <h2 id="redteam-title">{t('redteam.title')}</h2>
         </div>
         <div className="sim-actions">
           <span className="sim-progress">
@@ -138,7 +138,14 @@ export default function RedTeamScenario() {
           </button>
         </div>
       </div>
-      <div className="progress-track">
+      <div
+        className="progress-track"
+        role="progressbar"
+        aria-labelledby="redteam-title"
+        aria-valuemin={0}
+        aria-valuemax={STEP_KEYS.length}
+        aria-valuenow={stepIndex}
+      >
         <div className="progress-fill" style={{ width: `${(stepIndex / STEP_KEYS.length) * 100}%` }} />
       </div>
       {blocked && (
@@ -149,6 +156,7 @@ export default function RedTeamScenario() {
           {STEP_KEYS.map((key, index) => (
             <li
               key={key}
+              aria-current={index === stepIndex ? 'step' : undefined}
               className={
                 index < stepIndex
                   ? FAILED_STEPS.has(index)

@@ -1,17 +1,7 @@
 import { Handle, Position, type NodeProps, type Node } from '@xyflow/react'
 import GlossedText from './GlossedText'
-import type { ActorCategory, ActorNodeData } from '../data/types'
-
-const GLYPHS: Record<ActorCategory, string> = {
-  executive: '▲',
-  agency: '◆',
-  judicial: '§',
-  oversight: '●',
-  civilian: '◇',
-  broker: '▦',
-  justice: '¶',
-  public: '◎',
-}
+import type { ActorNodeData } from '../data/types'
+import { CATEGORY_GLYPHS } from '../lib/glyphs'
 
 const HANDLES: Array<{ id: string; type: 'source' | 'target'; position: Position }> = [
   { id: 'source-left', type: 'source', position: Position.Left },
@@ -30,7 +20,7 @@ export default function ActorNode({ data }: NodeProps<Node<ActorNodeData>>) {
       <div className="actor-node-bar" style={{ background: data.color }} />
       <div className="actor-node-top">
         <span className="actor-node-glyph" style={{ color: data.color }}>
-          {GLYPHS[data.category]}
+          {CATEGORY_GLYPHS[data.category]}
         </span>
         <span className="actor-node-label">
           <GlossedText text={data.label} />
