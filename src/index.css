@@ -1894,3 +1894,12 @@ h3 {
   transform: none;
   max-width: none;
 }
+
+/* ---------- Source host and checked date ---------- */
+
+.source-meta {
+  display: block;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}

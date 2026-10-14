@@ -11,6 +11,7 @@ test('the flow detail panel lists its sources', async ({ page }) => {
   const sources = panel.getByRole('list', { name: 'Sources' }).getByRole('link')
   await expect(sources.first()).toHaveAttribute('href', /^https:\/\/legislatie\.just\.ro\//)
   await expect(panel).toContainText(/Sources checked \d{4}-\d{2}-\d{2}/)
+  await expect(panel.locator('.source-meta').first()).toHaveText(/^legislatie\.just\.ro · \d{4}-\d{2}-\d{2}$/)
 })
 
 test('a flow without a verified source says so', async ({ page }) => {
