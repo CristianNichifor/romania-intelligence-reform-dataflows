@@ -13,7 +13,7 @@ import { useI18n } from './i18n/useI18n'
 import type { MessageKey } from './i18n/messages'
 import type { GraphMode } from './lib/graph'
 import { seedLedger } from './lib/ledger'
-import { ERRATA_URL } from './lib/links'
+import { DOCS_URL, ERRATA_URL } from './lib/links'
 
 type View =
   | 'overview'
@@ -59,7 +59,10 @@ function Overview() {
         </p>
         <p className="muted">
           <GlossedText text={t('overview.mission.p2')} /> {t('overview.mission.docs')}{' '}
-          <code>docs/</code>.
+          <a href={DOCS_URL} target="_blank" rel="noreferrer">
+            <code>docs/</code>
+          </a>
+          .
         </p>
       </section>
 
