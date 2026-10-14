@@ -56,6 +56,8 @@ test('the legend shows each category glyph next to its colour', async ({ page })
   const glyphs = page.locator('.legend-items .legend-glyph')
   await expect(glyphs.first()).toHaveText('◆')
   expect(await glyphs.count()).toBeGreaterThanOrEqual(4)
+})
+
 test('the target legend explains edge colours with their flow ids', async ({ page }) => {
   await page.goto(`${BASE}#/target`)
   const legend = page.locator('.legend-items')

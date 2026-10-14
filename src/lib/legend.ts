@@ -1,10 +1,7 @@
 import type { ActorCategory } from '../data/types'
 import { categoryColors, currentStateOverrides } from '../data/actors'
 import type { MessageKey } from '../i18n/messages'
-import type { GraphMode } from './graph'
 import { CATEGORY_GLYPHS } from './glyphs'
-import { currentFlows } from '../data/flows'
-import { edgeDash, type GraphMode } from './graph'
 import { currentFlows, targetFlows } from '../data/flows'
 import { edgeColor, edgeDash, type GraphMode } from './graph'
 

@@ -31,6 +31,8 @@ describe('legend glyphs', () => {
       expect(swatch.glyph, `${mode}: ${swatch.key}`).toBe(CATEGORY_GLYPHS[swatch.category])
     }
   })
+})
+
 describe('line-style flow ids', () => {
   it('lists every current flow under exactly one line style', () => {
     const buckets = lineStyleFlowIds()
