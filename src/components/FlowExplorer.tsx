@@ -13,6 +13,7 @@ import '@xyflow/react/dist/style.css'
 import ActorNode from './ActorNode'
 import GlossedText from './GlossedText'
 import { buildGraph, type GraphMode } from '../lib/graph'
+import { legendSwatches } from '../lib/legend'
 import { currentActors, targetActors } from '../data/actors'
 import { currentFlows, targetFlows } from '../data/flows'
 import { useI18n } from '../i18n/useI18n'
@@ -193,14 +194,6 @@ function FlowList({ flows, actors }: { flows: Flow[]; actors: Actor[] }) {
 function Legend({ mode }: { mode: GraphMode }) {
   const { t } = useI18n()
   const [open, setOpen] = useState(true)
-  const keys =
-    mode === 'current'
-      ? (['legend.current.i1', 'legend.current.i2', 'legend.current.i3', 'legend.current.i4', 'legend.current.i5'] as MessageKey[])
-      : (['legend.target.i1', 'legend.target.i2', 'legend.target.i3', 'legend.target.i4', 'legend.target.i5', 'legend.target.i6'] as MessageKey[])
-  const colors =
-    mode === 'current'
-      ? ['#ef4444', '#facc15', '#c084fc', '#94a3b8', '#f59e0b']
-      : ['#60a5fa', '#4ade80', '#f472b6', '#c084fc', '#2dd4bf', '#475569']
   return (
     <div className="legend">
       <button
@@ -213,9 +206,9 @@ function Legend({ mode }: { mode: GraphMode }) {
       </button>
       {open && (
         <div className="legend-items">
-          {keys.map((key, index) => (
+          {legendSwatches(mode).map(({ key, color }) => (
             <span key={key}>
-              <i style={{ background: colors[index] }} />
+              <i style={{ background: color }} />
               {t(key)}
             </span>
           ))}

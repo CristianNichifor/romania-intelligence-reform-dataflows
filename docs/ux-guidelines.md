@@ -165,7 +165,7 @@ never connects to real systems.
 |---|---|---|
 | D1 | No civic-ui family bar / link back to the hub | `src/App.tsx` header |
 | D2 | No `Date: sursă, an` line under the H1 (as-of only inside the flow panel) | `src/App.tsx`, `DATASET_AS_OF` |
-| D3 | Target legend swatch for "Civilianized agencies" is `#475569`, but agency nodes render `#f87171`; target legend has no executive (slate) entry and does not explain edge colours | `src/components/FlowExplorer.tsx` `Legend` |
+| D3 | Fixed: node swatches now come from `src/lib/legend.ts`, which reads the node colour table (`src/lib/legend.test.ts`). Still open: target legend has no executive (slate) entry and does not explain edge colours | `src/components/FlowExplorer.tsx` `Legend` |
 | D4 | Current state uses yellow `#facc15` for both oversight nodes and medium-audit edges; reads as one concept | `src/data/actors.ts`, `src/lib/graph.ts` |
 | D5 | Dark-only theme with its own tokens; fleet default is light civic-ui tokens (dark canvases allowed for graphs) | `src/index.css` |
 | D6 | No `forced-colors` styles; node borders/edges unverified in High Contrast | `src/index.css` |
