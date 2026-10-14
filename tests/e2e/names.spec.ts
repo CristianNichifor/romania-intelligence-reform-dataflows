@@ -23,3 +23,13 @@ test('the stat tiles name their scope and count from the data', async ({ page })
     /^6\s*current flows with a very low or no audit trail$/,
   ])
 })
+
+test('the overview offers the suggested route as three links', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ro-intel-lang', 'ro'))
+  await page.goto(BASE)
+  const route = page.getByRole('navigation', { name: 'Traseu sugerat' })
+  await expect(route.getByRole('link')).toHaveText([/Starea actuală/, /Starea țintă/, /Handshake T3–T6/])
+  await route.getByRole('link', { name: /Starea țintă/ }).click()
+  await expect(page).toHaveURL(/#\/target$/)
+  await expect(page.getByRole('tab', { name: /Starea țintă/ })).toHaveAttribute('aria-selected', 'true')
+})
