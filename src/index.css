@@ -1917,3 +1917,11 @@ h3 {
     padding: 4px 12px;
   }
 }
+
+/* ---------- Legend glyphs (DS-2) ---------- */
+
+.legend-glyph {
+  font-weight: 400;
+  font-size: 11px;
+  margin-right: 4px;
+}
