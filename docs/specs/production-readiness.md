@@ -146,13 +146,29 @@ Status values: **todo**, **done**, **blocked**, **needs-human**.
 - Test: docs-only; the checklist rows point at `tests/e2e/*.spec.ts` and
   `src/**/*.test.ts`. Known deviations are backlog, not regressions.
 
-### UX-6 Forced colours (ux-guidelines D6) — done
+### UX-10 Forced colours (ux-guidelines D6) — done
 - Given `forced-colors: active`, then actor nodes have a 2 px CanvasText border,
   edges stroke CanvasText with their audit dash patterns kept, the active tab has
   a 3 px Highlight underline, pressed chips a 2 px Highlight border, and the
   active handshake hop a Highlight stroke at least 4 px wide.
 - Test: `tests/e2e/forced-colors.spec.ts` (runs in CI).
 - `docs/ux-guidelines.md` D6 can be closed once PR #32, which edits that file, lands.
+
+### UX-7 Distinct audit edge colour (ux-guidelines D4) — done
+- Given the current-state graph, then no medium-audit edge shares a colour with
+  any current-state node (medium audit is green, not the oversight yellow), and
+  the legend's line samples use the edge colours.
+- Test: `src/lib/graph.test.ts`.
+- `docs/ux-guidelines.md` D4 can be closed once PR #32, which edits that file, lands.
+
+### UX-11 Empty filter message (ux-guidelines D11) — done
+- Given a search or chip filter that leaves no actors, then the graph or list
+  shows a status message saying nothing matches and how to widen the filter.
+- Given a phone list whose shown actors have no flows between them, then it says
+  so instead of showing an empty list.
+- Romanian copy is agent-written: **needs human review**.
+- Test: `tests/e2e/empty-filter.spec.ts` (runs in CI).
+
 ## Theme F: design screens (target state for implementation)
 
 Static mockups under `docs/design/screens/`, indexed by `docs/design/README.md`.
