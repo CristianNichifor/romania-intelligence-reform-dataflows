@@ -25,6 +25,8 @@ test('the legend starts open and line style encodes the audit trail', async ({ p
   await page.goto(`${BASE}#/current`)
   await expect(page.getByRole('button', { name: /Legend/ })).toHaveAttribute('aria-expanded', 'true')
   await expect(page.locator('.legend-items')).toContainText('dotted')
+  // Each line style names the flows it covers, so the legend can be checked against the list.
+  await expect(page.locator('.legend-items')).toContainText('C13')
   const dash = (id: string) =>
     page.locator(`.react-flow__edge[data-id="current:${id}"] path.react-flow__edge-path`).evaluate((el) => getComputedStyle(el).strokeDasharray)
   expect(await dash('C4')).toBe('none')
@@ -54,4 +56,10 @@ test('the legend shows each category glyph next to its colour', async ({ page })
   const glyphs = page.locator('.legend-items .legend-glyph')
   await expect(glyphs.first()).toHaveText('◆')
   expect(await glyphs.count()).toBeGreaterThanOrEqual(4)
+test('the target legend explains edge colours with their flow ids', async ({ page }) => {
+  await page.goto(`${BASE}#/target`)
+  const legend = page.locator('.legend-items')
+  await expect(legend).toContainText('Executive')
+  await expect(legend).toContainText('W1, W2')
+  await expect(legend).toContainText('T3')
 })
