@@ -1807,3 +1807,45 @@ h3 {
     transition: none;
   }
 }
+
+/* Windows High Contrast and other forced-colour modes drop author colours. State
+   stays visible through system colours and borders; the dash pattern that carries
+   the audit trail is untouched (ux-guidelines D6). */
+@media (forced-colors: active) {
+  .actor-node {
+    forced-color-adjust: none;
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+
+  .actor-node-bar,
+  .actor-node-glyph {
+    background: CanvasText;
+    color: CanvasText;
+  }
+
+  .react-flow__edge-path {
+    stroke: CanvasText !important;
+  }
+
+  .react-flow__edge.selected .react-flow__edge-path,
+  .react-flow__edge:hover .react-flow__edge-path {
+    stroke: Highlight !important;
+  }
+
+  .nav-btn.active {
+    border-bottom: 3px solid Highlight;
+  }
+
+  .chip.on,
+  .lang-btn.active,
+  .legend-toggle[aria-expanded='true'] {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+  }
+
+  .legend i {
+    border: 1px solid CanvasText;
+  }
+}
