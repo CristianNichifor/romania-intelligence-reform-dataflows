@@ -115,6 +115,8 @@ const en = {
   'explorer.search': 'filter actors…  (esc to clear)',
   'explorer.labels': 'Labels',
   'explorer.showAll': 'Show all',
+  'explorer.targetHint':
+    'The target state opens with only the agencies and the broker, so the graph stays readable. {count} actors are hidden: “Show all” adds them.',
   'explorer.empty': 'No actors match this filter. Clear the search or turn on more categories.',
   'explorer.emptyQuery': 'No actors match “{query}”. Clear the search or turn on more categories.',
   'explorer.noFlows': 'No flows between the actors shown.',
@@ -451,6 +453,8 @@ const ro: Record<MessageKey, string> = {
   'explorer.search': 'filtrează actorii…  (esc șterge)',
   'explorer.labels': 'Etichete',
   'explorer.showAll': 'Arată tot',
+  'explorer.targetHint':
+    'Starea țintă pornește doar cu agențiile și brokerul, ca graful să rămână lizibil. {count} actori sunt ascunși: „Arată tot” îi adaugă.',
   'explorer.empty': 'Niciun actor nu corespunde filtrului. Ștergeți căutarea sau activați mai multe categorii.',
   'explorer.emptyQuery': 'Niciun actor nu corespunde căutării „{query}”. Ștergeți căutarea sau activați mai multe categorii.',
   'explorer.noFlows': 'Nu există fluxuri între actorii afișați.',

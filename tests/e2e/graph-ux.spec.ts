@@ -65,3 +65,15 @@ test('the target legend explains edge colours with their flow ids', async ({ pag
   await expect(legend).toContainText('W1, W2')
   await expect(legend).toContainText('T3')
 })
+
+test('the target view says it starts with a subset and how many actors are hidden', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('ro-intel-lang', 'en'))
+  await page.goto(`${BASE}#/target`)
+  const hint = page.locator('.explorer-hint')
+  await expect(hint).toContainText('opens with only the agencies and the broker')
+  await expect(hint).toContainText(/\d+ actors are hidden/)
+  await page.getByRole('button', { name: 'Show all' }).click()
+  await expect(hint).toHaveCount(0)
+  await page.goto(`${BASE}#/current`)
+  await expect(page.locator('.explorer-hint')).toHaveCount(0)
+})
