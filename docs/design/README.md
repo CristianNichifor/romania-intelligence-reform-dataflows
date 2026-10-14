@@ -52,6 +52,17 @@ done
 - Reduced motion and forced colours have rules in `tokens.css`.
 - No dual axes, no 3-D; the only animation (token) has a still state.
 
+## Implementation status (2026-10-14)
+
+| Item | Pull request |
+|---|---|
+| DS-1 family bar, H1, purpose | #44 (`uxg-b/family-bar`); provenance line landed in #35 |
+| DS-2 legend explains every channel | #46 (category glyphs); flow IDs per line style, edge-colour clusters and the executive swatch follow in `ds-intel/legend-flow-ids` after #46 |
+| DS-3 phone list | #45 |
+| DS-4 flow detail sources | #43 |
+| DS-5 handshake states | #42 |
+| DS-6 theme alignment | owner decision |
+
 ## Implementation notes and acceptance criteria
 
 Each DS item in `docs/specs/production-readiness.md` names the test file to extend.
