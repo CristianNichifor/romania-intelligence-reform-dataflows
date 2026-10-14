@@ -34,7 +34,7 @@ test('the main navigation is a tab list bound to its panel', async ({ page }) =>
 
 test('graph controls have accessible names and states', async ({ page }) => {
   await page.goto(`${BASE}#/current`)
-  await expect(page.getByRole('searchbox', { name: /search/i })).toBeVisible()
+  await expect(page.getByRole('searchbox', { name: 'Filter actors' })).toBeVisible()
   const legend = page.getByRole('button', { name: /Legend/ })
   await expect(legend).toHaveAttribute('aria-expanded', 'false')
   await legend.click()

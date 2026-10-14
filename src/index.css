@@ -252,6 +252,17 @@ code,
   padding: 20px;
 }
 
+/* The explorer fills the panel, so the panel takes the main area's height. */
+#view-panel {
+  height: 100%;
+}
+
+#view-panel:focus-visible,
+.nav-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .shell {
   max-width: 1920px;
   margin: 0 auto;

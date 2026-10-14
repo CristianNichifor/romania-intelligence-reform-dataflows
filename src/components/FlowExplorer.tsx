@@ -119,8 +119,13 @@ function Legend({ mode }: { mode: GraphMode }) {
       : ['#60a5fa', '#4ade80', '#f472b6', '#c084fc', '#2dd4bf', '#475569']
   return (
     <div className="legend">
-      <button className="legend-toggle" onClick={() => setOpen((value) => !value)}>
-        <span>{open ? '▾' : '▸'}</span> {t('explorer.legend')}
+      <button
+        type="button"
+        className="legend-toggle"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span aria-hidden="true">{open ? '▾' : '▸'}</span> {t('explorer.legend')}
       </button>
       {open && (
         <div className="legend-items">
@@ -234,7 +239,7 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
       <Legend mode={mode} />
       <div className="explorer-toolbar">
         <div className="search-wrap">
-          <svg className="search-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" strokeWidth="2" strokeLinecap="round">
+          <svg aria-hidden="true" className="search-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" strokeWidth="2" strokeLinecap="round">
             <circle cx="10.5" cy="10.5" r="6.5" />
             <line x1="15.5" y1="15.5" x2="21" y2="21" />
           </svg>
@@ -242,6 +247,7 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
             className="explorer-search"
             type="search"
             placeholder={t('explorer.search')}
+            aria-label={t('explorer.searchLabel')}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={(event) => {
@@ -255,6 +261,8 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
           ).map((filter) => (
             <button
               key={filter.id}
+              type="button"
+              aria-pressed={!hiddenCats.has(filter.id)}
               className={`chip ${hiddenCats.has(filter.id) ? 'off' : 'on'}`}
               onClick={() => toggleCategory(filter.id)}
             >
@@ -262,9 +270,10 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
             </button>
           ))}
           <button
+            type="button"
+            aria-pressed={showLabels}
             className={`chip ${showLabels ? 'on' : 'off'}`}
             onClick={() => setShowLabels((value) => !value)}
-            title={t('explorer.labels')}
           >
             {t('explorer.labels')}
           </button>
