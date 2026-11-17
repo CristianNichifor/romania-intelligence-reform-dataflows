@@ -2303,7 +2303,7 @@ h3 {
     top: 46px;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr);
     gap: 8px;
     margin: 0 -12px 12px;
     padding: 8px 12px;
@@ -2322,6 +2322,17 @@ h3 {
     justify-content: center;
     padding: 8px 6px;
     grid-row: 2;
+    white-space: nowrap;
+    font-size: 12px;
+  }
+
+  /* A finished run has nothing to step through: drop the two dead buttons. */
+  .sim .sim-actions.is-done .btn:disabled {
+    display: none;
+  }
+
+  .sim .sim-actions.is-done .btn:not(.sim-artifact-jump) {
+    grid-column: 1 / -1;
   }
 
   .sim .sim-actions .sim-artifact-jump {

@@ -152,7 +152,7 @@ export default function RedTeamScenario() {
           <p className="section-label">{t('section.sim')}</p>
           <h2 id="redteam-title">{t('redteam.title')}</h2>
         </div>
-        <div className="sim-actions">
+        <div className={done ? 'sim-actions is-done' : 'sim-actions'}>
           <span className="sim-progress">
             {t(done ? 'sim.complete' : 'sim.step', { a: String(Math.min(stepIndex + 1, STEP_KEYS.length)).padStart(2, '0'), b: String(STEP_KEYS.length).padStart(2, '0') })}
           </span>
