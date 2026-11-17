@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { appendLedger, getLedgerEntries } from '../lib/ledger'
 import { sscReview, type RequestObject } from '../lib/warrant'
 import GlossedText from './GlossedText'
@@ -120,6 +120,23 @@ export default function RedTeamScenario() {
     }, 1300)
   }
 
+  // Keep the step that just became current in sight; on a phone the list is longer than the screen.
+  const timelineRef = useRef<HTMLOListElement>(null)
+  const artifactRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (stepIndex === 0) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    timelineRef.current
+      ?.querySelector('li.current, li:last-child')
+      ?.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' })
+  }, [stepIndex])
+
+  function showArtifact() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    artifactRef.current?.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' })
+    artifactRef.current?.focus({ preventScroll: true })
+  }
+
   function reset() {
     stopTimer()
     stepRef.current = 0
@@ -137,7 +154,7 @@ export default function RedTeamScenario() {
         </div>
         <div className="sim-actions">
           <span className="sim-progress">
-            {t('sim.step', { a: String(Math.min(stepIndex + 1, STEP_KEYS.length)).padStart(2, '0'), b: String(STEP_KEYS.length).padStart(2, '0') })}
+            {t(done ? 'sim.complete' : 'sim.step', { a: String(Math.min(stepIndex + 1, STEP_KEYS.length)).padStart(2, '0'), b: String(STEP_KEYS.length).padStart(2, '0') })}
           </span>
           <button className="btn" onClick={next} disabled={done || running}>
             <span aria-hidden>▶</span> {t('sim.next')}
@@ -145,9 +162,14 @@ export default function RedTeamScenario() {
           <button className="btn" onClick={autoRun} disabled={done && !running}>
             <span aria-hidden>{running ? '■' : '▶▶'}</span> {t(running ? 'sim.stop' : 'sim.auto')}
           </button>
-          <button className="btn btn-ghost" onClick={reset}>
-            <span aria-hidden>↺</span> {t('sim.reset')}
+          <button className={done ? 'btn' : 'btn btn-ghost'} onClick={reset}>
+            <span aria-hidden>↺</span> {t(done ? 'sim.again' : 'sim.reset')}
           </button>
+          {artifact && (
+            <button type="button" className="btn btn-ghost sim-artifact-jump" onClick={showArtifact}>
+              {t('sim.artifact')} <span aria-hidden>↓</span>
+            </button>
+          )}
         </div>
       </div>
       {failed && (
@@ -169,10 +191,15 @@ export default function RedTeamScenario() {
         <div className="progress-fill" style={{ width: `${(stepIndex / STEP_KEYS.length) * 100}%` }} />
       </div>
       {blocked && (
-        <div className="outcome-banner">{t('redteam.banner')}</div>
+        <div className="outcome-banner" role="status">
+          {t('redteam.banner')}{' '}
+          <a href="#/dashboard">
+            {t('redteam.done.link')} <span aria-hidden="true">→</span>
+          </a>
+        </div>
       )}
       <div className="sim-body">
-        <ol className="timeline">
+        <ol className="timeline" ref={timelineRef}>
           {STEP_KEYS.map((key, index) => (
             <li
               key={key}
@@ -200,7 +227,7 @@ export default function RedTeamScenario() {
           ))}
         </ol>
         <div className="sim-side">
-          <div className="artifact-panel">
+          <div className="artifact-panel" ref={artifactRef} tabIndex={-1}>
             <h3>{artifact ? artifact.label : t('redteam.artifact.pending')}</h3>
             {artifact && <pre className="artifact-json">{JSON.stringify(artifact.json, null, 2)}</pre>}
             {!artifact && <p className="muted">{t('redteam.artifact.pendingHint')}</p>}

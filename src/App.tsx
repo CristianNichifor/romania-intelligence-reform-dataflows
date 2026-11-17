@@ -206,6 +206,23 @@ export default function App() {
     nav.scrollTo({ left: Math.max(0, target) })
   }, [view])
 
+  // The header is sticky; on a phone only its tab row should stay, so CSS needs the height of
+  // the title block above it (it changes with the language and the width).
+  const headerRowRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const row = headerRowRef.current
+    if (!row || typeof ResizeObserver === 'undefined') return
+    const header = row.parentElement
+    const update = () => {
+      const paddingTop = header ? parseFloat(getComputedStyle(header).paddingTop) : 0
+      header?.style.setProperty('--header-collapse', `${Math.round(row.offsetHeight + paddingTop)}px`)
+    }
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(row)
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(() => {
     const onHash = () => setView(parseHash())
     window.addEventListener('hashchange', onHash)
@@ -280,7 +297,7 @@ export default function App() {
         </div>
       </div>
       <header className="app-header">
-        <div className="header-row">
+        <div className="header-row" ref={headerRowRef}>
           <div className="app-title">
             <div className="kicker">{t('header.kicker')}</div>
             <h1>{t('header.title')}</h1>

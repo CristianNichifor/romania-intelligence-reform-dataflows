@@ -123,6 +123,9 @@ Edges (`src/lib/graph.ts`):
   says "Scroll sideways for more columns" and becomes a focusable region for the
   arrow keys (`ScrollTable`). Three-column comparison and access tables stack on a
   phone instead, each cell headed by its column name.
+- Steppers on a phone: the step controls stay pinned under the tab row, the current
+  step scrolls into view, "Show artifact" jumps to the output, and a finished run
+  links to its result (ledger, oversight) and offers "Run again".
 - Touch targets ≥ 24 px, 44 px preferred (tab buttons, chips, legend toggle,
   language toggle).
 - WCAG 2.1 AA: axe reports 0 violations on every tab (desktop and 390 px list).
@@ -174,6 +177,7 @@ never connects to real systems.
 | Handshake runs end to end with its audit trail; all four governance diagrams render | `tests/e2e/readiness.spec.ts` |
 | Copy rules, diacritics, no inline copy, stylesheet blocks | `src/i18n/copyRules.test.ts`, `tests/unit/diacritics.test.mjs`, `tests/unit/inline-copy.test.mjs`, `tests/unit/styles.test.mjs` |
 | A failed handshake or red-team step is stated and retried | `tests/e2e/sim-failure.spec.ts` |
+| Tab row and wide tables signal hidden content; tables stack on phones; step controls stay in reach; axe 0 at 390 px on the non-list tabs | `tests/e2e/scroll-hints.spec.ts`, `src/lib/useScrollEdges.test.ts` |
 | Checklist cites real tests and lists every spec | `tests/unit/checklist.test.mjs` |
 
 ## 9. Known deviations (backlog)

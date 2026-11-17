@@ -2250,3 +2250,86 @@ h3 {
     text-transform: uppercase;
   }
 }
+
+/* ---------- Steppers: the next action stays in reach ---------- */
+
+.outcome-banner a {
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.timeline li {
+  scroll-margin: 170px 0 24px;
+}
+
+.artifact-panel {
+  scroll-margin-top: 170px;
+}
+
+.artifact-panel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The artifact sits beside the steps on wide screens; the jump is for stacked layouts. */
+.sim-artifact-jump {
+  display: none;
+}
+
+@media (max-width: 920px) {
+  .sim-artifact-jump {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Only the tab row stays pinned on a phone; the title block scrolls away with the page.
+     --header-collapse is the measured height of that block (set in App.tsx). */
+  .app-header {
+    top: calc(-1 * var(--header-collapse, 0px));
+  }
+
+  /* The step controls follow the reader down the list instead of staying at the top. */
+  .sim .sim-head {
+    display: contents;
+  }
+
+  .sim .sim-head h2 {
+    margin-bottom: 12px;
+  }
+
+  .sim .sim-actions {
+    position: sticky;
+    top: 46px;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 -12px 12px;
+    padding: 8px 12px;
+    background: rgba(4, 7, 13, 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sim .sim-actions .sim-progress {
+    grid-row: 1;
+    grid-column: 1 / 3;
+    align-self: center;
+  }
+
+  .sim .sim-actions .btn {
+    justify-content: center;
+    padding: 8px 6px;
+    grid-row: 2;
+  }
+
+  .sim .sim-actions .sim-artifact-jump {
+    grid-row: 1;
+    grid-column: 2 / 4;
+    justify-self: end;
+    min-height: 32px;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+}
