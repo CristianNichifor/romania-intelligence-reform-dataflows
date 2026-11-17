@@ -123,6 +123,8 @@ Edges (`src/lib/graph.ts`):
 - WCAG 2.1 AA: axe reports 0 violations on every tab (desktop and 390 px list).
 - Keyboard: the tab list follows the ARIA tabs pattern; graph controls are buttons
   with names and `aria-pressed` / `aria-expanded`.
+- Small mono labels are at least 11 px (10 px only in the phone classification
+  strip); an inactive filter chip is dashed, not faded, so its label keeps contrast.
 - `prefers-reduced-motion: reduce`: no transitions; the handshake token parks on
   the highlighted edge.
 - Forced colours (Windows High Contrast): node borders and edge strokes stay
