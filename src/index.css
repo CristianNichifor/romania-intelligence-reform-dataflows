@@ -2068,3 +2068,30 @@ h3 {
   font-size: 11px;
   margin-right: 4px;
 }
+
+/* Overview on phones: a two-column table fits the screen once it may wrap, so the
+   second column is not hidden behind a sideways scroll; an odd last stat card
+   fills its row instead of leaving a hole. */
+@media (max-width: 639px) {
+  .table-scroll table.two-col {
+    min-width: 0;
+  }
+
+  .table-scroll table.two-col {
+    table-layout: fixed;
+  }
+
+  .table-scroll table.two-col th,
+  .table-scroll table.two-col td {
+    white-space: normal;
+  }
+
+  .table-scroll table.two-col th:first-child,
+  .table-scroll table.two-col td:first-child {
+    width: 42%;
+  }
+
+  .stat-row > .stat:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}

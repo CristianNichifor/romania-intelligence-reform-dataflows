@@ -109,7 +109,7 @@ function Overview() {
         <p className="section-label">{t('section.principles')}</p>
         <h3>{t('principles.title')}</h3>
         <div className="table-scroll">
-          <table className="kv-table wide">
+          <table className="kv-table wide two-col">
             <thead>
               <tr>
                 <th>{t('principles.h.principle')}</th>
