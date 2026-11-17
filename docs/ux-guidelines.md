@@ -116,8 +116,13 @@ Edges (`src/lib/graph.ts`):
 ## 6. Mobile, touch and accessibility
 
 - 390 px: graphs open as the flow list with a List/Graph toggle
-  (`tests/e2e/mobile-list.spec.ts`); the tab list scrolls horizontally; the footer
-  scrolls with the page; no horizontal page scroll.
+  (`tests/e2e/mobile-list.spec.ts`); the footer scrolls with the page; no
+  horizontal page scroll.
+- Sideways scrollers say so: the tab list fades its cut-off side with a chevron and
+  keeps the open tab in view; a table wider than its card fades the hidden side,
+  says "Scroll sideways for more columns" and becomes a focusable region for the
+  arrow keys (`ScrollTable`). Three-column comparison and access tables stack on a
+  phone instead, each cell headed by its column name.
 - Touch targets ≥ 24 px, 44 px preferred (tab buttons, chips, legend toggle,
   language toggle).
 - WCAG 2.1 AA: axe reports 0 violations on every tab (desktop and 390 px list).

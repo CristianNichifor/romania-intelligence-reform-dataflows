@@ -1,4 +1,5 @@
 import GlossedText from './GlossedText'
+import ScrollTable from './ScrollTable'
 import { institutionComparison, internationalSystems, swotComparison } from '../data/comparison'
 import { useI18n } from '../i18n/useI18n'
 import { pick } from '../i18n/messages'
@@ -19,8 +20,8 @@ export default function ComparisonPanel() {
       <section className="card">
         <p className="section-label">{t('section.comparison')}</p>
         <h3>{t('nav.compare')}</h3>
-        <div className="table-scroll">
-          <table className="kv-table wide compare-table">
+        <ScrollTable label={t('nav.compare')}>
+          <table className="kv-table wide compare-table stack">
             <thead>
               <tr>
                 <th>{t('compare.h.institution')}</th>
@@ -36,20 +37,20 @@ export default function ComparisonPanel() {
                     {row.isNew && <span className="pill-new">{t('compare.new')}</span>}
                     <div className="muted">{pick(row.full, lang)}</div>
                   </td>
-                  <td><GlossedText text={pick(row.today, lang)} /></td>
-                  <td><GlossedText text={pick(row.proposal, lang)} /></td>
+                  <td data-label={t('compare.h.today')}><GlossedText text={pick(row.today, lang)} /></td>
+                  <td data-label={t('compare.h.proposal')}><GlossedText text={pick(row.proposal, lang)} /></td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollTable>
       </section>
 
       <section className="card">
         <p className="section-label">{t('section.comparison')}</p>
         <h3>{t('compare.swot.title')}</h3>
-        <div className="table-scroll">
-          <table className="kv-table wide compare-table">
+        <ScrollTable label={t('compare.swot.title')}>
+          <table className="kv-table wide compare-table stack">
             <thead>
               <tr>
                 <th>{t('compare.swot.h.dimension')}</th>
@@ -61,13 +62,13 @@ export default function ComparisonPanel() {
               {swotComparison.map((row) => (
                 <tr key={row.key}>
                   <td><strong>{t(`compare.swot.${row.key}` as const)}</strong></td>
-                  <td><GlossedText text={pick(row.current, lang)} /></td>
-                  <td><GlossedText text={pick(row.proposal, lang)} /></td>
+                  <td data-label={t('compare.swot.h.current')}><GlossedText text={pick(row.current, lang)} /></td>
+                  <td data-label={t('compare.swot.h.proposal')}><GlossedText text={pick(row.proposal, lang)} /></td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollTable>
       </section>
 
       <section className="card">
@@ -76,8 +77,8 @@ export default function ComparisonPanel() {
         <p className="muted">
           <GlossedText text={t('compare.intl.note')} />
         </p>
-        <div className="table-scroll">
-          <table className="kv-table wide compare-table">
+        <ScrollTable label={t('compare.intl.title')}>
+          <table className="kv-table wide compare-table stack">
             <thead>
               <tr>
                 <th>{t('compare.intl.h.country')}</th>
@@ -92,13 +93,13 @@ export default function ComparisonPanel() {
                     <strong>{row.id}</strong>
                     <div className="muted">{pick(row.country, lang)}</div>
                   </td>
-                  <td><GlossedText text={pick(row.model, lang)} /></td>
-                  <td><GlossedText text={pick(row.lesson, lang)} /></td>
+                  <td data-label={t('compare.intl.h.model')}><GlossedText text={pick(row.model, lang)} /></td>
+                  <td data-label={t('compare.intl.h.lesson')}><GlossedText text={pick(row.lesson, lang)} /></td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollTable>
       </section>
     </div>
   )

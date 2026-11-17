@@ -3,6 +3,7 @@ import { shortHash } from '../lib/crypto'
 import { clearLedger, useLedger, verifyLedgerIntegrity } from '../lib/ledger'
 import { useI18n } from '../i18n/useI18n'
 import { formatTime } from '../lib/time'
+import ScrollTable from './ScrollTable'
 
 export default function LedgerViewer() {
   const { lang, t } = useI18n()
@@ -35,7 +36,7 @@ export default function LedgerViewer() {
       </div>
       {ledger.length === 0 && <p className="muted">{t('ledger.empty')}</p>}
       {ledger.length > 0 && (
-        <div className="table-scroll">
+        <ScrollTable label={t('ledger.table')}>
           <table className="ledger-table">
             <thead>
               <tr>
@@ -64,13 +65,13 @@ export default function LedgerViewer() {
                       {t(entry.status === 'accepted' ? 'status.accepted' : 'status.rejected')}
                     </span>
                   </td>
-                  <td>{entry.note}</td>
+                  <td className="ledger-note">{entry.note}</td>
                   <td className="mono">{shortHash(entry.entryHash)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollTable>
       )}
     </div>
   )

@@ -4,6 +4,7 @@ import { useLedger, verifyLedgerIntegrity } from '../lib/ledger'
 import { useI18n } from '../i18n/useI18n'
 import { formatTime } from '../lib/time'
 import type { MessageKey } from '../i18n/messages'
+import ScrollTable from './ScrollTable'
 
 export default function OversightDashboard() {
   const { lang, t } = useI18n()
@@ -31,7 +32,7 @@ export default function OversightDashboard() {
       else rejected += 1
       if (entry.tokenId) tokens.add(entry.tokenId)
     }
-    const flowBars = [...byFlow.entries()].sort((a, b) => a[0].localeCompare(b[0]))
+    const flowBars = [...byFlow.entries()].sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true }))
     return { byFlow, accepted, rejected, tokenCount: tokens.size, flowBars, max: Math.max(1, ...byFlow.values()) }
   }, [ledger])
 
@@ -109,8 +110,8 @@ export default function OversightDashboard() {
       <section className="card">
         <p className="section-label">{t('section.accessModel')}</p>
         <h3>{t('dashboard.access.title')}</h3>
-        <div className="table-scroll">
-          <table className="kv-table wide">
+        <ScrollTable label={t('dashboard.access.title')}>
+          <table className="kv-table wide stack">
             <thead>
               <tr>
                 <th>{t('dashboard.access.body')}</th>
@@ -122,13 +123,13 @@ export default function OversightDashboard() {
               {accessRows.map((row) => (
                 <tr key={row}>
                   <td>{t(`dashboard.access.r${row}.b` as MessageKey)}</td>
-                  <td>{t(`dashboard.access.r${row}.s` as MessageKey)}</td>
-                  <td>{t(`dashboard.access.r${row}.n` as MessageKey)}</td>
+                  <td data-label={t('dashboard.access.sees')}>{t(`dashboard.access.r${row}.s` as MessageKey)}</td>
+                  <td data-label={t('dashboard.access.notSees')}>{t(`dashboard.access.r${row}.n` as MessageKey)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </ScrollTable>
       </section>
     </div>
   )

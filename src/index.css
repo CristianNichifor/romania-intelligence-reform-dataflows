@@ -2090,3 +2090,163 @@ h3 {
     grid-column: 1 / -1;
   }
 }
+
+/* ---------- Sideways scrollers: say there is more ---------- */
+
+/* The tab row and wide tables scroll sideways on narrow screens. The side that still
+   hides content fades out, so a cut-off label reads as "more this way", not as a bug. */
+.nav-wrap {
+  position: relative;
+  max-width: 1920px;
+  margin: 10px auto 0;
+}
+
+.nav-wrap .app-nav {
+  margin-top: 0;
+}
+
+.nav-more {
+  position: absolute;
+  top: 0;
+  right: -12px;
+  bottom: 1px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: var(--accent);
+  font-size: 20px;
+  line-height: 1;
+  background: linear-gradient(90deg, transparent, var(--panel) 62%);
+  pointer-events: none;
+}
+
+.nav-more-start {
+  right: auto;
+  left: -12px;
+  justify-content: flex-start;
+  padding: 0 0 0 8px;
+  background: linear-gradient(270deg, transparent, var(--panel) 62%);
+}
+
+.scroll-wrap {
+  position: relative;
+}
+
+.scroll-wrap::before,
+.scroll-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 26px;
+  width: 28px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 2;
+}
+
+.scroll-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg-2), transparent);
+}
+
+.scroll-wrap::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg-2), transparent);
+}
+
+.scroll-wrap[data-more-start]::before,
+.scroll-wrap[data-more-end]::after {
+  opacity: 1;
+}
+
+.table-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.scroll-hint {
+  margin: 8px 0 0;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-align: right;
+}
+
+/* Ledger cells stay on one line (the row is one record); only the note may wrap. */
+.ledger-table th,
+.ledger-table td {
+  white-space: nowrap;
+}
+
+.ledger-table td.ledger-note {
+  white-space: normal;
+  min-width: 260px;
+}
+
+/* Three-column comparison tables on a phone: each row becomes a block and every cell
+   carries its column name, so nothing sits behind a sideways scroll. */
+@media (max-width: 639px) {
+  .table-scroll table.stack {
+    display: block;
+    min-width: 0;
+  }
+
+  table.stack thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  table.stack tbody,
+  table.stack tr,
+  table.stack td {
+    display: block;
+    width: auto;
+  }
+
+  table.stack tr {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table.stack tr:first-child {
+    padding-top: 0;
+  }
+
+  table.stack tr:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  table.stack td,
+  table.stack td:first-child {
+    padding: 0;
+    border: 0;
+    white-space: normal;
+  }
+
+  table.stack td:first-child {
+    color: var(--text);
+    font-size: 13px;
+  }
+
+  table.stack td[data-label] {
+    margin-top: 10px;
+  }
+
+  table.stack td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}

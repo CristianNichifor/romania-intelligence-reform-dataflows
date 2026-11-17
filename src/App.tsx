@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ComparisonPanel from './components/ComparisonPanel'
 import FlowExplorer from './components/FlowExplorer'
 import GlossedText from './components/GlossedText'
@@ -17,6 +17,7 @@ import { DOCS_URL, ERRATA_URL, HUB_URL } from './lib/links'
 import './familyBar.css'
 import { provenanceLine } from './lib/provenance'
 import { DATASET_AS_OF } from './data/sources'
+import { useScrollEdges } from './lib/useScrollEdges'
 
 type View =
   | 'overview'
@@ -194,6 +195,17 @@ export default function App() {
     void seedLedger(lang)
   }, [lang])
 
+  // On a phone the tab row scrolls sideways: fade the cut-off side and keep the open tab in sight.
+  const navRef = useRef<HTMLElement>(null)
+  const navEdges = useScrollEdges(navRef)
+  useEffect(() => {
+    const nav = navRef.current
+    const tab = document.getElementById(`tab-${view}`)
+    if (!nav || !tab || nav.scrollWidth <= nav.clientWidth) return
+    const target = tab.offsetLeft - (nav.clientWidth - tab.offsetWidth) / 2
+    nav.scrollTo({ left: Math.max(0, target) })
+  }, [view])
+
   useEffect(() => {
     const onHash = () => setView(parseHash())
     window.addEventListener('hashchange', onHash)
@@ -280,24 +292,32 @@ export default function App() {
             <LanguageToggle />
           </div>
         </div>
-        <nav className="app-nav" role="tablist" aria-label={t('nav.label')} onKeyDown={onNavKey}>
-          {NAV.map((item, index) => (
-            <button
-              key={item.id}
-              id={`tab-${item.id}`}
-              type="button"
-              role="tab"
-              aria-selected={view === item.id}
-              aria-controls="view-panel"
-              tabIndex={view === item.id ? 0 : -1}
-              className={view === item.id ? 'nav-btn active' : 'nav-btn'}
-              onClick={() => navigate(item.id)}
-            >
-              <span className="idx" aria-hidden="true">{String(index).padStart(2, '0')}</span>
-              {t(item.labelKey)}
-            </button>
-          ))}
-        </nav>
+        <div
+          className="nav-wrap"
+          data-more-start={navEdges.start || undefined}
+          data-more-end={navEdges.end || undefined}
+        >
+          <nav ref={navRef} className="app-nav" role="tablist" aria-label={t('nav.label')} onKeyDown={onNavKey}>
+            {NAV.map((item, index) => (
+              <button
+                key={item.id}
+                id={`tab-${item.id}`}
+                type="button"
+                role="tab"
+                aria-selected={view === item.id}
+                aria-controls="view-panel"
+                tabIndex={view === item.id ? 0 : -1}
+                className={view === item.id ? 'nav-btn active' : 'nav-btn'}
+                onClick={() => navigate(item.id)}
+              >
+                <span className="idx" aria-hidden="true">{String(index).padStart(2, '0')}</span>
+                {t(item.labelKey)}
+              </button>
+            ))}
+          </nav>
+        {navEdges.end && <span className="nav-more" aria-hidden="true">›</span>}
+        {navEdges.start && <span className="nav-more nav-more-start" aria-hidden="true">‹</span>}
+        </div>
       </header>
       <main className="app-main">
         <div id="view-panel" role="tabpanel" aria-labelledby={`tab-${view}`} tabIndex={0}>
