@@ -116,8 +116,9 @@ Edges (`src/lib/graph.ts`):
 ## 6. Mobile, touch and accessibility
 
 - 390 px: graphs open as the flow list with a List/Graph toggle
-  (`tests/e2e/mobile-list.spec.ts`); the footer scrolls with the page; no
-  horizontal page scroll.
+  (`tests/e2e/mobile-list.spec.ts`); the phone graph keeps its filters above and
+  the legend below the canvas; the footer scrolls with the page; no horizontal page
+  scroll.
 - Sideways scrollers say so: the tab list fades its cut-off side with a chevron and
   keeps the open tab in view; a table wider than its card fades the hidden side,
   says "Scroll sideways for more columns" and becomes a focusable region for the
@@ -130,7 +131,9 @@ Edges (`src/lib/graph.ts`):
   language toggle).
 - WCAG 2.1 AA: axe reports 0 violations on every tab (desktop and 390 px list).
 - Keyboard: the tab list follows the ARIA tabs pattern; graph controls are buttons
-  with names and `aria-pressed` / `aria-expanded`.
+  with names and `aria-pressed` / `aria-expanded`. Graph nodes and edges carry
+  spoken names; Enter or Space opens the details panel and moves focus into it;
+  Escape closes it and returns focus to the node or edge.
 - Small mono labels are at least 11 px (10 px only in the phone classification
   strip); an inactive filter chip is dashed, not faded, so its label keeps contrast.
 - `prefers-reduced-motion: reduce`: no transitions; the handshake token parks on
@@ -177,6 +180,7 @@ never connects to real systems.
 | Handshake runs end to end with its audit trail; all four governance diagrams render | `tests/e2e/readiness.spec.ts` |
 | Copy rules, diacritics, no inline copy, stylesheet blocks | `src/i18n/copyRules.test.ts`, `tests/unit/diacritics.test.mjs`, `tests/unit/inline-copy.test.mjs`, `tests/unit/styles.test.mjs` |
 | A failed handshake or red-team step is stated and retried | `tests/e2e/sim-failure.spec.ts` |
+| Graph nodes and edges open from the keyboard; focus returns on Escape; phone graph has nothing over the canvas | `tests/e2e/keyboard-graph.spec.ts` |
 | Tab row and wide tables signal hidden content; tables stack on phones; step controls stay in reach; axe 0 at 390 px on the non-list tabs | `tests/e2e/scroll-hints.spec.ts`, `src/lib/useScrollEdges.test.ts` |
 | Checklist cites real tests and lists every spec | `tests/unit/checklist.test.mjs` |
 

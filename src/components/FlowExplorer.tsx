@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import {
   Background,
   BackgroundVariant,
@@ -79,11 +79,13 @@ function DetailPanel({
   actors,
   mode,
   onClose,
+  panelRef,
 }: {
   selection: Selection
   actors: Actor[]
   mode: GraphMode
   onClose: () => void
+  panelRef: RefObject<HTMLDivElement | null>
 }) {
   const { t, lang } = useI18n()
   if (!selection) return null
@@ -100,7 +102,7 @@ function DetailPanel({
     if (flow.category === 'current' && flow.risk) rows.push([t('detail.risk'), pick(flow.risk, lang)])
     if (flow.category === 'target' && flow.oversight) rows.push([t('detail.oversight'), pick(flow.oversight, lang)])
     return (
-      <div className="detail-panel">
+      <div className="detail-panel" ref={panelRef} tabIndex={-1} role="region" aria-label={`${t('detail.flow')} ${flow.id}`}>
         <div className="detail-header">
           <h3>{t('detail.flow')} {flow.id}</h3>
           <button className="close-btn" onClick={onClose} aria-label={t('detail.close')}>
@@ -158,7 +160,7 @@ function DetailPanel({
   }
   const actor = selection.actor
   return (
-    <div className="detail-panel">
+    <div className="detail-panel" ref={panelRef} tabIndex={-1} role="region" aria-label={pick(actor.name, lang)}>
       <div className="detail-header">
         <h3>{pick(actor.name, lang).toUpperCase()}</h3>
         <button className="close-btn" onClick={onClose} aria-label={t('detail.close')}>
@@ -325,12 +327,47 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
   const [selection, setSelection] = useState<Selection>(null)
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null)
 
+  // Details opened from the keyboard take focus, and give it back to the node or edge on close.
+  const panelRef = useRef<HTMLDivElement>(null)
+  const openerIdRef = useRef<string | null>(null)
+  const focusPanelRef = useRef(false)
+  const canvasRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (selection && focusPanelRef.current) panelRef.current?.focus()
+    focusPanelRef.current = false
+    // React Flow replaces a deselected edge's element a render or two later, which drops
+    // focus; look the node or edge up again by id for a few frames until focus holds.
+    if (!selection && openerIdRef.current) {
+      const selector = `[data-id="${CSS.escape(openerIdRef.current)}"]`
+      openerIdRef.current = null
+      let frame = 0
+      let tries = 0
+      const restore = () => {
+        const target = canvasRef.current?.querySelector<HTMLElement>(
+          `.react-flow__node${selector}, .react-flow__edge${selector}`,
+        )
+        target?.focus()
+        if ((!target || document.activeElement !== target || tries < 2) && tries++ < 10) {
+          frame = window.requestAnimationFrame(restore)
+        }
+      }
+      frame = window.requestAnimationFrame(restore)
+      return () => window.cancelAnimationFrame(frame)
+    }
+  }, [selection])
+
+  const closeDetail = () => {
+    setSelection(null)
+    setSelectedEdgeId(null)
+  }
+  const closeDetailRef = useRef(closeDetail)
+  useEffect(() => {
+    closeDetailRef.current = closeDetail
+  })
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setSelection(null)
-        setSelectedEdgeId(null)
-      }
+      if (event.key === 'Escape') closeDetailRef.current()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -353,14 +390,28 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
 
   const { nodes, edges } = useMemo(() => {
     const prefix = `${mode}:`
-    const visibleNodes = graph.nodes.filter((node) =>
-      visibleActorIds.has(node.id.slice(prefix.length)),
-    )
+    const actorName = (id: string) => {
+      const actor = actors.find((candidate) => candidate.id === id)
+      return actor ? pick(actor.name, lang) : id
+    }
+    const edgeAriaLabel = (edge: Edge) => {
+      const flow = (edge.data as { flow: Flow } | undefined)?.flow
+      return flow
+        ? t('explorer.edgeLabel', { id: flow.id, from: actorName(flow.source), to: actorName(flow.target) })
+        : undefined
+    }
+    const visibleNodes = graph.nodes
+      .filter((node) => visibleActorIds.has(node.id.slice(prefix.length)))
+      .map((node) => ({
+        ...node,
+        ariaLabel: t('explorer.nodeLabel', { name: node.data.label, role: node.data.role }),
+      }))
     const visibleNodeIds = new Set(visibleNodes.map((node) => node.id))
     const visibleEdges = graph.edges
       .filter((edge) => visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target))
       .map((edge) => ({
         ...edge,
+        ariaLabel: edgeAriaLabel(edge),
         label: showLabels ? (edge.label as string) : undefined,
         selected: edge.id === selectedEdgeId,
         // A selected flow keeps full weight; the rest step back so it reads first.
@@ -384,7 +435,7 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
       return { nodes: dimmedNodes, edges: dimmedEdges }
     }
     return { nodes: visibleNodes, edges: visibleEdges }
-  }, [graph, hoveredId, mode, selectedEdgeId, showLabels, visibleActorIds])
+  }, [actors, graph, hoveredId, lang, mode, selectedEdgeId, showLabels, t, visibleActorIds])
 
   const listFlows = useMemo(
     () => flows.filter((flow) => visibleActorIds.has(flow.source) && visibleActorIds.has(flow.target)),
@@ -408,6 +459,28 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
   const onNodeClick = (_event: React.MouseEvent, node: Node) => {
     const actor = actors.find((candidate) => candidate.id === node.id.split(':')[1])
     if (actor) setSelection({ kind: 'actor', actor })
+  }
+
+  // React Flow focuses nodes and edges with Tab but only a pointer opens them; Enter and Space do too.
+  const onCanvasKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return
+    const element = (event.target as HTMLElement).closest<HTMLElement>('.react-flow__node, .react-flow__edge')
+    const id = element?.getAttribute('data-id')
+    if (!element || !id || element !== event.target) return
+    if (element.classList.contains('react-flow__node')) {
+      const actor = actors.find((candidate) => candidate.id === id.split(':')[1])
+      if (!actor) return
+      setSelection({ kind: 'actor', actor })
+      setSelectedEdgeId(null)
+    } else {
+      const flow = (edges.find((edge) => edge.id === id)?.data as { flow: Flow } | undefined)?.flow
+      if (!flow) return
+      setSelection({ kind: 'flow', flow })
+      setSelectedEdgeId(id)
+    }
+    event.preventDefault()
+    openerIdRef.current = id
+    focusPanelRef.current = true
   }
 
   const toggleCategory = (category: ActorCategory) => {
@@ -516,7 +589,7 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
           </>
         )
       ) : (
-        <div className="explorer-canvas">
+        <div className="explorer-canvas" ref={canvasRef} role="group" aria-label={t('explorer.graphLabel')} onKeyDown={onCanvasKey}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -544,10 +617,8 @@ export default function FlowExplorer({ mode }: { mode: GraphMode }) {
         selection={selection}
         actors={actors}
         mode={mode}
-        onClose={() => {
-          setSelection(null)
-          setSelectedEdgeId(null)
-        }}
+        onClose={closeDetail}
+        panelRef={panelRef}
       />
     </div>
   )
